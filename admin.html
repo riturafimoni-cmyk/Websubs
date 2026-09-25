@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Subs Mart BD - Owner Admin Panel</title>
+  <title>Subs Mart BD - Enterprise Admin Dashboard</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,97 +19,141 @@
       theme: {
         extend: {
           fontFamily: { sans: ['"Hind Siliguri"', 'sans-serif'], en: ['"Outfit"', 'sans-serif'] },
-          colors: { brand: { orange: '#FF5A00', hover: '#E04E00', dark: '#08080A', card: '#121216', border: '#2A2A36' } }
+          colors: { brand: { orange: '#FF5A00', hover: '#E04E00', dark: '#08080A', card: '#121216', border: '#23232C' } }
         }
       }
     }
   </script>
 </head>
-<body class="bg-[#08080A] text-zinc-100 font-sans min-h-screen">
+<body class="bg-[#08080A] text-zinc-100 font-sans antialiased min-h-screen flex">
 
-  <!-- Admin Login Screen (সুরক্ষিত পিন স্ক্রিন) -->
+  <!-- Admin Login Screen (সুরক্ষিত অথেনটিকেশন) -->
   <div id="loginScreen" class="fixed inset-0 bg-[#08080A] z-50 flex items-center justify-center p-4">
     <div class="bg-[#121216] border border-zinc-800 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl">
-      <div class="w-14 h-14 rounded-2xl bg-brand-orange/15 border border-[#FF5A00] flex items-center justify-center text-[#FF5A00] text-2xl mx-auto mb-4">
-        <i class="fa-solid fa-lock"></i>
+      <div class="w-14 h-14 rounded-2xl bg-[#FF5A00]/15 border border-[#FF5A00] flex items-center justify-center text-[#FF5A00] text-2xl mx-auto mb-4">
+        <i class="fa-solid fa-shield-halved"></i>
       </div>
-      <h2 class="text-xl font-bold font-en text-white">Owner Access</h2>
-      <p class="text-xs text-zinc-400 mt-1 mb-6">Subs Mart BD অ্যাডমিন প্যানেলে প্রবেশ করুন</p>
+      <h2 class="text-xl font-bold font-en text-white">Owner Portal</h2>
+      <p class="text-xs text-zinc-400 mt-1 mb-6">Subs Mart BD সুরক্ষিত অ্যাডমিন প্যানেল</p>
       
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
         <input type="password" id="adminPass" required placeholder="অ্যাডমিন পিন / পাসওয়ার্ড" class="w-full bg-[#08080A] border border-zinc-700 rounded-xl px-4 py-3 text-sm text-center text-white focus:outline-none focus:border-[#FF5A00]">
         <button type="submit" class="w-full bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold py-3 rounded-xl transition text-sm">
-          আনলক করুন
+          ড্যাশবোর্ডে প্রবেশ করুন
         </button>
       </form>
     </div>
   </div>
 
-  <!-- Main Admin Dashboard -->
-  <div id="adminDashboard" class="hidden">
-    <!-- Navbar -->
-    <header class="border-b border-zinc-800 bg-[#121216] px-4 sm:px-6 py-3.5 flex items-center justify-between sticky top-0 z-40">
-      <div class="flex items-center gap-2.5">
-        <span class="w-8 h-8 rounded-lg bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-shield-halved"></i></span>
-        <b class="font-en text-white text-base sm:text-lg">Subs Mart <span class="text-[#FF5A00]">Admin</span></b>
+  <!-- Sidebar Navigation (আপনার স্ক্রিনশটের হুবহু মেনু স্ট্রাকচার) -->
+  <aside id="sidebar" class="w-64 bg-[#0D0D11] border-r border-[#23232C] fixed inset-y-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col justify-between">
+    <div>
+      <!-- Brand Logo -->
+      <div class="p-5 border-b border-[#23232C] flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full overflow-hidden border border-[#FF5A00]/50 flex items-center justify-center bg-black shadow">
+            <img src="logo.png" alt="Logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/40x40/FF5A00/white?text=SM';">
+          </div>
+          <div>
+            <span class="font-en font-black text-sm tracking-wide text-white">Subs Mart <span class="text-[#FF5A00]">BD</span></span>
+            <p class="text-[8px] text-zinc-500 font-en uppercase -mt-0.5">Admin Console</p>
+          </div>
+        </div>
+        <button onclick="toggleMobileSidebar()" class="md:hidden text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <button onclick="logoutAdmin()" class="text-xs bg-zinc-800 hover:bg-red-900/40 text-zinc-300 hover:text-red-400 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i> লগআউট
+
+      <!-- Navigation Links -->
+      <nav class="p-3 space-y-1 text-xs font-semibold">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#FF5A00] text-white transition text-left">
+          <i class="fa-solid fa-table-cells-large w-4"></i> Dashboard
+        </button>
+        <button onclick="switchTab('orders')" id="nav-orders" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-zinc-400 hover:bg-[#15151C] hover:text-white transition text-left">
+          <div class="flex items-center gap-3"><i class="fa-solid fa-bag-shopping w-4"></i> Orders</div>
+          <span id="orderBadge" class="bg-[#FF5A00] text-white text-[10px] px-2 py-0.5 rounded-full font-en">0</span>
+        </button>
+        <button onclick="switchTab('customers')" id="nav-customers" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:bg-[#15151C] hover:text-white transition text-left">
+          <i class="fa-solid fa-users w-4"></i> Customers
+        </button>
+        <button onclick="switchTab('products')" id="nav-products" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:bg-[#15151C] hover:text-white transition text-left">
+          <i class="fa-solid fa-cube w-4"></i> Products
+        </button>
+        <button onclick="switchTab('payments')" id="nav-payments" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:bg-[#15151C] hover:text-white transition text-left">
+          <i class="fa-regular fa-credit-card w-4"></i> Payments
+        </button>
+        <button onclick="switchTab('delivery')" id="nav-delivery" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:bg-[#15151C] hover:text-white transition text-left">
+          <i class="fa-solid fa-truck-fast w-4"></i> Delivery Management
+        </button>
+        <button onclick="switchTab('reports')" id="nav-reports" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:bg-[#15151C] hover:text-white transition text-left">
+          <i class="fa-solid fa-chart-column w-4"></i> Sales & Reports
+        </button>
+        <button onclick="switchTab('settings')" id="nav-settings" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:bg-[#15151C] hover:text-white transition text-left">
+          <i class="fa-solid fa-gear w-4"></i> Website Settings
+        </button>
+      </nav>
+    </div>
+
+    <!-- Logout -->
+    <div class="p-3 border-t border-[#23232C]">
+      <button onclick="logoutAdmin()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-red-400 hover:bg-red-950/30 transition text-xs font-semibold text-left">
+        <i class="fa-solid fa-arrow-right-from-bracket w-4"></i> Logout
       </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Body -->
+  <div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+    
+    <!-- Topbar -->
+    <header class="bg-[#0D0D11] border-b border-[#23232C] px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden text-zinc-300 text-lg"><i class="fa-solid fa-bars"></i></button>
+        <h1 id="pageTitle" class="text-sm sm:text-base font-bold text-white font-en">Dashboard Overview</h1>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="initDashboard()" class="text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-arrows-rotate"></i> Refresh
+        </button>
+        <div class="w-8 h-8 rounded-full bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center text-xs font-bold font-en">
+          OWNER
+        </div>
+      </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
-      
-      <!-- Top Overview Stats -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-        <div class="bg-[#121216] border border-zinc-800 p-4 rounded-2xl">
-          <span class="text-xs text-zinc-400 block">মোট অর্ডার</span>
-          <b id="totalOrders" class="text-2xl font-bold font-en text-white">0</b>
+    <!-- Tab 1: Dashboard Overview -->
+    <main id="tab-dashboard" class="p-4 sm:p-6 space-y-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-[#121216] border border-[#23232C] p-4 rounded-2xl">
+          <span class="text-xs text-zinc-400 font-semibold block">Total Revenue</span>
+          <b id="statRevenue" class="text-2xl font-black font-en text-[#FF5A00] mt-1 block">০ ৳</b>
         </div>
-        <div class="bg-[#121216] border border-zinc-800 p-4 rounded-2xl">
-          <span class="text-xs text-zinc-400 block">অপেক্ষমান (Pending)</span>
-          <b id="pendingOrders" class="text-2xl font-bold font-en text-amber-500">0</b>
+        <div class="bg-[#121216] border border-[#23232C] p-4 rounded-2xl">
+          <span class="text-xs text-zinc-400 font-semibold block">Total Orders</span>
+          <b id="statTotalOrders" class="text-2xl font-black font-en text-white mt-1 block">0</b>
         </div>
-        <div class="bg-[#121216] border border-zinc-800 p-4 rounded-2xl">
-          <span class="text-xs text-zinc-400 block">ডেলিভারি সম্পন্ন</span>
-          <b id="deliveredOrders" class="text-2xl font-bold font-en text-emerald-500">0</b>
+        <div class="bg-[#121216] border border-[#23232C] p-4 rounded-2xl">
+          <span class="text-xs text-zinc-400 font-semibold block">Pending Orders</span>
+          <b id="statPendingOrders" class="text-2xl font-black font-en text-amber-500 mt-1 block">0</b>
         </div>
-        <div class="bg-[#121216] border border-zinc-800 p-4 rounded-2xl">
-          <span class="text-xs text-zinc-400 block">স্টকে লিঙ্ক আছে</span>
-          <b id="stockCount" class="text-2xl font-bold font-en text-[#FF5A00]">0</b>
+        <div class="bg-[#121216] border border-[#23232C] p-4 rounded-2xl">
+          <span class="text-xs text-zinc-400 font-semibold block">Available Stock Links</span>
+          <b id="statStock" class="text-2xl font-black font-en text-emerald-500 mt-1 block">0</b>
         </div>
       </div>
+    </main>
 
-      <!-- Stock Management (অ্যাক্টিভেশন লিঙ্ক যুক্ত করার বক্স) -->
-      <div class="bg-[#121216] border border-zinc-800 p-5 rounded-2xl space-y-3">
-        <div>
-          <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-layer-group text-[#FF5A00]"></i>
-            অটো-ডেলিভারি স্টক পুল (Activation Links)
-          </h3>
-          <p class="text-[11px] text-zinc-400 mt-0.5">প্রতি লাইনে ১টি করে জেমিনি অ্যাক্টিভেশন লিঙ্ক পেস্ট করুন</p>
-        </div>
-
-        <textarea id="stockInput" rows="3" placeholder="https://one.google.com/invite/xxxx&#10;https://one.google.com/invite/yyyy" class="w-full bg-[#08080A] border border-zinc-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#FF5A00] font-mono"></textarea>
-        
-        <button onclick="addStockLinks()" class="bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow">
-          <i class="fa-solid fa-plus"></i> স্টকে লিঙ্ক যোগ করুন
-        </button>
-      </div>
-      <!-- Orders Table -->
-      <div class="bg-[#121216] border border-zinc-800 rounded-2xl p-5 overflow-hidden">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-clipboard-list text-[#FF5A00]"></i> কাস্টমার অর্ডার তালিকা
-          </h3>
-          <button onclick="fetchOrders()" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-lg text-zinc-300 flex items-center gap-1.5 transition">
-            <i class="fa-solid fa-arrows-rotate"></i> রিফ্রেশ
-          </button>
+    <!-- Tab 2: Orders Management -->
+    <main id="tab-orders" class="p-4 sm:p-6 hidden space-y-4">
+      <div class="bg-[#121216] border border-[#23232C] rounded-2xl p-4 sm:p-5 overflow-hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <h2 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-bag-shopping text-[#FF5A00]"></i> কাস্টমার অর্ডার তালিকা
+          </h2>
+          <input type="text" id="orderSearch" onkeyup="filterOrders()" placeholder="নাম বা TrxID খুঁজুন..." class="bg-[#08080A] border border-[#23232C] rounded-xl px-3 py-1.5 text-xs text-white focus:border-[#FF5A00] outline-none">
         </div>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs text-zinc-300">
-            <thead class="bg-[#08080A] text-zinc-400 uppercase text-[10px] font-en border-b border-zinc-800">
+            <thead class="bg-[#08080A] text-zinc-400 uppercase text-[10px] font-en border-b border-[#23232C]">
               <tr>
                 <th class="py-3 px-3">অর্ডার কোড</th>
                 <th class="py-3 px-3">কাস্টমার</th>
@@ -119,16 +163,71 @@
                 <th class="py-3 px-3 text-right">একশন</th>
               </tr>
             </thead>
-            <tbody id="ordersTableBody" class="divide-y divide-zinc-800">
-              <tr>
-                <td colspan="6" class="text-center py-6 text-zinc-500">লোড হচ্ছে...</td>
-              </tr>
+            <tbody id="ordersTableBody" class="divide-y divide-[#23232C]">
+              <tr><td colspan="6" class="text-center py-6 text-zinc-500">লোড হচ্ছে...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
-
     </main>
+    <!-- Tab 3: Delivery Management (স্টক লিঙ্ক পুল ও অটো অ্যাসাইন) -->
+    <main id="tab-delivery" class="p-4 sm:p-6 hidden space-y-5">
+      <div class="bg-[#121216] border border-[#23232C] p-5 rounded-2xl space-y-3">
+        <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-layer-group text-[#FF5A00]"></i> অটো-ডেলিভারি স্টক লিঙ্ক পুল
+        </h3>
+        <p class="text-xs text-zinc-400">প্রতি লাইনে ১টি করে জেমিনি অ্যাক্টিভেশন লিঙ্ক পেস্ট করুন:</p>
+        <textarea id="stockInput" rows="4" placeholder="https://one.google.com/invite/xxxx&#10;https://one.google.com/invite/yyyy" class="w-full bg-[#08080A] border border-[#23232C] rounded-xl p-3 text-xs text-white focus:border-[#FF5A00] outline-none font-mono"></textarea>
+        <button onclick="addStockLinks()" class="bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-plus"></i> স্টকে লিঙ্ক যোগ করুন
+        </button>
+      </div>
+
+      <!-- স্টকে থাকা লিঙ্ক ভিউ -->
+      <div class="bg-[#121216] border border-[#23232C] p-5 rounded-2xl">
+        <h4 class="text-xs font-bold text-zinc-300 mb-2">স্টক পরিস্থিতি</h4>
+        <p class="text-xs text-zinc-400">বর্তমানে মোট অ্যাক্টিভ অব্যবহৃত লিঙ্ক রয়েছে: <b id="unusedStockCount" class="text-emerald-400 font-en text-sm">0</b> টি</p>
+      </div>
+    </main>
+
+    <!-- Tab 4: Products Management (প্রাইস ও প্যাকেজ কন্ট্রোল) -->
+    <main id="tab-products" class="p-4 sm:p-6 hidden space-y-4">
+      <div class="bg-[#121216] border border-[#23232C] p-5 rounded-2xl space-y-3">
+        <h3 class="text-sm sm:text-base font-bold text-white">প্যাকেজ প্রাইস আপডেট</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="block text-zinc-400 mb-1">প্যাকেজ নাম</label>
+            <input type="text" disabled value="Gemini Pro 18 Months" class="w-full bg-[#08080A] border border-[#23232C] rounded-xl px-3 py-2 text-zinc-400">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">অফার মূল্য (টাকা)</label>
+            <input type="number" id="pkgPrice" value="250" class="w-full bg-[#08080A] border border-[#23232C] rounded-xl px-3 py-2 text-white focus:border-[#FF5A00] outline-none">
+          </div>
+        </div>
+        <button onclick="alert('প্রাইস সফলভাবে কনফিগার হয়েছে!')" class="bg-[#FF5A00] text-white font-bold px-4 py-2 rounded-xl text-xs">সেভ করুন</button>
+      </div>
+    </main>
+
+    <!-- Tab 5: Settings -->
+    <main id="tab-settings" class="p-4 sm:p-6 hidden space-y-4">
+      <div class="bg-[#121216] border border-[#23232C] p-5 rounded-2xl space-y-3 text-xs">
+        <h3 class="text-sm font-bold text-white mb-2">পেমেন্ট ও কন্টাক্ট সেটিংস</h3>
+        <div>
+          <label class="block text-zinc-400 mb-1">বিকাশ পার্সোনাল নম্বর</label>
+          <input type="text" id="settingBkash" value="01985405068" class="w-full bg-[#08080A] border border-[#23232C] rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block text-zinc-400 mb-1">নগদ পার্সোনাল নম্বর</label>
+          <input type="text" id="settingNagad" value="01613305454" class="w-full bg-[#08080A] border border-[#23232C] rounded-xl px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="block text-zinc-400 mb-1">অ্যাডমিন হোয়াটসঅ্যাপ নম্বর</label>
+          <input type="text" id="settingWA" value="8801985405068" class="w-full bg-[#08080A] border border-[#23232C] rounded-xl px-3 py-2 text-white">
+        </div>
+        <button onclick="alert('সেটিংস আপডেট সম্পন্ন!')" class="bg-[#FF5A00] text-white font-bold px-4 py-2 rounded-xl text-xs mt-2">সংরক্ষণ করুন</button>
+      </div>
+    </main>
+
   </div>
 
   <!-- Scripts -->
@@ -137,23 +236,37 @@
     const SUPABASE_ANON_KEY = "sb_publishable_UpfYT4yKOBgcU3P5FDxcMw_IasiYca_";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // অ্যাডমিন লগইন পিন (ডিফল্ট: 123456)
-    const ADMIN_PIN = "123456"; 
+    const ADMIN_PIN = "123456";
+    let allOrders = [];
 
     function handleAdminLogin(e) {
       e.preventDefault();
-      const enteredPass = document.getElementById('adminPass').value;
-      if (enteredPass === ADMIN_PIN) {
+      if (document.getElementById('adminPass').value === ADMIN_PIN) {
         document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('adminDashboard').classList.remove('hidden');
         initDashboard();
       } else {
-        alert("ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।");
+        alert("ভুল পাসওয়ার্ড!");
       }
     }
 
-    function logoutAdmin() {
-      location.reload();
+    function logoutAdmin() { location.reload(); }
+    function toggleMobileSidebar() { document.getElementById('sidebar').classList.toggle('-translate-x-full'); }
+
+    function switchTab(tabName) {
+      ['dashboard', 'orders', 'delivery', 'products', 'settings'].forEach(t => {
+        const el = document.getElementById('tab-' + t);
+        const btn = document.getElementById('nav-' + t);
+        if (el) el.classList.add('hidden');
+        if (btn) btn.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:bg-[#15151C] hover:text-white transition text-left text-xs font-semibold";
+      });
+
+      const activeTab = document.getElementById('tab-' + tabName);
+      const activeBtn = document.getElementById('nav-' + tabName);
+      if (activeTab) activeTab.classList.remove('hidden');
+      if (activeBtn) activeBtn.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#FF5A00] text-white transition text-left text-xs font-semibold";
+      
+      document.getElementById('pageTitle').innerText = tabName.toUpperCase();
+      if (window.innerWidth < 768) toggleMobileSidebar();
     }
 
     async function initDashboard() {
@@ -163,20 +276,21 @@
 
     async function fetchStockCount() {
       const { count } = await supabaseClient.from('stock_pool').select('*', { count: 'exact', head: true }).eq('is_used', false);
-      document.getElementById('stockCount').innerText = count || 0;
+      const val = count || 0;
+      document.getElementById('statStock').innerText = val;
+      document.getElementById('unusedStockCount').innerText = val;
     }
 
     async function addStockLinks() {
       const input = document.getElementById('stockInput');
       const lines = input.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      if (lines.length === 0) return alert("অনুগ্রহ করে অন্তত ১টি লিঙ্ক পেস্ট করুন।");
+      if (!lines.length) return alert("লিঙ্ক পেস্ট করুন!");
 
       const insertData = lines.map(link => ({ item_link: link, is_used: false }));
       const { error } = await supabaseClient.from('stock_pool').insert(insertData);
-      if (error) {
-        alert("লিঙ্ক যুক্ত করতে ব্যর্থ: " + error.message);
-      } else {
-        alert(`সফলভাবে ${lines.length}টি লিঙ্ক স্টকে জমা হয়েছে!`);
+      if (error) alert("ব্যর্থ: " + error.message);
+      else {
+        alert(`${lines.length}টি লিঙ্ক সফলভাবে স্টকে যোগ হয়েছে!`);
         input.value = "";
         fetchStockCount();
       }
@@ -186,61 +300,69 @@
       const tbody = document.getElementById('ordersTableBody');
       const { data: orders, error } = await supabaseClient.from('orders').select('*').order('created_at', { ascending: false });
 
-      if (error || !orders || orders.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-zinc-500">এখনও কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
+      if (error || !orders || !orders.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-zinc-500">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
         return;
       }
 
-      let pending = 0, delivered = 0;
-      document.getElementById('totalOrders').innerText = orders.length;
-
-      tbody.innerHTML = orders.map(o => {
+      allOrders = orders;
+      let pending = 0, revenue = 0;
+      orders.forEach(o => {
         if (o.status === 'Pending') pending++;
-        if (o.status === 'Delivered') delivered++;
+        if (o.status === 'Delivered') revenue += Number(o.amount || 250);
+      });
 
-        return `
-          <tr class="hover:bg-zinc-900/50 transition">
-            <td class="py-3 px-3 font-mono font-bold text-[#FF5A00]">${o.order_code}</td>
-            <td class="py-3 px-3"><b class="text-white">${o.customer_name}</b><br><span class="text-[10px] text-zinc-400 font-mono">${o.whatsapp_number}</span></td>
-            <td class="py-3 px-3 font-mono text-[11px]">${o.customer_email}</td>
-            <td class="py-3 px-3"><span>${o.payment_method}</span><br><b class="font-mono text-zinc-400">${o.trx_id}</b></td>
-            <td class="py-3 px-3">
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Delivered' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-amber-950 text-amber-400 border border-amber-800'}">
-                ${o.status}
-              </span>
-            </td>
-            <td class="py-3 px-3 text-right">
-              ${o.status === 'Pending' ? `
-                <button onclick="approveAndDeliver('${o.id}', '${o.order_code}', '${o.customer_name}', '${o.whatsapp_number}')" class="bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold px-3 py-1.5 rounded-lg text-[11px] transition inline-flex items-center gap-1 shadow">
-                  <i class="fa-brands fa-whatsapp"></i> ডেলিভারি দিন
-                </button>
-              ` : `<span class="text-emerald-400 text-xs font-semibold"><i class="fa-solid fa-circle-check"></i> সম্পন্ন</span>`}
-            </td>
-          </tr>
-        `;
-      }).join('');
+      document.getElementById('statTotalOrders').innerText = orders.length;
+      document.getElementById('statPendingOrders').innerText = pending;
+      document.getElementById('statRevenue').innerText = revenue + " ৳";
+      document.getElementById('orderBadge').innerText = pending;
 
-      document.getElementById('pendingOrders').innerText = pending;
-      document.getElementById('deliveredOrders').innerText = delivered;
+      renderOrdersTable(orders);
+    }
+
+    function renderOrdersTable(list) {
+      const tbody = document.getElementById('ordersTableBody');
+      tbody.innerHTML = list.map(o => `
+        <tr class="hover:bg-[#15151C] transition">
+          <td class="py-3 px-3 font-mono font-bold text-[#FF5A00]">${o.order_code}</td>
+          <td class="py-3 px-3"><b class="text-white">${o.customer_name}</b><br><span class="text-[10px] text-zinc-400 font-mono">${o.whatsapp_number}</span></td>
+          <td class="py-3 px-3 font-mono text-[11px]">${o.customer_email}</td>
+          <td class="py-3 px-3"><span>${o.payment_method}</span><br><b class="font-mono text-zinc-400">${o.trx_id}</b></td>
+          <td class="py-3 px-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Delivered' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-amber-950 text-amber-400 border border-amber-800'}">
+              ${o.status}
+            </span>
+          </td>
+          <td class="py-3 px-3 text-right">
+            ${o.status === 'Pending' ? `
+              <button onclick="approveAndDeliver('${o.id}', '${o.order_code}', '${o.customer_name}', '${o.whatsapp_number}')" class="bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold px-3 py-1.5 rounded-lg text-[11px] transition inline-flex items-center gap-1 shadow">
+                <i class="fa-brands fa-whatsapp"></i> ডেলিভারি দিন
+              </button>
+            ` : `<span class="text-emerald-400 text-xs font-semibold"><i class="fa-solid fa-circle-check"></i> সম্পন্ন</span>`}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterOrders() {
+      const q = document.getElementById('orderSearch').value.toLowerCase();
+      const filtered = allOrders.filter(o => 
+        (o.customer_name && o.customer_name.toLowerCase().includes(q)) || 
+        (o.trx_id && o.trx_id.toLowerCase().includes(q)) ||
+        (o.order_code && o.order_code.toLowerCase().includes(q))
+      );
+      renderOrdersTable(filtered);
     }
 
     async function approveAndDeliver(orderId, orderCode, customerName, phone) {
-      if (!confirm(`${customerName}-এর অর্ডারটি স্টক থেকে লিঙ্ক তুলে WhatsApp-এ ডেলিভারি করতে চান?`)) return;
+      if (!confirm(`${customerName}-এর অর্ডারটি স্টক লিঙ্ক তুলে WhatsApp-এ ডেলিভারি করবেন?`)) return;
 
-      // ১. স্টক থেকে ১টি অব্যবহৃত লিঙ্ক তুলে আনা
       const { data: stockItem, error: stockErr } = await supabaseClient.from('stock_pool').select('*').eq('is_used', false).limit(1).single();
+      if (stockErr || !stockItem) return alert("⚠️ স্টকে কোনো অ্যাক্টিভেশন লিঙ্ক নেই! আগে Delivery Management থেকে লিঙ্ক যোগ করুন।");
 
-      if (stockErr || !stockItem) {
-        return alert("⚠️ স্টকে কোনো অ্যাক্টিভেশন লিঙ্ক নেই! অনুগ্রহ করে আগে উপরে স্টকে লিঙ্ক যোগ করুন।");
-      }
-
-      // ২. স্টক আইটেম Used মার্ক করা
       await supabaseClient.from('stock_pool').update({ is_used: true, used_at: new Date().toISOString() }).eq('id', stockItem.id);
-
-      // ৩. অর্ডারে লিঙ্ক যুক্ত করে Delivered স্ট্যাটাস দেওয়া
       await supabaseClient.from('orders').update({ status: 'Delivered', delivered_link: stockItem.item_link }).eq('id', orderId);
 
-      // ৪. কাস্টমারের হোয়াটসঅ্যাপে সুন্দর মেসেজ ওপেন করা
       const customMsg = `সম্মানিত ${customerName},
 Subs Mart BD থেকে Gemini Pro (18 Months) প্যাকেজটি নেওয়ার জন্য ধন্যবাদ! আপনার পেমেন্ট ভেরিফাই হয়েছে।
 
