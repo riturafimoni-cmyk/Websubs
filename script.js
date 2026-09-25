@@ -37,6 +37,7 @@ async function initApp() {
   ]);
 
   startCountdown();
+  startLiveSalesPopup();
 }
 
 // Countdown Timer
@@ -70,7 +71,24 @@ function toggleTheme() {
   }
 }
 
-// Payment Methods
+// Modern Glass Toast
+function showToast(text) {
+  let toast = document.getElementById('customToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'customToast';
+    toast.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#16161E]/95 border border-[#FF5A00] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full shadow-[0_0_25px_rgba(255,90,0,0.5)] backdrop-blur-md transition-all duration-300 transform -translate-y-20 opacity-0 flex items-center gap-2 pointer-events-none';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<i class="fa-solid fa-circle-check text-[#FF5A00]"></i> ${text}`;
+  toast.classList.remove('-translate-y-20', 'opacity-0');
+  toast.classList.add('translate-y-0', 'opacity-100');
+  setTimeout(() => {
+    toast.classList.remove('translate-y-0', 'opacity-100');
+    toast.classList.add('-translate-y-20', 'opacity-0');
+  }, 2200);
+}
+
 function updatePayNum() {
   const sel = document.getElementById('payMethod').value;
   document.getElementById('methodLabel').innerText = sel + ' (সেন্ড মানি):';
@@ -78,7 +96,9 @@ function updatePayNum() {
 }
 
 function copyActiveNum(btn) {
-  navigator.clipboard.writeText(document.getElementById('activeNum').innerText);
+  const num = document.getElementById('activeNum').innerText;
+  navigator.clipboard.writeText(num);
+  showToast("নাম্বার কপি হয়েছে: " + num);
   const old = btn.innerText; btn.innerText = "কপি!"; setTimeout(() => btn.innerText = old, 1200);
 }
 
@@ -109,9 +129,79 @@ async function submitCustomerOrder(e) {
     document.getElementById('orderForm').classList.add('hidden');
     document.getElementById('orderSuccess').classList.remove('hidden');
   } catch (err) {
-    alert('অর্ডার ব্যর্থ হয়েছে: ' + err.message);
+    showToast('অর্ডার ব্যর্থ হয়েছে: ' + err.message);
     btn.innerText = "আবার চেষ্টা করুন"; btn.disabled = false;
   }
+}
+
+// Live Sales Popup (২০ জন কাস্টমার, আলাদা টাইমিং ও বড় সাইজ)
+function startLiveSalesPopup() {
+  const buyers = [
+    { name: "তানভীর আহমেদ", time: "১ মিনিট আগে" },
+    { name: "রাকিবুল হাসান", time: "৩ মিনিট আগে" },
+    { name: "মেহেদী হাসান", time: "৫ মিনিট আগে" },
+    { name: "আরিফুল ইসলাম", time: "২ মিনিট আগে" },
+    { name: "মাহমুদুর রহমান", time: "৭ মিনিট আগে" },
+    { name: "সাকিব চৌধুরী", time: "৪ মিনিট আগে" },
+    { name: "ফারহান সাদিক", time: "৬ মিনিট আগে" },
+    { name: "জুবায়ের হোসেন", time: "৮ মিনিট আগে" },
+    { name: "নাজমুল ইসলাম", time: "১০ মিনিট আগে" },
+    { name: "রায়হান কবির", time: "৩ মিনিট আগে" },
+    { name: "মোস্তাফিজুর রহমান", time: "১২ মিনিট আগে" },
+    { name: "শফিউল আলম", time: "৫ মিনিট আগে" },
+    { name: "তৌহিদুল ইসলাম", time: "৯ মিনিট আগে" },
+    { name: "শাহরিয়ার নাফিস", time: "৪ মিনিট আগে" },
+    { name: "আশিকুর রহমান", time: "১১ মিনিট আগে" },
+    { name: "হাসিবুল হাসান", time: "২ মিনিট আগে" },
+    { name: "আবদুল্লাহ আল মামুন", time: "১৪ মিনিট আগে" },
+    { name: "নাঈম হাসান", time: "৬ মিনিট আগে" },
+    { name: "সাইদুর রহমান", time: "১৫ মিনিট আগে" },
+    { name: "ইমরান নাজির", time: "১৮ মিনিট আগে" }
+  ];
+
+  let box = document.getElementById('salesPopup');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'salesPopup';
+    // সাইজ বড় করা হয়েছে (max-w-[320px] ও p-3.5)
+    box.className = 'fixed bottom-5 left-4 z-40 max-w-[320px] bg-[#121216]/95 border border-[#FF5A00]/70 p-3 rounded-2xl shadow-[0_0_30px_rgba(255,90,0,0.35)] backdrop-blur-md transition-all duration-500 transform translate-y-36 opacity-0 flex items-center gap-3 pointer-events-none';
+    document.body.appendChild(box);
+  }
+
+  let index = 0;
+  setInterval(() => {
+    const buyer = buyers[index % buyers.length];
+    index++;
+
+    box.innerHTML = `
+      <div class="w-10 h-10 rounded-xl bg-[#FF5A00]/20 border border-[#FF5A00] flex items-center justify-center text-[#FF5A00] text-base shrink-0 shadow-[0_0_15px_rgba(255,90,0,0.4)]">
+        <i class="fa-solid fa-bag-shopping"></i>
+      </div>
+      <div class="text-left text-xs leading-snug text-zinc-300">
+        <div class="flex items-center gap-1.5">
+          <b class="text-white text-sm tracking-tight">${buyer.name}</b>
+          <i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>
+        </div>
+        <p class="text-zinc-400 text-[11px] mt-0.5">Gemini Pro ১৮ মাসের প্যাকেজ নিয়েছেন</p>
+        <div class="flex items-center gap-2 mt-1 text-[10px] text-zinc-400">
+          <span class="text-[#FF5A00] font-bold font-en">${buyer.time}</span>
+          <span>•</span>
+          <span class="text-zinc-500">ভেরিফাইড পারচেজ</span>
+        </div>
+      </div>
+    `;
+
+    // Slide in
+    box.classList.remove('translate-y-36', 'opacity-0');
+    box.classList.add('translate-y-0', 'opacity-100');
+
+    // Slide out after 5.5 seconds
+    setTimeout(() => {
+      box.classList.remove('translate-y-0', 'opacity-100');
+      box.classList.add('translate-y-36', 'opacity-0');
+    }, 5500);
+
+  }, 20000); // Every 20 seconds
 }
 
 // FAQ Accordion
@@ -127,5 +217,4 @@ function toggleFaq(btn) {
   }
 }
 
-// Start app
 window.addEventListener('DOMContentLoaded', initApp);
