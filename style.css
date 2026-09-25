@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
+
+:root {
+  --bg-color: #F8F8FA;
+  --text-main: #18181B;
+  --text-sub: #52525B;
+  --card-bg: #FFFFFF;
+  --card-border: #E4E4E7;
+  --brand-orange: #FF5A00;
+  --brand-hover: #E04E00;
+}
+
+.dark {
+  --bg-color: #0B0B0E;
+  --text-main: #F4F4F5;
+  --text-sub: #A1A1AA;
+  --card-bg: #131318;
+  --card-border: #2A2A36;
+  --brand-orange: #FF5A00;
+  --brand-hover: #E04E00;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Hind Siliguri', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+.font-en {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Glowing and Borders */
+.glow-orange {
+  box-shadow: 0 0 35px -5px rgba(255, 90, 0, 0.35);
+}
+
+.card-glow {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-glow:hover {
+  border-color: rgba(255, 90, 0, 0.6);
+  box-shadow: 0 0 20px rgba(255, 90, 0, 0.25);
+}
+
+/* Custom Hero Buttons */
+.btn-order {
+  background: var(--brand-orange);
+  color: #FFFFFF !important;
+  box-shadow: 0 10px 25px -5px rgba(255, 90, 0, 0.45);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-order:hover {
+  background: var(--brand-hover);
+  transform: translateY(-2px);
+}
+
+.btn-whatsapp {
+  background: #10B981;
+  color: #FFFFFF !important;
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-whatsapp:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+/* Accordion Smooth Dropdown */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease-out;
+}
