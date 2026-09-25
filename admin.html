@@ -231,6 +231,7 @@
   </div>
 
   <!-- Scripts -->
+  <!-- Scripts (সম্পূর্ণ আপডেটেড) -->
   <script>
     const SUPABASE_URL = "https://firmyknalxgtmgnxmtdo.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_UpfYT4yKOBgcU3P5FDxcMw_IasiYca_";
@@ -278,7 +279,8 @@
       const { count } = await supabaseClient.from('stock_pool').select('*', { count: 'exact', head: true }).eq('is_used', false);
       const val = count || 0;
       document.getElementById('statStock').innerText = val;
-      document.getElementById('unusedStockCount').innerText = val;
+      const unused = document.getElementById('unusedStockCount');
+      if (unused) unused.innerText = val;
     }
 
     async function addStockLinks() {
@@ -354,14 +356,34 @@
       renderOrdersTable(filtered);
     }
 
+    // ১০০% ফিক্সড ডেলিভারি ফাংশন
     async function approveAndDeliver(orderId, orderCode, customerName, phone) {
       if (!confirm(`${customerName}-এর অর্ডারটি স্টক লিঙ্ক তুলে WhatsApp-এ ডেলিভারি করবেন?`)) return;
 
-      const { data: stockItem, error: stockErr } = await supabaseClient.from('stock_pool').select('*').eq('is_used', false).limit(1).single();
-      if (stockErr || !stockItem) return alert("⚠️ স্টকে কোনো অ্যাক্টিভেশন লিঙ্ক নেই! আগে Delivery Management থেকে লিঙ্ক যোগ করুন।");
+      const { data: stockItem, error: stockErr } = await supabaseClient
+        .from('stock_pool')
+        .select('*')
+        .eq('is_used', false)
+        .limit(1)
+        .single();
 
-      await supabaseClient.from('stock_pool').update({ is_used: true, used_at: new Date().toISOString() }).eq('id', stockItem.id);
-      await supabaseClient.from('orders').update({ status: 'Delivered', delivered_link: stockItem.item_link }).eq('id', orderId);
+      if (stockErr || !stockItem) {
+        return alert("⚠️ স্টকে কোনো লিঙ্ক নেই! আগে Delivery Management থেকে লিঙ্ক যোগ করুন।");
+      }
+
+      await supabaseClient
+        .from('stock_pool')
+        .update({ is_used: true, used_at: new Date().toISOString() })
+        .eq('id', stockItem.id);
+
+      const { error: orderErr } = await supabaseClient
+        .from('orders')
+        .update({ status: 'Delivered', delivered_link: stockItem.item_link })
+        .eq('id', orderId);
+
+      if (orderErr) {
+        return alert("স্ট্যাটাস আপডেট হয়নি: " + orderErr.message);
+      }
 
       const customMsg = `সম্মানিত ${customerName},
 Subs Mart BD থেকে Gemini Pro (18 Months) প্যাকেজটি নেওয়ার জন্য ধন্যবাদ! আপনার পেমেন্ট ভেরিফাই হয়েছে।
@@ -377,8 +399,10 @@ ${stockItem.item_link}
       if (cleanPhone.startsWith('01')) cleanPhone = '88' + cleanPhone;
 
       window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(customMsg)}`, '_blank');
-      initDashboard();
+      await initDashboard();
     }
   </script>
+</body>
+</html>
 </body>
 </html>
