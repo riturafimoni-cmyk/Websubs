@@ -70,9 +70,9 @@
       </form>
     </div>
 
-    <!-- Results Box (শুরুতে লুকানো থাকবে) -->
+    <!-- Results Box -->
     <div id="trackResult" class="hidden bg-[#121216] border border-[#2A2A36] rounded-2xl p-5 shadow-2xl space-y-4">
-      <!-- রেজাল্ট জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক বসবে -->
+      <!-- রেজাল্ট স্ক্রিপ্ট দিয়ে লোড হবে -->
     </div>
 
   </main>
@@ -98,7 +98,6 @@
       btn.disabled = true;
 
       try {
-        // Search by order_code OR whatsapp_number
         const { data: orders, error } = await supabaseClient
           .from('orders')
           .select('*')
@@ -134,29 +133,39 @@
             </span>
           </div>
 
-          <div class="space-y-1.5 text-xs text-zinc-300 py-1">
+          <div class="space-y-1 text-xs text-zinc-300 py-1">
             <p><span class="text-zinc-500">কাস্টমার:</span> <b class="text-white">${order.customer_name}</b></p>
             <p><span class="text-zinc-500">প্যাকেজ:</span> ${order.package_name}</p>
             <p><span class="text-zinc-500">পেমেন্ট মেথড:</span> ${order.payment_method} (TrxID: <span class="font-mono text-zinc-400">${order.trx_id}</span>)</p>
           </div>
 
           ${isDelivered ? `
-            <!-- ডেলিভারি লিঙ্ক ডিসপ্লে বক্স -->
-            <div class="bg-gradient-to-r from-emerald-950/40 to-[#121216] border border-emerald-500/60 p-4 rounded-xl space-y-2">
+            <!-- ডেলিভারি লিঙ্ক ও ৫টি অ্যাক্টিভেশন স্টেপ -->
+            <div class="bg-gradient-to-r from-emerald-950/40 to-[#121216] border border-emerald-500/60 p-4 rounded-xl space-y-3">
               <span class="text-[11px] font-bold text-emerald-400 flex items-center gap-1.5">
                 <i class="fa-solid fa-gift"></i> আপনার অ্যাক্টিভেশন লিঙ্ক প্রস্তুত:
               </span>
+              
               <div class="bg-[#08080A] p-2.5 rounded-lg border border-zinc-800 flex items-center justify-between gap-2">
                 <span id="delLink" class="text-xs font-mono text-zinc-200 truncate">${order.delivered_link || 'লিঙ্ক রেডি আছে'}</span>
                 <button onclick="copyDelLink()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 rounded text-xs font-bold shrink-0">
                   কপি করুন
                 </button>
               </div>
-              <p class="text-[10px] text-zinc-400">এই লিংকে ক্লিক করে আপনার পার্সোনাল জিমেইলে এক্সেস সক্রিয় করে নিন।</p>
+
+              <!-- যেভাবে অফার এক্টিভেট করবেন -->
+              <div class="bg-[#08080A]/95 border border-zinc-800 p-3.5 rounded-xl text-left space-y-1.5 text-zinc-300 text-xs">
+                <b class="text-white text-xs block mb-1 text-[#FF5A00]">যেইভাবে অফার এক্টিভেট করবেন 👇</b>
+                <p>১. লিংক কপি করবেন</p>
+                <p>২. ক্রোম ব্রাউজারে পেস্ট করবেন</p>
+                <p>৩. উপরে ডান দিক থেকে প্রোফাইল সিলেক্ট করবেন</p>
+                <p>৪. নিচে একটিভ বাটনে চাপ দিবেন</p>
+                <p class="text-emerald-400 font-bold pt-1">৫. Done 🥳🎉</p>
+              </div>
             </div>
           ` : `
             <!-- পেন্ডিং নোটিস -->
-            <div class="bg-amber-950/20 border border-amber-500/40 p-3 rounded-xl text-center space-y-2">
+            <div class="bg-amber-950/20 border border-amber-500/40 p-3.5 rounded-xl text-center space-y-2">
               <p class="text-xs text-amber-300">আপনার পেমেন্ট ভেরিফাই করা হচ্ছে। সাধারণত ৫-১৫ মিনিটের মধ্যে ডেলিভারি সম্পন্ন হয়।</p>
               <a href="https://wa.me/8801985405068?text=আমার অর্ডার কোড ${order.order_code}। দয়া করে চেক করুন।" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:underline font-bold">
                 <i class="fa-brands fa-whatsapp"></i> সরাসরি WhatsApp সাপোর্টে কথা বলুন
