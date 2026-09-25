@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subs Mart BD - Gemini Pro 18 Months Special Deal</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Hind Siliguri"', 'sans-serif'],
+            en: ['"Outfit"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              orange: '#FF6B00',
+              hover: '#E05500',
+              dark: '#08080A',
+              card: '#121216',
+              border: '#272730'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .orange-glow { box-shadow: 0 0 35px -5px rgba(255, 107, 0, 0.4); }
+    .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+  </style>
+</head>
+<body class="bg-gray-50 text-zinc-900 dark:bg-brand-dark dark:text-gray-100 transition-colors duration-300 font-sans">
+
+  <!-- Navbar -->
+  <header class="border-b border-gray-200 dark:border-brand-border/60 bg-white/90 dark:bg-brand-dark/95 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-brand-orange/10 border border-brand-orange flex items-center justify-center text-brand-orange text-lg">
+          <i class="fa-solid fa-bag-shopping"></i>
+        </div>
+        <div>
+          <span class="font-en font-bold text-lg">Subs Mart <span class="text-brand-orange">BD</span></span>
+          <p class="text-[9px] text-zinc-400 font-en uppercase -mt-1 tracking-wider">Premium Subscriptions</p>
+        </div>
+      </div>
+
+      <!-- Theme Toggle & Buttons -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center text-sm transition">
+          <i id="themeIcon" class="fa-solid fa-moon"></i>
+        </button>
+        <a href="#order" class="bg-brand-orange hover:bg-brand-hover text-white text-xs md:text-sm font-bold px-4 py-2 rounded-full transition shadow-lg shadow-brand-orange/25">
+          Order Now
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-6xl mx-auto px-4 pt-10 pb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-7 space-y-4 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold font-en">
+          <i class="fa-solid fa-sparkles"></i> Google AI Pro Verified Deal
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight">
+          <span class="text-brand-orange">১৮ মাসের</span> পার্সোনাল জেমিনি একাউন্ট
+        </h1>
+        <p class="text-zinc-500 dark:text-zinc-300 text-sm sm:text-base">
+          AI দিয়ে কাজ, পড়াশোনা, কনটেন্ট ও প্রোডাক্টিভিটি এবার হবে আরও সহজ, দ্রুত ও স্মার্ট! ৫TB ক্লাউড স্টোরেজ সহ।
+        </p>
+
+        <!-- Timer -->
+        <div class="inline-block bg-white dark:bg-brand-card border border-gray-200 dark:border-brand-border p-4 rounded-2xl text-center">
+          <span class="text-xs font-bold text-brand-orange flex items-center justify-center gap-1.5 mb-2">
+            <i class="fa-regular fa-clock"></i> অফার শেষ হতে বাকি
+          </span>
+          <div class="grid grid-cols-4 gap-2 font-en text-center text-xs sm:text-sm">
+            <div class="bg-gray-100 dark:bg-zinc-900 p-2 rounded-lg border border-gray-200 dark:border-brand-border font-bold">
+              <span id="days" class="text-base sm:text-lg block">07</span>দিন
+            </div>
+            <div class="bg-gray-100 dark:bg-zinc-900 p-2 rounded-lg border border-gray-200 dark:border-brand-border font-bold">
+              <span id="hours" class="text-base sm:text-lg block">12</span>ঘণ্টা
+            </div>
+            <div class="bg-gray-100 dark:bg-zinc-900 p-2 rounded-lg border border-gray-200 dark:border-brand-border font-bold">
+              <span id="mins" class="text-base sm:text-lg block">34</span>মিনিট
+            </div>
+            <div class="bg-gray-100 dark:bg-zinc-900 p-2 rounded-lg border border-gray-200 dark:border-brand-border font-bold text-brand-orange">
+              <span id="secs" class="text-base sm:text-lg block">28</span>সেকেন্ড
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
+          <a href="#order" class="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white font-bold px-7 py-3 rounded-xl transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cart-shopping"></i> Order Now →
+          </a>
+          <a href="https://wa.me/8801XXXXXXXXX" target="_blank" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-7 py-3 rounded-xl transition flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp এখনই মেসেজ করুন →
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Showcase Box -->
+      <div class="lg:col-span-5 bg-white dark:bg-brand-card border border-gray-200 dark:border-brand-border rounded-3xl p-6 orange-glow text-center">
+        <div class="w-20 h-20 mx-auto mb-3 rounded-2xl bg-brand-orange/10 border border-brand-orange flex items-center justify-center text-4xl text-brand-orange">
+          <i class="fa-solid fa-robot"></i>
+        </div>
+        <h3 class="text-xl font-bold font-en">Gemini Google AI Pro</h3>
+        <p class="text-xs text-zinc-400 mt-1">5TB Cloud Storage + Anti Gravity Mode</p>
+        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-brand-border flex justify-around text-center font-en">
+          <div><span class="block text-lg font-bold text-brand-orange">18M</span><span class="text-[10px] text-zinc-400">Validity</span></div>
+          <div><span class="block text-lg font-bold text-emerald-500">100%</span><span class="text-[10px] text-zinc-400">Own Mail</span></div>
+          <div><span class="block text-lg font-bold text-blue-500">5TB</span><span class="text-[10px] text-zinc-400">Google Drive</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Order & Checkout Section (Connected to Supabase) -->
+  <section id="order" class="max-w-4xl mx-auto px-4 py-12">
+    <div class="bg-white dark:bg-brand-card border-2 border-brand-orange rounded-3xl p-6 sm:p-8 orange-glow">
+      <div class="text-center mb-6">
+        <span class="bg-brand-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase font-en">SPECIAL OFFER</span>
+        <h2 class="text-2xl sm:text-3xl font-bold mt-2">অর্ডার ও পেমেন্ট কনফার্মেশন</h2>
+        <p class="text-xs text-zinc-400 mt-1">১৮ মাসের প্যাকেজ অফার মূল্য: <span class="text-brand-orange font-bold text-base font-en">২৫০ ৳</span> (রেগুলার ৫০০৳)</p>
+      </div>
+
+      <!-- Payment Numbers -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-6 text-xs">
+        <div class="bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 p-2.5 rounded-xl flex items-center justify-between">
+          <span>বিকাশ (Personal): <b id="bkashNum">01XXXXXXXXX</b></span>
+          <button type="button" onclick="copyNum('bkashNum')" class="text-brand-orange font-bold">কপি</button>
+        </div>
+        <div class="bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 p-2.5 rounded-xl flex items-center justify-between">
+          <span>নগদ (Personal): <b id="nagadNum">01XXXXXXXXX</b></span>
+          <button type="button" onclick="copyNum('nagadNum')" class="text-brand-orange font-bold">কপি</button>
+        </div>
+        <div class="bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 p-2.5 rounded-xl flex items-center justify-between">
+          <span>রকেট (Personal): <b id="rocketNum">01XXXXXXXXX</b></span>
+          <button type="button" onclick="copyNum('rocketNum')" class="text-brand-orange font-bold">কপি</button>
+        </div>
+      </div>
+
+      <!-- Order Form -->
+      <form id="orderForm" onsubmit="handleCustomerOrder(event)" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold mb-1">আপনার নাম *</label>
+            <input type="text" id="custName" required placeholder="পুরো নাম" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1">হোয়াটসঅ্যাপ নাম্বার *</label>
+            <input type="tel" id="custPhone" required placeholder="01XXXXXXXXX" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold mb-1">যে জিমেইলে অ্যাক্সেস নিবেন *</label>
+            <input type="email" id="custEmail" required placeholder="example@gmail.com" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1">পেমেন্ট মেথড *</label>
+            <select id="payMethod" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
+              <option value="bKash">বিকাশ (bKash)</option>
+              <option value="Nagad">নগদ (Nagad)</option>
+              <option value="Rocket">রকেট (Rocket)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold mb-1">ট্রানজেকশন আইডি (TrxID) *</label>
+          <input type="text" id="custTrx" required placeholder="যেমন: BL29X78M" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm uppercase font-mono focus:outline-none focus:border-brand-orange">
+        </div>
+
+        <button type="submit" id="submitBtn" class="w-full bg-brand-orange hover:bg-brand-hover text-white font-bold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2">
+          <span>অর্ডার প্লেস করুন</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <!-- Success Screen -->
+      <div id="orderSuccess" class="hidden text-center py-6">
+        <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-2xl mx-auto mb-3">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-1">অর্ডার সফলভাবে ডাটাবেজে জমা হয়েছে!</h3>
+        <p class="text-xs text-zinc-400 mb-4">আপনার অর্ডার কোড: <b id="displayOrderCode" class="text-brand-orange font-mono"></b></p>
+        <a id="waSendBtn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>WhatsApp-এ মেসেজ দিয়ে ডেলিভারি নিন</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-200 dark:border-brand-border/60 py-8 text-center text-xs text-zinc-500">
+    <p>Subs Mart BD © 2026. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts: Supabase Connection & Functionality -->
+  <script>
+    // Supabase Credentials
+    const SUPABASE_URL = "https://firmyknalxgtmgnxmtdo.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_UpfYT4yKOBgcU3P5FDxcMw_IasiYca_";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Dark/Light Theme Toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const icon = document.getElementById('themeIcon');
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        icon.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        icon.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    function copyNum(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text);
+      alert('নাম্বার কপি হয়েছে: ' + text);
+    }
+
+    // Handle Order Submission & Save to Supabase
+    async function handleCustomerOrder(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.innerText = "অর্ডার প্রসেস হচ্ছে...";
+      btn.disabled = true;
+
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const email = document.getElementById('custEmail').value.trim();
+      const method = document.getElementById('payMethod').value;
+      const trx = document.getElementById('custTrx').value.trim();
+      const orderCode = 'SM-' + Math.floor(1000 + Math.random() * 9000);
+
+      try {
+        // Save to Supabase 'orders' table
+        const { error } = await supabaseClient.from('orders').insert([
+          {
+            order_code: orderCode,
+            customer_name: name,
+            customer_email: email,
+            whatsapp_number: phone,
+            package_name: 'Gemini Pro 18 Months',
+            amount: 250,
+            payment_method: method,
+            trx_id: trx,
+            status: 'Pending'
+          }
+        ]);
+
+        if (error) throw error;
+
+        // WhatsApp message formatting
+        const waMsg = `হ্যালো Subs Mart BD!
+আমি ওয়েবসাইট থেকে Gemini Pro (18M) প্যাকেজ অর্ডার করেছি।
+📌 অর্ডার কোড: ${orderCode}
+👤 নাম: ${name}
+✉️ জিমেইল: ${email}
+💳 মাধ্যম: ${method}
+🔢 TrxID: ${trx}
+💰 টাকা: ২৫০ ৳`;
+
+        const waUrl = `https://wa.me/8801XXXXXXXXX?text=${encodeURIComponent(waMsg)}`;
+        
+        document.getElementById('displayOrderCode').innerText = orderCode;
+        document.getElementById('waSendBtn').href = waUrl;
+        document.getElementById('orderForm').classList.add('hidden');
+        document.getElementById('orderSuccess').classList.remove('hidden');
+
+      } catch (err) {
+        alert('অর্ডার সাবমিট করতে সমস্যা হয়েছে: ' + err.message);
+        btn.innerText = "আবার চেষ্টা করুন";
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
