@@ -1,24 +1,24 @@
-<!-- Hero Section (New Pixel-Perfect Design) -->
-<section class="max-w-4xl mx-auto px-4 pt-6 pb-8">
+<!-- Hero Section (Pixel-Perfect Reference Match) -->
+<section class="max-w-4xl mx-auto px-3 pt-3 pb-6">
   
-  <!-- টপ রো: বামে টেক্সট ও প্রাইস, ডানে মডেল ও নিওন রিং -->
-  <div class="grid grid-cols-12 gap-2 items-center">
+  <!-- টপ রো: বামে টেক্সট ও প্রাইস, ডানে ছেলেটির কোমর টাইমারের সাথে লাগানো -->
+  <div class="grid grid-cols-12 gap-1 items-end">
     
-    <!-- বাম পাশ (Text & Price Tag) -->
-    <div class="col-span-7 sm:col-span-7 text-left space-y-2">
+    <!-- বাম পাশ (Text & Price Capsule) -->
+    <div class="col-span-7 sm:col-span-7 text-left space-y-1.5 pb-2">
       <!-- Badge -->
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#16161E] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00]">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#16161E] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00] mb-1">
         <span class="text-blue-500 font-bold font-en">G</span>
         <span>Google AI Pro</span>
         <span class="text-purple-400">✦</span>
       </div>
 
-      <!-- Main Headline -->
-      <div class="space-y-0.5">
-        <h1 class="text-3xl sm:text-5xl font-black text-[#FF5A00] leading-none tracking-tight">
+      <!-- Main Headline with Real Gradient & Big Size -->
+      <div class="space-y-0">
+        <h1 class="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF5A00] via-amber-400 to-[#FF8C33] leading-none tracking-tight">
           ১৮ মাসের
         </h1>
-        <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+        <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
           জেমিনি প্রো
         </h2>
         <p class="text-xs sm:text-base font-bold text-zinc-300 pt-0.5">
@@ -26,28 +26,33 @@
         </p>
       </div>
 
-      <!-- Glowing Price Capsule (🏷️ মাত্র ২৫০ ৳) -->
-      <div class="pt-2">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#FF5A00] to-[#FF3D00] text-white font-black text-base sm:text-2xl shadow-[0_0_25px_rgba(255,90,0,0.6)] border border-amber-300/40 transform hover:scale-105 transition">
-          <span class="text-xs sm:text-sm font-normal">🏷️ মাত্র</span>
-          <span class="tracking-wide">২৫০ ৳</span>
+      <!-- Glowing Price Capsule with 3 Rays (স্পার্কল রে সহ ২৫০ ৳) -->
+      <div class="pt-2 relative inline-block">
+        <!-- ৩টি স্পার্কল রে ডিজাইন -->
+        <span class="absolute -top-2.5 -right-3 text-[#FF5A00] font-black text-sm select-none pointer-events-none tracking-tighter rotate-12">
+          \ | /
+        </span>
+        
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#FF5A00] to-[#E04E00] text-white font-black text-base sm:text-2xl shadow-[0_0_30px_rgba(255,90,0,0.7)] border border-amber-300/50">
+          <span class="text-xs sm:text-sm font-semibold">🏷️ মাত্র</span>
+          <span class="font-en tracking-wide text-lg sm:text-2xl">২৫০ ৳</span>
         </div>
       </div>
     </div>
 
-    <!-- ডান পাশ (মডেল + পেছনের অরেঞ্জ নিওন গ্রেডিয়েন্ট রিং) -->
-    <div class="col-span-5 sm:col-span-5 flex justify-center items-center relative">
-      <!-- পেছনের গোল্ডেন-অরেঞ্জ নিয়ন সার্কেল গ্রেডিয়েন্ট -->
-      <div class="absolute w-36 h-36 sm:w-56 sm:h-56 rounded-full border-2 border-[#FF5A00] shadow-[0_0_50px_rgba(255,90,0,0.6)] bg-gradient-to-tr from-[#FF5A00]/30 to-amber-500/10 pointer-events-none"></div>
+    <!-- ডান পাশ: ছেলেটির ছবি (কোমর টাইমারের সাথে মিশে থাকবে) + পেছনের নিয়ন সার্কেল -->
+    <div class="col-span-5 sm:col-span-5 flex justify-center items-end relative overflow-visible">
+      <!-- পেছনের উজ্জ্বল কমলা নিয়ন সার্কেল রিং -->
+      <div class="absolute top-2 w-32 h-32 sm:w-52 sm:h-52 rounded-full border-2 border-[#FF5A00] shadow-[0_0_50px_rgba(255,90,0,0.65)] bg-gradient-to-tr from-[#FF5A00]/30 to-amber-500/10 pointer-events-none"></div>
       
-      <!-- ট্রান্সপারেন্ট মডেল ইমেজ -->
-      <img src="hero-boy.png" alt="Hero Character" class="relative z-10 w-full max-h-[220px] sm:max-h-[320px] object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]" onerror="this.src='https://placehold.co/300x300/121216/FF5A00?text=Model';">
+      <!-- ছেলেটির ছবি: একদম নিচে টাইমারের গায়ে লাগানো -->
+      <img src="hero-boy.png" alt="Hero Character" class="relative z-10 w-full max-h-[210px] sm:max-h-[310px] object-contain object-bottom -mb-1 drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]" onerror="this.src='https://placehold.co/300x300/121216/FF5A00?text=Model';">
     </div>
 
   </div>
 
-  <!-- কাউন্টডাউন টাইমার বক্স (স্ক্রিনশটের মতো ফুল উইডথ) -->
-  <div class="mt-6 bg-[#121216] border border-[#FF5A00]/50 rounded-2xl p-3 sm:p-4 text-center shadow-lg">
+  <!-- কাউন্টডাউন টাইমার বক্স (ছেলেটির কোমর ঠিক এর ওপর বসবে) -->
+  <div class="relative z-20 bg-[#121216] border border-[#FF5A00]/50 rounded-2xl p-3 sm:p-4 text-center shadow-lg">
     <span class="text-xs sm:text-sm font-bold text-[#FF5A00] flex items-center justify-center gap-1.5 mb-2.5">
       <i class="fa-regular fa-clock"></i> অফার শেষ হতে বাকি
     </span>
@@ -72,7 +77,7 @@
   </div>
 
   <!-- ট্রাস্ট ব্যাজ -->
-  <div class="flex items-center justify-center gap-6 text-xs text-zinc-400 py-4 font-semibold">
+  <div class="flex items-center justify-center gap-6 text-xs text-zinc-400 py-3.5 font-semibold">
     <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-[#FF5A00]"></i> ফাস্ট ডেলিভারি</span>
     <span class="text-zinc-600">|</span>
     <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-blue-400"></i> নিরাপদ পেমেন্ট</span>
