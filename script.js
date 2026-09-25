@@ -9,6 +9,13 @@ const PAY_NUMS = {
   Nagad: "01613305454"
 };
 
+// কনফেটি লাইব্রেরি অটো-লোড
+(function loadConfettiLib() {
+  const script = document.createElement('script');
+  script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js";
+  document.head.appendChild(script);
+})();
+
 // Component Loader Function
 async function loadSection(id, file) {
   try {
@@ -71,7 +78,7 @@ function toggleTheme() {
   }
 }
 
-// Modern Glass Toast (Alert-এর জায়গায় প্রিমিয়াম নোটিফিকেশন)
+// Modern Glass Toast
 function showToast(text) {
   let toast = document.getElementById('customToast');
   if (!toast) {
@@ -102,7 +109,31 @@ function copyActiveNum(btn) {
   const old = btn.innerText; btn.innerText = "কপি!"; setTimeout(() => btn.innerText = old, 1200);
 }
 
-// Order Placement to Supabase
+// প্রিমিয়াম কনফেটি ব্লাস্ট অ্যানিমেশন
+function fireCelebrationConfetti() {
+  if (typeof confetti !== 'function') return;
+
+  const count = 200;
+  const defaults = { 
+    origin: { y: 0.7 }, 
+    colors: ['#FF5A00', '#FFA726', '#10B981', '#FFFFFF', '#FF3D00'] 
+  };
+
+  function fire(particleRatio, opts) {
+    confetti(Object.assign({}, defaults, opts, {
+      particleCount: Math.floor(count * particleRatio)
+    }));
+  }
+
+  // বিভিন্ন অ্যাঙ্গেলে রঙিন ফুলঝুরির বিস্ফোরণ
+  fire(0.25, { spread: 26, startVelocity: 55 });
+  fire(0.2, { spread: 60 });
+  fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+  fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+  fire(0.1, { spread: 120, startVelocity: 45 });
+}
+
+// Order Placement to Supabase + Confetti Trigger
 async function submitCustomerOrder(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
@@ -123,18 +154,23 @@ async function submitCustomerOrder(e) {
     }]);
 
     if (error) throw error;
+    
+    // কনফেটি ফুলঝুরি ফোটানো
+    fireCelebrationConfetti();
+
     const msg = `হ্যালো Subs Mart BD!\nআমি Gemini Pro (18 Months) প্যাকেজ অর্ডার করেছি।\n📌 অর্ডার কোড: ${orderCode}\n👤 নাম: ${document.getElementById('custName').value}\n✉️ জিমেইল: ${document.getElementById('custEmail').value}\n📱 মোবাইল: ${document.getElementById('custPhone').value}\n💳 মেথড: ${document.getElementById('payMethod').value}\n🔢 TrxID: ${document.getElementById('custTrx').value}\n💰 মূল্য: ২৫০ ৳`;
     document.getElementById('displayOrderCode').innerText = orderCode;
     document.getElementById('waSendBtn').href = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(msg)}`;
     document.getElementById('orderForm').classList.add('hidden');
     document.getElementById('orderSuccess').classList.remove('hidden');
+
   } catch (err) {
     showToast('অর্ডার ব্যর্থ হয়েছে: ' + err.message);
     btn.innerText = "আবার চেষ্টা করুন"; btn.disabled = false;
   }
 }
 
-// Live Sales Popup (৩ সেকেন্ডে ১ম পপআপ, ২০ জন বাংলাদেশি নাম ও আলাদা টাইমিং)
+// Live Sales Popup
 function startLiveSalesPopup() {
   const buyers = [
     { name: "তানভীর আহমেদ", time: "১ মিনিট আগে" },
@@ -191,21 +227,16 @@ function startLiveSalesPopup() {
       </div>
     `;
 
-    // নিচ থেকে স্লাইড হয়ে উঠবে
     box.classList.remove('translate-y-36', 'opacity-0');
     box.classList.add('translate-y-0', 'opacity-100');
 
-    // ৫.৫ সেকেন্ড পর নেমে যাবে
     setTimeout(() => {
       box.classList.remove('translate-y-0', 'opacity-100');
       box.classList.add('translate-y-36', 'opacity-0');
     }, 5500);
   }
 
-  // পেজে ঢোকার মাত্র ৩ সেকেন্ড পরেই ১ম পপআপ আসবে
   setTimeout(triggerPopup, 3000);
-
-  // এরপর প্রতি ১৮ সেকেন্ড পর পর নতুন নাম আসবে
   setInterval(triggerPopup, 18000);
 }
 
