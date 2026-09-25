@@ -1,0 +1,91 @@
+<!-- Hero Section (New Pixel-Perfect Design) -->
+<section class="max-w-4xl mx-auto px-4 pt-6 pb-8">
+  
+  <!-- টপ রো: বামে টেক্সট ও প্রাইস, ডানে মডেল ও নিওন রিং -->
+  <div class="grid grid-cols-12 gap-2 items-center">
+    
+    <!-- বাম পাশ (Text & Price Tag) -->
+    <div class="col-span-7 sm:col-span-7 text-left space-y-2">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#16161E] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00]">
+        <span class="text-blue-500 font-bold font-en">G</span>
+        <span>Google AI Pro</span>
+        <span class="text-purple-400">✦</span>
+      </div>
+
+      <!-- Main Headline -->
+      <div class="space-y-0.5">
+        <h1 class="text-3xl sm:text-5xl font-black text-[#FF5A00] leading-none tracking-tight">
+          ১৮ মাসের
+        </h1>
+        <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+          জেমিনি প্রো
+        </h2>
+        <p class="text-xs sm:text-base font-bold text-zinc-300 pt-0.5">
+          পার্সোনাল একাউন্ট
+        </p>
+      </div>
+
+      <!-- Glowing Price Capsule (🏷️ মাত্র ২৫০ ৳) -->
+      <div class="pt-2">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#FF5A00] to-[#FF3D00] text-white font-black text-base sm:text-2xl shadow-[0_0_25px_rgba(255,90,0,0.6)] border border-amber-300/40 transform hover:scale-105 transition">
+          <span class="text-xs sm:text-sm font-normal">🏷️ মাত্র</span>
+          <span class="tracking-wide">২৫০ ৳</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ডান পাশ (মডেল + পেছনের অরেঞ্জ নিওন গ্রেডিয়েন্ট রিং) -->
+    <div class="col-span-5 sm:col-span-5 flex justify-center items-center relative">
+      <!-- পেছনের গোল্ডেন-অরেঞ্জ নিয়ন সার্কেল গ্রেডিয়েন্ট -->
+      <div class="absolute w-36 h-36 sm:w-56 sm:h-56 rounded-full border-2 border-[#FF5A00] shadow-[0_0_50px_rgba(255,90,0,0.6)] bg-gradient-to-tr from-[#FF5A00]/30 to-amber-500/10 pointer-events-none"></div>
+      
+      <!-- ট্রান্সপারেন্ট মডেল ইমেজ -->
+      <img src="hero-boy.png" alt="Hero Character" class="relative z-10 w-full max-h-[220px] sm:max-h-[320px] object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]" onerror="this.src='https://placehold.co/300x300/121216/FF5A00?text=Model';">
+    </div>
+
+  </div>
+
+  <!-- কাউন্টডাউন টাইমার বক্স (স্ক্রিনশটের মতো ফুল উইডথ) -->
+  <div class="mt-6 bg-[#121216] border border-[#FF5A00]/50 rounded-2xl p-3 sm:p-4 text-center shadow-lg">
+    <span class="text-xs sm:text-sm font-bold text-[#FF5A00] flex items-center justify-center gap-1.5 mb-2.5">
+      <i class="fa-regular fa-clock"></i> অফার শেষ হতে বাকি
+    </span>
+    <div class="grid grid-cols-4 gap-2 text-center font-en">
+      <div class="bg-[#08080A] py-2 rounded-xl border border-zinc-800">
+        <span id="days" class="text-base sm:text-xl font-black block text-white">07</span>
+        <span class="text-[9px] sm:text-xs text-zinc-400">দিন</span>
+      </div>
+      <div class="bg-[#08080A] py-2 rounded-xl border border-zinc-800">
+        <span id="hours" class="text-base sm:text-xl font-black block text-white">12</span>
+        <span class="text-[9px] sm:text-xs text-zinc-400">ঘণ্টা</span>
+      </div>
+      <div class="bg-[#08080A] py-2 rounded-xl border border-zinc-800">
+        <span id="mins" class="text-base sm:text-xl font-black block text-white">30</span>
+        <span class="text-[9px] sm:text-xs text-zinc-400">মিনিট</span>
+      </div>
+      <div class="bg-[#08080A] py-2 rounded-xl border border-zinc-800">
+        <span id="secs" class="text-base sm:text-xl font-black block text-[#FF5A00]">26</span>
+        <span class="text-[9px] sm:text-xs text-zinc-400">সেকেন্ড</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ট্রাস্ট ব্যাজ -->
+  <div class="flex items-center justify-center gap-6 text-xs text-zinc-400 py-4 font-semibold">
+    <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-[#FF5A00]"></i> ফাস্ট ডেলিভারি</span>
+    <span class="text-zinc-600">|</span>
+    <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-blue-400"></i> নিরাপদ পেমেন্ট</span>
+  </div>
+
+  <!-- দুটি বড় বাটন (Order Now & WhatsApp) -->
+  <div class="grid grid-cols-2 gap-3">
+    <a href="#order" class="bg-[#FF5A00] hover:bg-[#E04E00] text-white py-3.5 px-3 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-[0_10px_25px_rgba(255,90,0,0.35)] transition transform hover:-translate-y-0.5">
+      <i class="fa-solid fa-cart-shopping"></i> Order Now →
+    </a>
+    <a href="https://wa.me/8801985405068" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white py-3.5 px-3 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-[0_10px_25px_rgba(16,185,129,0.35)] transition transform hover:-translate-y-0.5">
+      <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp মেসেজ →
+    </a>
+  </div>
+
+</section>
