@@ -1,7 +1,25 @@
-<!-- Order & Checkout Section with Send Money & Supabase -->
+<!-- Order Section with Live Slot Counter -->
 <section id="order" class="max-w-3xl mx-auto px-3 py-8">
-  <div class="bg-[#121216] border border-[#FF5A00]/50 rounded-3xl p-5 sm:p-7 shadow-2xl">
+  <div class="bg-[#121216] border border-[#FF5A00]/50 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden">
     
+    <!-- ডাইনামিক স্লট কাউন্টার বার -->
+    <div class="mb-6 bg-[#08080A] border border-[#FF5A00]/40 p-3.5 rounded-2xl shadow-inner text-center space-y-2">
+      <div class="flex items-center justify-between text-xs">
+        <span class="text-zinc-300 font-bold flex items-center gap-1.5">
+          <span class="text-[#FF5A00] animate-pulse"><i class="fa-solid fa-fire"></i></span>
+          আজকের ২৫০৳ স্পেশাল স্লট বাকি:
+        </span>
+        <span class="bg-[#FF5A00]/20 border border-[#FF5A00]/40 text-[#FF5A00] px-2.5 py-0.5 rounded-full font-black font-en text-xs">
+          <span id="slotCount">28</span> টি স্লট খালি
+        </span>
+      </div>
+      <div class="w-full bg-zinc-800/80 rounded-full h-2 overflow-hidden">
+        <div id="slotBar" class="bg-gradient-to-r from-[#FF5A00] to-amber-400 h-full rounded-full transition-all duration-1000" style="width: 65%;"></div>
+      </div>
+      <p class="text-[10px] text-zinc-500 font-medium">⚡ স্লট শেষ হওয়ার আগেই অর্ডার কনফার্ম করে ডেলিভারি বুঝে নিন</p>
+    </div>
+
+    <!-- ফর্ম হেডার -->
     <div class="text-center mb-5">
       <h3 class="text-xl sm:text-2xl font-bold text-white">অর্ডার ও পেমেন্ট কনফার্মেশন</h3>
       <p class="text-xs text-zinc-400 mt-0.5">প্যাকেজ মূল্য: <b class="text-[#FF5A00] font-en text-sm">২৫০ ৳</b> (১৮ মাস)</p>
@@ -31,7 +49,6 @@
         </select>
       </div>
 
-      <!-- Number Display Box -->
       <div class="bg-[#08080A] border border-zinc-800 p-2.5 rounded-xl flex items-center justify-between">
         <div>
           <span id="methodLabel" class="text-[10px] text-zinc-400 block font-semibold">bKash (সেন্ড মানি):</span>
