@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subs Mart BD - Owner Admin Panel</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Hind Siliguri"', 'sans-serif'], en: ['"Outfit"', 'sans-serif'] },
+          colors: { brand: { orange: '#FF6B00', dark: '#08080A', card: '#121216', border: '#272730' } }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#08080A] text-zinc-100 font-sans min-h-screen">
+
+  <!-- Admin Login Screen (পাসওয়ার্ড প্রোটেকশন) -->
+  <div id="loginScreen" class="fixed inset-0 bg-[#08080A] z-50 flex items-center justify-center p-4">
+    <div class="bg-[#121216] border border-zinc-800 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl">
+      <div class="w-14 h-14 rounded-2xl bg-brand-orange/10 border border-brand-orange flex items-center justify-center text-brand-orange text-2xl mx-auto mb-4">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <h2 class="text-xl font-bold font-en text-white">Owner Access</h2>
+      <p class="text-xs text-zinc-400 mt-1 mb-6">Subs Mart BD অ্যাডমিন প্যানেলে প্রবেশ করুন</p>
+      
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <input type="password" id="adminPass" required placeholder="অ্যাডমিন পিন / পাসওয়ার্ড" class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-center focus:outline-none focus:border-brand-orange">
+        <button type="submit" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition text-sm">
+          আনলক করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Admin Dashboard -->
+  <div id="adminDashboard" class="hidden">
+    <!-- Navbar -->
+    <header class="border-b border-zinc-800 bg-[#121216] px-6 py-4 flex items-center justify-between sticky top-0 z-40">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded-lg bg-brand-orange/20 text-brand-orange flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-shield"></i></span>
+        <b class="font-en text-white text-lg">Subs Mart <span class="text-brand-orange">Admin</span></b>
+      </div>
+      <button onclick="logoutAdmin()" class="text-xs bg-zinc-800 hover:bg-red-900/40 text-zinc-300 hover:text-red-400 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> লগআউট
+      </button>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+      
+      <!-- Top Overview Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-[#121216] border border-zinc-800 p-4 rounded-2xl">
+          <span class="text-xs text-zinc-400 block">মোট অর্ডার</span>
+          <b id="totalOrders" class="text-2xl font-bold font-en text-white">0</b>
+        </div>
+        <div class="bg-[#121216] border border-zinc-800 p-4 rounded-2xl">
+          <span class="text-xs text-zinc-400 block">অপেক্ষমান (Pending)</span>
+          <b id="pendingOrders" class="text-2xl font-bold font-en text-amber-500">0</b>
+        </div>
+        <div class="bg-[#121216] border border-zinc-800 p-4 rounded-2xl">
+          <span class="text-xs text-zinc-400 block">ডেলিভারি সম্পন্ন</span>
+          <b id="deliveredOrders" class="text-2xl font-bold font-en text-emerald-500">0</b>
+        </div>
+        <div class="bg-[#121216] border border-zinc-800 p-4 rounded-2xl">
+          <span class="text-xs text-zinc-400 block">স্টকে লিঙ্ক আছে</span>
+          <b id="stockCount" class="text-2xl font-bold font-en text-brand-orange">0</b>
+        </div>
+      </div>
+
+      <!-- Stock Management (অ্যাক্টিভেশন লিঙ্ক যুক্ত করার বক্স) -->
+      <div class="bg-[#121216] border border-zinc-800 p-6 rounded-3xl space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-layer-group text-brand-orange"></i>
+              অটো-ডেলিভারি স্টক পুল (Activation Links)
+            </h3>
+            <p class="text-xs text-zinc-400 mt-0.5">প্রতি লাইনে ১টি করে জেমিনি অ্যাক্টিভেশন লিঙ্ক পেস্ট করুন</p>
+          </div>
+        </div>
+
+        <textarea id="stockInput" rows="3" placeholder="https://one.google.com/invite/xxxx&#10;https://one.google.com/invite/yyyy" class="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-brand-orange font-mono"></textarea>
+        
+        <button onclick="addStockLinks()" class="bg-brand-orange hover:bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition flex items-center gap-2">
+          <i class="fa-solid fa-plus"></i> স্টকে লিঙ্ক যোগ করুন
+        </button>
+      </div>
+      <!-- Orders Table -->
+      <div class="bg-[#121216] border border-zinc-800 rounded-3xl p-6 overflow-hidden">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-clipboard-list text-brand-orange"></i> কাস্টমার অর্ডার তালিকা
+          </h3>
+          <button onclick="fetchOrders()" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-lg text-zinc-300 flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-arrows-rotate"></i> রিফ্রেশ
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-zinc-300">
+            <thead class="bg-zinc-900 text-zinc-400 uppercase text-[10px] font-en border-b border-zinc-800">
+              <tr>
+                <th class="py-3 px-3">অর্ডার কোড</th>
+                <th class="py-3 px-3">কাস্টমার</th>
+                <th class="py-3 px-3">জিমেইল</th>
+                <th class="py-3 px-3">পেমেন্ট / TrxID</th>
+                <th class="py-3 px-3">স্ট্যাটাস</th>
+                <th class="py-3 px-3 text-right">একশন</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody" class="divide-y divide-zinc-800">
+              <tr>
+                <td colspan="6" class="text-center py-6 text-zinc-500">লোড হচ্ছে...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const SUPABASE_URL = "https://firmyknalxgtmgnxmtdo.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_UpfYT4yKOBgcU3P5FDxcMw_IasiYca_";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ডিফল্ট অ্যাডমিন পিন (আপনি চাইলে এটি পরিবর্তন করতে পারেন)
+    const ADMIN_PIN = "123456"; 
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const enteredPass = document.getElementById('adminPass').value;
+      if (enteredPass === ADMIN_PIN) {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('adminDashboard').classList.remove('hidden');
+        initDashboard();
+      } else {
+        alert("ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।");
+      }
+    }
+
+    function logoutAdmin() {
+      location.reload();
+    }
+
+    async function initDashboard() {
+      await fetchOrders();
+      await fetchStockCount();
+    }
+
+    // স্টক কাউন্ট আনা
+    async function fetchStockCount() {
+      const { count } = await supabaseClient.from('stock_pool').select('*', { count: 'exact', head: true }).eq('is_used', false);
+      document.getElementById('stockCount').innerText = count || 0;
+    }
+
+    // স্টকে লিঙ্ক সেভ করা
+    async function addStockLinks() {
+      const input = document.getElementById('stockInput');
+      const lines = input.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length === 0) return alert("অনুগ্রহ করে অন্তত ১টি লিঙ্ক পেস্ট করুন।");
+
+      const insertData = lines.map(link => ({ item_link: link, is_used: false }));
+      const { error } = await supabaseClient.from('stock_pool').insert(insertData);
+      if (error) {
+        alert("লিঙ্ক যুক্ত করতে ব্যর্থ: " + error.message);
+      } else {
+        alert(`সফলভাবে ${lines.length}টি লিঙ্ক স্টকে যুক্ত হয়েছে!`);
+        input.value = "";
+        fetchStockCount();
+      }
+    }
+
+    // অর্ডার তালিকা নিয়ে আসা
+    async function fetchOrders() {
+      const tbody = document.getElementById('ordersTableBody');
+      const { data: orders, error } = await supabaseClient.from('orders').select('*').order('created_at', { ascending: false });
+
+      if (error || !orders || orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-zinc-500">এখনও কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
+        return;
+      }
+
+      let pending = 0, delivered = 0;
+      document.getElementById('totalOrders').innerText = orders.length;
+
+      tbody.innerHTML = orders.map(o => {
+        if (o.status === 'Pending') pending++;
+        if (o.status === 'Delivered') delivered++;
+
+        return `
+          <tr class="hover:bg-zinc-900/50 transition">
+            <td class="py-3 px-3 font-mono font-bold text-brand-orange">${o.order_code}</td>
+            <td class="py-3 px-3"><b class="text-white">${o.customer_name}</b><br><span class="text-[10px] text-zinc-400">${o.whatsapp_number}</span></td>
+            <td class="py-3 px-3 font-mono text-[11px]">${o.customer_email}</td>
+            <td class="py-3 px-3"><span>${o.payment_method}</span><br><b class="font-mono text-zinc-400">${o.trx_id}</b></td>
+            <td class="py-3 px-3">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Delivered' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-amber-950 text-amber-400 border border-amber-800'}">
+                ${o.status}
+              </span>
+            </td>
+            <td class="py-3 px-3 text-right">
+              ${o.status === 'Pending' ? `
+                <button onclick="approveAndDeliver('${o.id}', '${o.order_code}', '${o.customer_name}', '${o.whatsapp_number}')" class="bg-brand-orange hover:bg-orange-600 text-white font-bold px-3 py-1.5 rounded-lg text-[11px] transition inline-flex items-center gap-1">
+                  <i class="fa-brands fa-whatsapp"></i> ডেলিভারি দিন
+                </button>
+              ` : `<span class="text-emerald-500 text-xs"><i class="fa-solid fa-circle-check"></i> সম্পন্ন</span>`}
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('pendingOrders').innerText = pending;
+      document.getElementById('deliveredOrders').innerText = delivered;
+    }
+
+    // ১-ক্লিক অটো ডেলিভারি লজিক
+    async function approveAndDeliver(orderId, orderCode, customerName, phone) {
+      if (!confirm(`${customerName}-এর অর্ডারটি স্টক থেকে লিঙ্ক তুলে WhatsApp-এ ডেলিভারি করতে চান?`)) return;
+
+      // ১. স্টক থেকে ১টি অব্যবহৃত লিঙ্ক আনা
+      const { data: stockItem, error: stockErr } = await supabaseClient.from('stock_pool').select('*').eq('is_used', false).limit(1).single();
+
+      if (stockErr || !stockItem) {
+        return alert("⚠️ স্টকে কোনো অ্যাক্টিভেশন লিঙ্ক নেই! অনুগ্রহ করে আগে উপরে স্টকে লিঙ্ক যোগ করুন।");
+      }
+
+      // ২. স্টকটি Used মার্ক করা
+      await supabaseClient.from('stock_pool').update({ is_used: true, used_at: new Date().toISOString() }).eq('id', stockItem.id);
+
+      // ৩. অর্ডারে লিঙ্ক যুক্ত করে Delivered স্ট্যাটাস দেওয়া
+      await supabaseClient.from('orders').update({ status: 'Delivered', delivered_link: stockItem.item_link }).eq('id', orderId);
+
+      // ৪. কাস্টমারের হোয়াটসঅ্যাপ মেসেজ ওপেন করা
+      const customMsg = `সম্মানিত ${customerName},
+Subs Mart BD থেকে Gemini Pro (18 Months) প্যাকেজটি নেওয়ার জন্য ধন্যবাদ! আপনার পেমেন্ট ভেরিফাই হয়েছে।
+
+🔗 আপনার অ্যাক্টিভেশন লিঙ্ক:
+${stockItem.item_link}
+
+📌 অর্ডার কোড: ${orderCode}
+যেকোনো সহায়তায় এই হোয়াটসঅ্যাপেই মেসেজ দিতে পারেন। ধন্যবাদ!`;
+
+      // ফোন নাম্বার আন্তর্জাতিক ফরম্যাটে নেওয়া
+      let cleanPhone = phone.replace(/[^0-9]/g, '');
+      if (cleanPhone.startsWith('01')) cleanPhone = '88' + cleanPhone;
+
+      window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(customMsg)}`, '_blank');
+      initDashboard();
+    }
+  </script>
+</body>
+</html>
