@@ -24,14 +24,14 @@
   </div>
 </header>
 
-<!-- Hero Section (Full-Width Edge-to-Edge Character & Typography) -->
-<section class="max-w-4xl mx-auto px-3 pt-2 pb-6 overflow-hidden">
+<!-- Hero Section -->
+<section class="max-w-4xl mx-auto px-3 pt-1 pb-6 overflow-hidden">
   
-  <!-- মেইন হিরো রো: কোনো ফাঁকা জায়গা ছাড়া দুই সাইড লাইন টাচ করবে -->
+  <!-- মেইন হিরো রো: ছেলে ও টাইমার লক, লেখা উপর থেকে শুরু -->
   <div class="flex items-end justify-between relative min-h-[340px] sm:min-h-[440px] overflow-visible">
     
-    <!-- বাম পাশ: লেখাগুলো অনেক বড় হয়ে পুরো বাম পাশের লাইন ভরিয়ে রাখবে -->
-    <div class="w-[50%] z-20 flex flex-col justify-between py-2 text-left">
+    <!-- বাম পাশ: লেখাগুলো আরও ওপর থেকে শুরু হয়ে সুন্দরভাবে নেমে আসবে -->
+    <div class="w-[50%] z-20 flex flex-col justify-start pt-1 pb-2 text-left">
       
       <!-- টপ ব্যাজ -->
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#14141A] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00] shadow-sm w-fit mb-2">
@@ -40,8 +40,8 @@
         <span class="text-purple-400 text-xs">✦</span>
       </div>
 
-      <!-- বড় বড় বোল্ড হেডলাইন (লাইন টাচ করা সাইজ) -->
-      <div class="space-y-1 my-auto">
+      <!-- হেডলাইন -->
+      <div class="space-y-1">
         <h1 class="text-4xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF5A00] via-amber-400 to-[#FF8C33] tracking-tight leading-[1.05]">
           ১৮ মাসের
         </h1>
@@ -53,7 +53,7 @@
         </p>
       </div>
 
-      <!-- বড় ২৫০ ৳ প্রাইস ক্যাপসুল -->
+      <!-- ২৫০ ৳ প্রাইস ক্যাপসুল -->
       <div class="pt-3">
         <div class="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-gradient-to-r from-[#FF5A00] via-[#FF4500] to-[#E04E00] border-2 border-amber-300/80 shadow-[0_0_35px_rgba(255,90,0,0.85)]">
           <span class="text-white font-black text-2xl sm:text-4xl font-en tracking-wider drop-shadow-md">
@@ -62,22 +62,27 @@
         </div>
       </div>
 
+      <!-- আপনার বলা নতুন লাইন -->
+      <p class="text-[11px] sm:text-xs text-zinc-400 font-semibold pt-2 tracking-wide">
+        AI দিয়ে সকল কাজ করুন স্মার্ট ভাবে
+      </p>
+
     </div>
 
-    <!-- ডান পাশ: ছেলেটির ছবি পুরো নীল দাগ অনুযায়ী মাথা ও লাইনের সমান সমান বড় -->
+    <!-- ডান পাশ: ছেলেটির ছবি লক + পেছনের সার্কেল ছেলেটির ঠিক মাঝ বরাবর সেট -->
     <div class="w-[56%] -ml-[6%] relative flex justify-end items-end h-full overflow-visible z-10">
       
-      <!-- ছেলেটির পেছনের সফট সানসেট নিয়ন আভা ও হ্যালো রিং -->
-      <div class="absolute -right-4 top-4 w-56 h-56 sm:w-80 sm:h-80 rounded-full bg-gradient-to-br from-[#FF5A00] via-[#FF3300]/40 to-transparent blur-2xl opacity-75 pointer-events-none"></div>
-      <div class="absolute -right-2 top-4 w-52 h-52 sm:w-72 sm:h-72 rounded-full border-[3px] border-[#FF6A00] shadow-[0_0_45px_#FF5A00] opacity-85 pointer-events-none"></div>
+      <!-- সার্কেলটি এখন ঠিক ছেলেটির মাথা ও শরীরের মাঝখানে সেন্টারে লক করা -->
+      <div class="absolute right-[8%] top-[18%] -translate-y-1/2 w-48 h-48 sm:w-72 sm:h-72 rounded-full bg-gradient-to-br from-[#FF5A00] via-[#FF3300]/40 to-transparent blur-2xl opacity-75 pointer-events-none"></div>
+      <div class="absolute right-[10%] top-[18%] -translate-y-1/2 w-44 h-44 sm:w-64 sm:h-64 rounded-full border-[3px] border-[#FF6A00] shadow-[0_0_40px_#FF5A00] opacity-85 pointer-events-none"></div>
 
-      <!-- বিশাল বড় স্কেলের ছেলেটির ছবি: মাথা ওপরের লাইনে এবং কোমর টাইমারের সাথে মিশে থাকবে -->
+      <!-- ছেলেটির ছবি (১০০% অপরিবর্তিত ও লক) -->
       <img src="hero-boy.png" alt="Hero Character" class="relative z-10 w-full h-[340px] sm:h-[450px] object-contain object-bottom -mb-1 scale-125 sm:scale-135 origin-bottom-right drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)]" onerror="this.src='https://placehold.co/400x500/121216/FF5A00?text=Model';">
     </div>
 
   </div>
 
-  <!-- কাউন্টডাউন টাইমার বক্স (ছেলেটির কোমর ঠিক এর ওপর লাগানো) -->
+  <!-- কাউন্টডাউন টাইমার বক্স (১০০% অপরিবর্তিত ও লক) -->
   <div class="relative z-30 bg-[#121216] border border-[#FF5A00]/50 rounded-2xl p-2.5 sm:p-3 text-center shadow-2xl mt-0">
     <span class="text-xs sm:text-sm font-bold text-[#FF5A00] flex items-center justify-center gap-1.5 mb-1.5">
       <i class="fa-regular fa-clock"></i> অফার শেষ হতে বাকি
