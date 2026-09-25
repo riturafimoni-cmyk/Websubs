@@ -1,121 +1,748 @@
-<!-- Top Header (Logo, Brand Name, Light/Dark Mode) -->
-<header class="border-b border-[#2A2A36] bg-[#08080A]/95 backdrop-blur sticky top-0 z-50">
-  <div class="max-w-4xl mx-auto px-4 py-2.5 flex items-center justify-between">
-    <div class="flex items-center gap-2.5">
-      <div class="w-9 h-9 rounded-full overflow-hidden border border-[#FF5A00]/40 flex items-center justify-center bg-zinc-900 shadow">
-        <img src="logo.png" alt="Subs Mart Logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/40x40/FF5A00/white?text=SM';">
-      </div>
-      <div>
-        <span class="font-en font-extrabold text-sm sm:text-base tracking-wide text-white">Subs Mart <span class="text-[#FF5A00]">BD</span></span>
-        <p class="text-[8px] sm:text-[9px] text-zinc-400 font-en uppercase -mt-0.5 tracking-wider">Premium Subscriptions</p>
-      </div>
-    </div>
 
-    <div class="flex items-center gap-2">
-      <button onclick="toggleTheme()" class="flex items-center bg-zinc-800 p-1 rounded-full text-[10px] sm:text-[11px] font-bold shadow-sm">
-        <span id="lightPill" class="px-2 py-0.5 rounded-full flex items-center gap-1 text-zinc-400">
-          <i class="fa-solid fa-sun text-amber-500"></i> Light
-        </span>
-        <span id="darkPill" class="px-2 py-0.5 rounded-full flex items-center gap-1 bg-[#FF5A00] text-white shadow">
-          <i class="fa-solid fa-moon"></i> Dark
-        </span>
-      </button>
-    </div>
-  </div>
-</header>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gemini Pro — Subs Mart BD</title>
 
-<!-- Hero Section (Zero Top-Gap, Big Typography & Massive Model) -->
-<section class="max-w-4xl mx-auto px-3 pt-2 pb-6 overflow-hidden">
-  
-  <!-- মেইন হিরো রো: কোনো ফাঁকা জায়গা ছাড়া ওপর থেকে শুরু -->
-  <div class="grid grid-cols-12 gap-1 items-end relative">
-    
-    <!-- বাম পাশ (উপরে কোনো ফাঁকা নেই, পরিষ্কার বড় লেখা) -->
-    <div class="col-span-7 sm:col-span-7 text-left z-10 flex flex-col justify-start pb-2">
-      
-      <!-- Google AI Pro Badge -->
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#14141A] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00] shadow-sm w-fit mb-2">
-        <span class="text-blue-500 font-black font-en">G</span>
-        <span>Google AI Pro</span>
-        <span class="text-purple-400 text-sm">✦</span>
-      </div>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-      <!-- Headlines: পরিষ্কার, বড় এবং ওভারল্যাপ ছাড়া -->
-      <div class="space-y-1">
-        <h2 class="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF5A00] via-amber-400 to-[#FF8C33] tracking-tight leading-tight">
-          ১৮ মাসের
-        </h2>
-        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-          জেমিনি প্রো
-        </h1>
-        <p class="text-xs sm:text-base font-bold text-zinc-300 pt-0.5 tracking-wide">
-          পার্সোনাল একাউন্ট
-        </p>
-      </div>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      <!-- Glowing Price Capsule (শুধু বড় বোল্ড ২৫০ ৳, 'মাত্র' বাদ) -->
-      <div class="pt-3">
-        <div class="inline-flex items-center justify-center px-6 py-2 rounded-full bg-gradient-to-r from-[#FF5A00] via-[#FF4500] to-[#E04E00] border-2 border-amber-300/80 shadow-[0_0_35px_rgba(255,90,0,0.85)]">
-          <span class="text-white font-black text-2xl sm:text-4xl font-en tracking-wider drop-shadow-md">
-            ২৫০ ৳
-          </span>
+    :root {
+      --bg: #08090b;
+      --orange: #ff5a00;
+      --orange-light: #ff7a18;
+      --text: #ffffff;
+      --muted: #a6a6ae;
+      --border: rgba(255, 90, 0, 0.55);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans Bengali", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 42px 48px;
+      position: relative;
+    }
+
+    /* Header */
+    .hero-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #292929;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand-logo {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -1px;
+    }
+
+    .brand-name span {
+      color: var(--orange);
+    }
+
+    .brand-subtitle {
+      color: #a1a1aa;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #252529;
+      border-radius: 50px;
+      padding: 10px 12px 10px 20px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #c4c4c8;
+    }
+
+    .theme-toggle .active {
+      background: var(--orange);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 50px;
+    }
+
+    /* Main Hero */
+    .hero-main {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 20px;
+      padding-top: 48px;
+    }
+
+    .hero-content {
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .product-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 12px 26px;
+      color: var(--orange);
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 22px;
+    }
+
+    .google-g {
+      color: #4285f4;
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    .gemini-spark {
+      color: #c084fc;
+      font-size: 26px;
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 4.5vw, 76px);
+      line-height: 1.25;
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin-bottom: 10px;
+    }
+
+    .hero-title .orange {
+      color: var(--orange);
+    }
+
+    .personal-line {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .personal-text {
+      font-size: clamp(26px, 2.8vw, 42px);
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    /* Price */
+    .price-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(110deg, #ff6a00, #ff3d00);
+      padding: 8px 22px;
+      border-radius: 50px;
+      box-shadow: 0 8px 30px rgba(255, 90, 0, 0.25);
+      white-space: nowrap;
+    }
+
+    .price-label {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .price {
+      font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    /* Boy image */
+    .hero-visual {
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-boy {
+      width: 100%;
+      max-width: 590px;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 30px rgba(255, 90, 0, 0.12));
+    }
+
+    /* Countdown */
+    .countdown {
+      margin-top: 24px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 22px 24px 26px;
+      background: rgba(15, 15, 18, 0.85);
+    }
+
+    .countdown-heading {
+      text-align: center;
+      color: var(--orange);
+      font-size: 25px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .time-box {
+      background: #090a0c;
+      border: 1px solid #33333a;
+      border-radius: 12px;
+      padding: 20px 8px 16px;
+      text-align: center;
+    }
+
+    .time-number {
+      font-size: clamp(26px, 3vw, 44px);
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .time-box:last-child .time-number {
+      color: var(--orange);
+    }
+
+    .time-label {
+      color: #a1a1aa;
+      font-size: 17px;
+      margin-top: 10px;
+    }
+
+    /* Trust points */
+    .trust-points {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+      color: #b4b4bb;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .trust-item .icon {
+      font-size: 28px;
+    }
+
+    /* Buttons */
+    .hero-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 28px;
+    }
+
+    .hero-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 22px 20px;
+      border-radius: 22px;
+      text-decoration: none;
+      font-size: clamp(18px, 2vw, 27px);
+      font-weight: 800;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .btn-order {
+      background: linear-gradient(110deg, #ff6500, #ff4d00);
+      color: white;
+      box-shadow: 0 12px 28px rgba(255, 90, 0, 0.2);
+    }
+
+    .btn-whatsapp {
+      background: #08aa77;
+      color: white;
+      box-shadow: 0 12px 28px rgba(0, 180, 120, 0.12);
+    }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .hero {
+        padding: 18px 20px 32px;
+      }
+
+      .hero-header {
+        padding-bottom: 18px;
+      }
+
+      .brand {
+        gap: 10px;
+      }
+
+      .brand-logo {
+        width: 60px;
+        height: 60px;
+      }
+
+      .brand-name {
+        font-size: 24px;
+        letter-spacing: -0.5px;
+      }
+
+      .brand-subtitle {
+        font-size: 11px;
+        letter-spacing: 0.4px;
+      }
+
+      .theme-toggle {
+        font-size: 12px;
+        padding: 7px 8px 7px 10px;
+        gap: 4px;
+      }
+
+      .theme-toggle .active {
+        padding: 8px 12px;
+      }
+
+      .hero-main {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding-top: 30px;
+      }
+
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-badge {
+        align-self: flex-start;
+        font-size: 14px;
+        padding: 8px 14px;
+        gap: 6px;
+        margin-bottom: 18px;
+      }
+
+      .google-g,
+      .gemini-spark {
+        font-size: 17px;
+      }
+
+      .hero-title {
+        font-size: clamp(32px, 8.7vw, 48px);
+        letter-spacing: -1px;
+        line-height: 1.25;
+        margin-bottom: 8px;
+      }
+
+      .personal-line {
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .personal-text {
+        font-size: clamp(20px, 5.3vw, 29px);
+      }
+
+      .price-badge {
+        padding: 7px 15px;
+        gap: 6px;
+      }
+
+      .price-label {
+        font-size: 13px;
+      }
+
+      .price {
+        font-size: 28px;
+      }
+
+      .hero-visual {
+        position: absolute;
+        top: 80px;
+        right: -18px;
+        width: 59%;
+        max-width: 280px;
+        opacity: 1;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-title,
+      .personal-line {
+        max-width: 75%;
+      }
+
+      .countdown {
+        margin-top: 20px;
+        padding: 16px 10px 18px;
+        border-radius: 20px;
+      }
+
+      .countdown-heading {
+        font-size: 16px;
+        margin-bottom: 14px;
+      }
+
+      .countdown-grid {
+        gap: 5px;
+      }
+
+      .time-box {
+        padding: 12px 3px 10px;
+        border-radius: 8px;
+      }
+
+      .time-number {
+        font-size: 25px;
+      }
+
+      .time-label {
+        font-size: 11px;
+        margin-top: 6px;
+      }
+
+      .trust-points {
+        gap: 12px;
+        font-size: 12px;
+        justify-content: flex-start;
+        margin-top: 18px;
+      }
+
+      .trust-item .icon {
+        font-size: 17px;
+      }
+
+      .hero-actions {
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .hero-btn {
+        padding: 17px 10px;
+        border-radius: 16px;
+        font-size: 14px;
+        gap: 6px;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .brand-logo {
+        width: 52px;
+        height: 52px;
+      }
+
+      .brand-name {
+        font-size: 21px;
+      }
+
+      .brand-subtitle {
+        font-size: 9px;
+      }
+
+      .theme-toggle {
+        font-size: 10px;
+      }
+
+      .theme-toggle .active {
+        padding: 7px 9px;
+      }
+
+      .hero-visual {
+        top: 76px;
+        right: -18px;
+        width: 60%;
+      }
+
+      .hero-title {
+        font-size: 31px;
+      }
+
+      .personal-text {
+        font-size: 19px;
+      }
+
+      .price {
+        font-size: 25px;
+      }
+
+      .price-label {
+        font-size: 12px;
+      }
+
+      .hero-title,
+      .personal-line {
+        max-width: 76%;
+      }
+
+      .time-number {
+        font-size: 22px;
+      }
+
+      .time-label {
+        font-size: 10px;
+      }
+
+      .hero-btn {
+        font-size: 12px;
+        padding: 15px 7px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+
+    <!-- Header -->
+    <header class="hero-header">
+
+      <div class="brand">
+        <!-- Replace with your own logo if needed -->
+        <img
+          src="logo.png"
+          alt="Subs Mart BD Logo"
+          class="brand-logo"
+        />
+
+        <div>
+          <div class="brand-name">
+            Subs Mart <span>BD</span>
+          </div>
+          <div class="brand-subtitle">
+            PREMIUM SUBSCRIPTIONS
+          </div>
         </div>
       </div>
 
+      <div class="theme-toggle">
+        <span>☀️ Light</span>
+        <span class="active">🌙 Dark</span>
+      </div>
+
+    </header>
+
+    <!-- Hero Main -->
+    <div class="hero-main">
+
+      <!-- Content -->
+      <div class="hero-content">
+
+        <div class="product-badge">
+          <span class="google-g">G</span>
+          <span>Google AI Pro</span>
+          <span class="gemini-spark">✦</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="orange">১৮ মাসের</span><br>
+          জেমিনি প্রো
+        </h1>
+
+        <div class="personal-line">
+
+          <div class="personal-text">
+            পার্সোনাল একাউন্ট
+          </div>
+
+          <div class="price-badge">
+            <span class="price-label">মাত্র</span>
+            <span class="price">২৫০ ৳</span>
+          </div>
+
+        </div>
+
+        <!-- Countdown -->
+        <div class="countdown">
+
+          <div class="countdown-heading">
+            ◷ অফার শেষ হতে বাকি
+          </div>
+
+          <div class="countdown-grid">
+
+            <div class="time-box">
+              <div class="time-number" id="days">07</div>
+              <div class="time-label">দিন</div>
+            </div>
+
+            <div class="time-box">
+              <div class="time-number" id="hours">12</div>
+              <div class="time-label">ঘণ্টা</div>
+            </div>
+
+            <div class="time-box">
+              <div class="time-number" id="minutes">30</div>
+              <div class="time-label">মিনিট</div>
+            </div>
+
+            <div class="time-box">
+              <div class="time-number" id="seconds">26</div>
+              <div class="time-label">সেকেন্ড</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Trust Points -->
+        <div class="trust-points">
+
+          <div class="trust-item">
+            <span class="icon">⚡</span>
+            <span>ফাস্ট ডেলিভারি</span>
+          </div>
+
+          <div class="trust-item">
+            <span class="icon">🛡️</span>
+            <span>নিরাপদ পেমেন্ট</span>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="hero-actions">
+
+          <a
+            href="#order"
+            class="hero-btn btn-order"
+          >
+            🛒 Order Now →
+          </a>
+
+          <a
+            href="https://wa.me/8801XXXXXXXXX?text=আমি%20Gemini%20Pro%2018%20মাসের%20প্যাকেজ%20নিতে%20চাই।"
+            class="hero-btn btn-whatsapp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ◉ WhatsApp মেসেজ →
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- Boy PNG -->
+      <div class="hero-visual">
+
+        <img
+          src="hero-boy.png"
+          alt="Gemini Pro Premium Account"
+          class="hero-boy"
+        />
+
+      </div>
+
     </div>
 
-    <!-- ডান পাশ: নীল দাগ অনুযায়ী বিশাল বড় ও লম্বা ছেলেটির ছবি -->
-    <div class="col-span-5 sm:col-span-5 flex justify-end items-end relative overflow-visible">
-      <!-- পেছনের সফট সানসেট নিয়ন আভা -->
-      <div class="absolute -right-3 top-0 w-48 h-48 sm:w-72 sm:h-72 rounded-full bg-gradient-to-br from-[#FF5A00] via-[#FF3300]/40 to-transparent blur-xl opacity-80 pointer-events-none"></div>
-      <div class="absolute -right-2 top-0 w-44 h-44 sm:w-64 sm:h-64 rounded-full border-[2.5px] border-[#FF6A00] shadow-[0_0_40px_#FF5A00] opacity-85 pointer-events-none"></div>
+  </section>
 
-      <!-- স্কেল করা বড় ছেলেটির ছবি -->
-      <img src="hero-boy.png" alt="Hero Character" class="relative z-10 w-full h-auto object-contain object-bottom -mb-1 scale-125 sm:scale-135 origin-bottom-right drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]" onerror="this.src='https://placehold.co/350x450/121216/FF5A00?text=Model';">
-    </div>
+  <script>
+    // Countdown
+    // Change the target date to your actual offer expiry.
+    const offerEndDate = new Date(
+      "2026-10-02T23:59:59+06:00"
+    ).getTime();
 
-  </div>
+    function updateCountdown() {
 
-  <!-- কাউন্টডাউন টাইমার বক্স (বোল্ড সংখ্যা) -->
-  <div class="relative z-20 bg-[#121216] border border-[#FF5A00]/50 rounded-2xl p-3 sm:p-4 text-center shadow-2xl mt-0">
-    <span class="text-xs sm:text-sm font-bold text-[#FF5A00] flex items-center justify-center gap-1.5 mb-2">
-      <i class="fa-regular fa-clock"></i> অফার শেষ হতে বাকি
-    </span>
-    <div class="grid grid-cols-4 gap-2 text-center font-en">
-      <div class="bg-[#08080A] py-2 px-1 rounded-xl border border-zinc-800">
-        <span id="days" class="text-2xl sm:text-4xl font-black block text-white leading-tight">07</span>
-        <span class="text-[9px] sm:text-xs text-zinc-400 font-sans font-bold">দিন</span>
-      </div>
-      <div class="bg-[#08080A] py-2 px-1 rounded-xl border border-zinc-800">
-        <span id="hours" class="text-2xl sm:text-4xl font-black block text-white leading-tight">12</span>
-        <span class="text-[9px] sm:text-xs text-zinc-400 font-sans font-bold">ঘণ্টা</span>
-      </div>
-      <div class="bg-[#08080A] py-2 px-1 rounded-xl border border-zinc-800">
-        <span id="mins" class="text-2xl sm:text-4xl font-black block text-white leading-tight">30</span>
-        <span class="text-[9px] sm:text-xs text-zinc-400 font-sans font-bold">মিনিট</span>
-      </div>
-      <div class="bg-[#08080A] py-2 px-1 rounded-xl border border-zinc-800">
-        <span id="secs" class="text-2xl sm:text-4xl font-black block text-[#FF5A00] leading-tight">06</span>
-        <span class="text-[9px] sm:text-xs text-zinc-400 font-sans font-bold">সেকেন্ড</span>
-      </div>
-    </div>
-  </div>
+      const now = Date.now();
+      const difference = offerEndDate - now;
 
-  <!-- ট্রাস্ট ব্যাজ -->
-  <div class="flex items-center justify-center gap-6 text-xs text-zinc-400 py-3 font-semibold">
-    <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-[#FF5A00]"></i> ফাস্ট ডেলিভারি</span>
-    <span class="text-zinc-600">|</span>
-    <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-blue-400"></i> নিরাপদ পেমেন্ট</span>
-  </div>
+      const days = document.getElementById("days");
+      const hours = document.getElementById("hours");
+      const minutes = document.getElementById("minutes");
+      const seconds = document.getElementById("seconds");
 
-  <!-- দুটি বড় বাটন (Order Now & WhatsApp) -->
-  <div class="grid grid-cols-2 gap-3">
-    <a href="#order" class="bg-[#FF5A00] hover:bg-[#E04E00] text-white py-3.5 px-3 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-[0_10px_25px_rgba(255,90,0,0.35)] transition transform hover:-translate-y-0.5">
-      <i class="fa-solid fa-cart-shopping"></i> Order Now →
-    </a>
-    <a href="https://wa.me/8801985405068" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white py-3.5 px-3 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-[0_10px_25px_rgba(16,185,129,0.35)] transition transform hover:-translate-y-0.5">
-      <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp মেসেজ →
-    </a>
-  </div>
+      if (difference <= 0) {
+        days.textContent = "00";
+        hours.textContent = "00";
+        minutes.textContent = "00";
+        seconds.textContent = "00";
+        return;
+      }
 
-</section>
+      const totalSeconds = Math.floor(difference / 1000);
+
+      const d = Math.floor(totalSeconds / 86400);
+      const h = Math.floor((totalSeconds % 86400) / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+
+      days.textContent = String(d).padStart(2, "0");
+      hours.textContent = String(h).padStart(2, "0");
+      minutes.textContent = String(m).padStart(2, "0");
+      seconds.textContent = String(s).padStart(2, "0");
+
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
