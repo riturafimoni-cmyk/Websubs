@@ -71,7 +71,7 @@ function toggleTheme() {
   }
 }
 
-// Modern Glass Toast
+// Modern Glass Toast (Alert-এর জায়গায় প্রিমিয়াম নোটিফিকেশন)
 function showToast(text) {
   let toast = document.getElementById('customToast');
   if (!toast) {
@@ -134,7 +134,7 @@ async function submitCustomerOrder(e) {
   }
 }
 
-// Live Sales Popup (২০ জন কাস্টমার, আলাদা টাইমিং ও বড় সাইজ)
+// Live Sales Popup (৩ সেকেন্ডে ১ম পপআপ, ২০ জন বাংলাদেশি নাম ও আলাদা টাইমিং)
 function startLiveSalesPopup() {
   const buyers = [
     { name: "তানভীর আহমেদ", time: "১ মিনিট আগে" },
@@ -163,13 +163,13 @@ function startLiveSalesPopup() {
   if (!box) {
     box = document.createElement('div');
     box.id = 'salesPopup';
-    // সাইজ বড় করা হয়েছে (max-w-[320px] ও p-3.5)
-    box.className = 'fixed bottom-5 left-4 z-40 max-w-[320px] bg-[#121216]/95 border border-[#FF5A00]/70 p-3 rounded-2xl shadow-[0_0_30px_rgba(255,90,0,0.35)] backdrop-blur-md transition-all duration-500 transform translate-y-36 opacity-0 flex items-center gap-3 pointer-events-none';
+    box.className = 'fixed bottom-5 left-3 sm:left-4 z-50 max-w-[310px] bg-[#121216]/95 border border-[#FF5A00]/70 p-3 rounded-2xl shadow-[0_0_30px_rgba(255,90,0,0.35)] backdrop-blur-md transition-all duration-500 transform translate-y-36 opacity-0 flex items-center gap-3 pointer-events-none';
     document.body.appendChild(box);
   }
 
   let index = 0;
-  setInterval(() => {
+
+  function triggerPopup() {
     const buyer = buyers[index % buyers.length];
     index++;
 
@@ -191,17 +191,22 @@ function startLiveSalesPopup() {
       </div>
     `;
 
-    // Slide in
+    // নিচ থেকে স্লাইড হয়ে উঠবে
     box.classList.remove('translate-y-36', 'opacity-0');
     box.classList.add('translate-y-0', 'opacity-100');
 
-    // Slide out after 5.5 seconds
+    // ৫.৫ সেকেন্ড পর নেমে যাবে
     setTimeout(() => {
       box.classList.remove('translate-y-0', 'opacity-100');
       box.classList.add('translate-y-36', 'opacity-0');
     }, 5500);
+  }
 
-  }, 20000); // Every 20 seconds
+  // পেজে ঢোকার মাত্র ৩ সেকেন্ড পরেই ১ম পপআপ আসবে
+  setTimeout(triggerPopup, 3000);
+
+  // এরপর প্রতি ১৮ সেকেন্ড পর পর নতুন নাম আসবে
+  setInterval(triggerPopup, 18000);
 }
 
 // FAQ Accordion
