@@ -1,177 +1,132 @@
-<!DOCTYPE html>
-<html lang="bn" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>গ্রাহক রিভিউ | Subs Mart BD</title>
+<!-- CSS for Infinite Smooth Marquee Animation -->
+<style>
+  @keyframes marqueeLeft {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    display: flex;
+    gap: 14px;
+    width: max-content;
+    animation: marqueeLeft 28s linear infinite;
+  }
+  .animate-marquee:hover {
+    animation-play-state: paused; /* টাচ বা মাউস নিলে পড়তে দেওয়ার জন্য থেমে যাবে */
+  }
+</style>
+
+<!-- Customer Reviews Infinite Scrolling Section (চলমান চারকোনা বক্স) -->
+<section id="reviews" class="max-w-5xl mx-auto px-3 py-10 overflow-hidden">
   
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { sans: ['"Hind Siliguri"', 'sans-serif'], en: ['"Outfit"', 'sans-serif'] },
-          colors: { brand: { orange: '#FF5A00', hover: '#E04E00', dark: '#08080A', card: '#121216', border: '#2A2A36' } }
-        }
-      }
-    }
-  </script>
-</head>
-<body class="bg-[#08080A] text-zinc-100 font-sans min-h-screen flex flex-col justify-between selection:bg-[#FF5A00] selection:text-white">
-
-  <!-- Header -->
-  <header class="border-b border-[#2A2A36] bg-[#08080A]/95 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-full overflow-hidden border border-[#FF5A00]/40 flex items-center justify-center bg-zinc-900 shadow">
-          <img src="logo.png" alt="Subs Mart Logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/40x40/FF5A00/white?text=SM';">
-        </div>
-        <div>
-          <span class="font-en font-extrabold text-sm sm:text-base tracking-wide text-white">Subs Mart <span class="text-[#FF5A00]">BD</span></span>
-          <p class="text-[8px] text-zinc-400 font-en uppercase -mt-0.5 tracking-wider">Customer Feedback</p>
-        </div>
-      </div>
-      <a href="/" class="text-xs font-bold text-zinc-400 hover:text-[#FF5A00] transition flex items-center gap-1.5">
-        <i class="fa-solid fa-arrow-left"></i> মূল পেজে যান
-      </a>
+  <div class="text-center mb-6">
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#16161E] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00] mb-2 shadow-sm">
+      <span>⭐</span> কাস্টমার ফিডব্যাক
     </div>
-  </header>
+    <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide">
+      আমাদের সন্তুষ্ট গ্রাহকদের রিভিউ
+    </h2>
+    <p class="text-xs text-zinc-400 mt-1">
+      শত শত ফ্রিল্যান্সার, স্টুডেন্ট ও প্রফেশনালদের বিশ্বস্ত পার্টনার
+    </p>
+  </div>
 
-  <!-- Review Form Container -->
-  <main class="max-w-md mx-auto px-4 py-10 w-full flex-1">
-    
-    <div class="text-center mb-6">
-      <div class="w-12 h-12 rounded-2xl bg-[#FF5A00]/15 border border-[#FF5A00] flex items-center justify-center text-[#FF5A00] text-xl mx-auto mb-2.5 shadow-[0_0_20px_rgba(255,90,0,0.3)]">
-        <i class="fa-solid fa-star"></i>
-      </div>
-      <h1 class="text-xl sm:text-2xl font-bold text-white">আপনার অভিজ্ঞতা শেয়ার করুন</h1>
-      <p class="text-xs text-zinc-400 mt-1">Subs Mart BD থেকে সার্ভিস পেয়ে আপনার কেমন লাগলো?</p>
-    </div>
+  <!-- চলমান চারকোনা বক্সগুলোর ট্র্যাক (Infinite Marquee) -->
+  <div class="relative w-full overflow-hidden py-2">
+    <!-- দুই পাশের সফট ফেড মাস্ক -->
+    <div class="absolute left-0 inset-y-0 w-8 sm:w-16 bg-gradient-to-r from-[#08080A] to-transparent z-10 pointer-events-none"></div>
+    <div class="absolute right-0 inset-y-0 w-8 sm:w-16 bg-gradient-to-l from-[#08080A] to-transparent z-10 pointer-events-none"></div>
 
-    <!-- Review Form Card -->
-    <div class="bg-[#121216] border border-[#2A2A36] p-5 sm:p-6 rounded-3xl shadow-2xl">
-      <form id="reviewForm" onsubmit="submitReview(event)" class="space-y-4">
-        
-        <!-- Name -->
-        <div>
-          <label class="block text-xs font-semibold text-zinc-300 mb-1">আপনার নাম *</label>
-          <input type="text" id="revName" required placeholder="পুরো নাম লিখুন" class="w-full bg-[#08080A] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#FF5A00]">
-        </div>
-
-        <!-- Star Rating Selector -->
-        <div>
-          <label class="block text-xs font-semibold text-zinc-300 mb-1.5">রেটিং দিন *</label>
-          <div class="flex items-center justify-center gap-2 py-2 bg-[#08080A] border border-zinc-800 rounded-xl text-amber-400 text-2xl" id="starContainer">
-            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(1)"></i>
-            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(2)"></i>
-            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(3)"></i>
-            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(4)"></i>
-            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(5)"></i>
+    <div class="animate-marquee">
+      
+      <!-- রিভিউ ১ -->
+      <div class="w-64 sm:w-72 bg-[#121216] border border-[#2A2A36] hover:border-[#FF5A00]/60 p-4 rounded-2xl shadow-lg shrink-0 flex flex-col justify-between space-y-2.5 transition">
+        <div class="flex items-center justify-between">
+          <div class="flex text-amber-400 text-xs gap-0.5">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
           </div>
-          <span id="ratingText" class="text-[10px] text-zinc-400 block text-center mt-1">৫ স্টার (চমৎকার সার্ভিস)</span>
+          <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> ভেরিফাইড</span>
         </div>
-
-        <!-- Comment -->
-        <div>
-          <label class="block text-xs font-semibold text-zinc-300 mb-1">আপনার মূল্যবান মন্তব্য *</label>
-          <textarea id="revComment" rows="4" required placeholder="Gemini Pro প্যাকেজ, ডেলিভারি স্পিড বা সার্ভিস সম্পর্কে লিখুন..." class="w-full bg-[#08080A] border border-zinc-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#FF5A00]"></textarea>
+        <p class="text-xs text-zinc-300 leading-relaxed">
+          "অর্ডার করার ১০ মিনিটের মধ্যেই পার্সোনাল জিমেইলে এক্সেস পেয়ে গেছি। ৫TB ক্লাউড স্টোরেজ আর Gemini Advanced একদম স্মুথ চলছে!"
+        </p>
+        <div class="flex items-center gap-2 pt-2 border-t border-zinc-800">
+          <div class="w-7 h-7 rounded-full bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center font-bold text-xs font-en">TA</div>
+          <b class="text-xs text-white">তানভীর আহমেদ</b>
         </div>
+      </div>
 
-        <button type="submit" id="revBtn" class="w-full bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold py-3 rounded-xl transition text-xs sm:text-sm shadow-[0_10px_20px_rgba(255,90,0,0.35)] flex items-center justify-center gap-2">
-          <span>রিভিউ জমা দিন</span>
-          <i class="fa-solid fa-paper-plane"></i>
-        </button>
-      </form>
-
-      <!-- Success Screen -->
-      <div id="revSuccess" class="hidden text-center py-6 space-y-4">
-        <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mx-auto border border-emerald-500/40 shadow-lg">
-          <i class="fa-solid fa-check"></i>
+      <!-- রিভিউ ২ -->
+      <div class="w-64 sm:w-72 bg-[#121216] border border-[#2A2A36] hover:border-[#FF5A00]/60 p-4 rounded-2xl shadow-lg shrink-0 flex flex-col justify-between space-y-2.5 transition">
+        <div class="flex items-center justify-between">
+          <div class="flex text-amber-400 text-xs gap-0.5">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> ভেরিফাইড</span>
         </div>
-        <div>
-          <h3 class="text-base font-bold text-white">ধন্যবাদ! রিভিউ সফলভাবে জমা হয়েছে।</h3>
-          <p class="text-xs text-zinc-400 mt-1">আপনার মূল্যবান মতামত আমাদের জন্য অত্যন্ত গুরুত্বপূর্ণ।</p>
+        <p class="text-xs text-zinc-300 leading-relaxed">
+          "এককালীন ২৫০ টাকায় ১৮ মাসের প্যাকেজ পেয়ে অনেক খরচ বেঁচে গেল। স্টুডেন্টদের জন্য বেস্ট ডিল! থ্যাঙ্ক ইউ Subs Mart।"
+        </p>
+        <div class="flex items-center gap-2 pt-2 border-t border-zinc-800">
+          <div class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs font-en">NT</div>
+          <b class="text-xs text-white">নাফিসা তাবাসসুম</b>
         </div>
+      </div>
 
-        <!-- অফার গ্রুপ জয়েন বাটন -->
-        <div class="pt-2 border-t border-zinc-800/80 space-y-2">
-          <p class="text-[11px] text-[#FF5A00] font-bold">🔥 স্পেশাল মেগা অফার মিস করতে না চাইলে:</p>
-          <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition transform hover:scale-105">
-            <i class="fa-brands fa-whatsapp text-lg"></i>
-            <span>আমাদের ভিআইপি অফার গ্রুপে জয়েন করুন</span>
-          </a>
+      <!-- রিভিউ ৩ -->
+      <div class="w-64 sm:w-72 bg-[#121216] border border-[#2A2A36] hover:border-[#FF5A00]/60 p-4 rounded-2xl shadow-lg shrink-0 flex flex-col justify-between space-y-2.5 transition">
+        <div class="flex items-center justify-between">
+          <div class="flex text-amber-400 text-xs gap-0.5">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> ভেরিফাইড</span>
+        </div>
+        <p class="text-xs text-zinc-300 leading-relaxed">
+          "Veo 3 আর ইমেজ জেনারেশন একদম মাখনের মতো স্মুথ। পেমেন্ট করার পর হোয়াটসঅ্যাপে নক দিতেই লিঙ্ক পেয়েছি। ১০০% বিশ্বস্ত!"
+        </p>
+        <div class="flex items-center gap-2 pt-2 border-t border-zinc-800">
+          <div class="w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xs font-en">MH</div>
+          <b class="text-xs text-white">মেহরাব হোসেন</b>
+        </div>
+      </div>
+
+      <!-- রিভিউ ৪ -->
+      <div class="w-64 sm:w-72 bg-[#121216] border border-[#2A2A36] hover:border-[#FF5A00]/60 p-4 rounded-2xl shadow-lg shrink-0 flex flex-col justify-between space-y-2.5 transition">
+        <div class="flex items-center justify-between">
+          <div class="flex text-amber-400 text-xs gap-0.5">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> ভেরিফাইড</span>
+        </div>
+        <p class="text-xs text-zinc-300 leading-relaxed">
+          "৫TB ড্রাইভ স্টোরেজ পেয়ে আমার সমস্ত প্রজেক্ট ব্যাকআপ করে ফেলেছি। সাপোর্টও দারুণ ছিল। নিশ্চিন্তে সবাই নিতে পারেন।"
+        </p>
+        <div class="flex items-center gap-2 pt-2 border-t border-zinc-800">
+          <div class="w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs font-en">SC</div>
+          <b class="text-xs text-white">সাকিব চৌধুরী</b>
+        </div>
+      </div>
+
+      <!-- নিরবচ্ছিন্ন লুপের জন্য ডুপ্লিকেট কার্ড -->
+      <div class="w-64 sm:w-72 bg-[#121216] border border-[#2A2A36] hover:border-[#FF5A00]/60 p-4 rounded-2xl shadow-lg shrink-0 flex flex-col justify-between space-y-2.5 transition">
+        <div class="flex items-center justify-between">
+          <div class="flex text-amber-400 text-xs gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> ভেরিফাইড</span>
+        </div>
+        <p class="text-xs text-zinc-300 leading-relaxed">"অর্ডার করার ১০ মিনিটের মধ্যেই জিমেইলে এক্সেস পেয়ে গেছি। ৫TB ক্লাউড স্টোরেজ আর Gemini Advanced একদম স্মুথ চলছে!"</p>
+        <div class="flex items-center gap-2 pt-2 border-t border-zinc-800">
+          <div class="w-7 h-7 rounded-full bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center font-bold text-xs font-en">TA</div>
+          <b class="text-xs text-white">তানভীর আহমেদ</b>
         </div>
       </div>
 
     </div>
+  </div>
 
-  </main>
+  <!-- রিভিউ দেওয়ার বাটন -->
+  <div class="text-center pt-4">
+    <a href="/review.html" class="inline-flex items-center gap-2 text-xs font-bold text-[#FF5A00] hover:underline bg-[#16161E] border border-[#FF5A00]/30 px-4 py-2 rounded-full transition shadow">
+      <i class="fa-solid fa-pen-to-square"></i> আপনিও একটি মতামত জানান
+    </a>
+  </div>
 
-  <!-- Footer -->
-  <footer class="border-t border-[#2A2A36] py-6 text-center text-xs text-zinc-600 bg-[#08080A]">
-    <p>Subs Mart BD © 2026. All rights reserved.</p>
-  </footer>
-
-  <!-- Scripts -->
-  <script>
-    const SUPABASE_URL = "https://firmyknalxgtmgnxmtdo.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_UpfYT4yKOBgcU3P5FDxcMw_IasiYca_";
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    let currentRating = 5;
-
-    function setRating(val) {
-      currentRating = val;
-      const stars = document.querySelectorAll('#starContainer i');
-      stars.forEach((s, idx) => {
-        if (idx < val) {
-          s.className = "fa-solid fa-star cursor-pointer text-amber-400 transition hover:scale-110";
-        } else {
-          s.className = "fa-regular fa-star cursor-pointer text-zinc-600 transition hover:scale-110";
-        }
-      });
-
-      const labelMap = { 1: "১ স্টার (খারাপ)", 2: "২ স্টার (চলনসই)", 3: "৩ স্টার (মোটামুটি)", 4: "৪ স্টার (খুব ভালো)", 5: "৫ স্টার (চমৎকার সার্ভিস)" };
-      document.getElementById('ratingText').innerText = labelMap[val];
-    }
-
-    async function submitReview(e) {
-      e.preventDefault();
-      const btn = document.getElementById('revBtn');
-      btn.innerText = "জমা হচ্ছে...";
-      btn.disabled = true;
-
-      const name = document.getElementById('revName').value.trim();
-      const comment = document.getElementById('revComment').value.trim();
-
-      try {
-        const { error } = await supabaseClient.from('reviews').insert([{
-          customer_name: name,
-          rating: currentRating,
-          comment: comment,
-          is_approved: false // পেন্ডিং থাকবে, অ্যাডমিন অ্যাপ্রুভ করলে লাইভ হবে
-        }]);
-
-        if (error) throw error;
-
-        document.getElementById('reviewForm').classList.add('hidden');
-        document.getElementById('revSuccess').classList.remove('hidden');
-
-      } catch (err) {
-        alert("রিভিউ জমা হয়নি: " + err.message);
-        btn.innerText = "আবার চেষ্টা করুন";
-        btn.disabled = false;
-      }
-    }
-  </script>
-</body>
-</html>
+</section>
