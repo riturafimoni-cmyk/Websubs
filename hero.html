@@ -20,52 +20,56 @@
   </div>
 </header>
 
-<!-- Hero Section (Hardcoded Large Pixel Typography) -->
+<!-- Hero Section (Tight Top-Space & Exact Screenshot Text Alignment) -->
 <section class="max-w-4xl mx-auto px-3 pt-1 pb-6 overflow-hidden">
   
-  <div class="flex items-end justify-between relative min-h-[330px] sm:min-h-[420px] overflow-visible">
+  <!-- মেইন হিরো রো: উপরের ফাঁকা জায়গা কমানো হয়েছে -->
+  <div class="flex items-end justify-between relative min-h-[320px] sm:min-h-[420px] overflow-visible">
     
-    <!-- বাম পাশ: সরাসরি পিক্সেল সাইজে ফিক্সড টেক্সট -->
-    <div class="w-[52%] z-20 flex flex-col justify-start pt-1 pb-1 text-left">
+    <!-- বাম পাশ: স্ক্রিনশটের হুবহু টেক্সট অ্যারেঞ্জমেন্ট -->
+    <div class="w-[52%] z-20 flex flex-col justify-end text-left pb-1">
       
       <!-- Badge -->
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#14141A] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00] shadow-sm w-fit mb-2">
+      <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#14141A] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00] shadow-sm w-fit mb-1.5">
         <span class="text-blue-500 font-black font-en">G</span>
         <span>Google AI Pro</span>
         <span class="text-purple-400 text-xs">✦</span>
       </div>
 
-      <!-- Headlines (সরাসরি 38px ও 34px সাইজ লক করা) -->
-      <div style="display: flex; flex-direction: column; gap: 2px;">
-        <span style="font-size: 38px; font-weight: 900; line-height: 1.1; background: linear-gradient(90deg, #FF5A00, #FFA726); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      <!-- Headlines (১৮ মাসের, জেমিনি প্রো, পার্সোনাল একাউন্ট) -->
+      <div class="flex flex-col space-y-0">
+        <span style="font-size: 38px; font-weight: 900; line-height: 1.05; background: linear-gradient(90deg, #FF5A00, #FFA726); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px;">
           ১৮ মাসের
         </span>
-        <span style="font-size: 34px; font-weight: 900; line-height: 1.1; color: #FFFFFF;">
+        <span style="font-size: 34px; font-weight: 900; line-height: 1.05; color: #FFFFFF; letter-spacing: -0.5px;">
           জেমিনি প্রো
         </span>
-        <span style="font-size: 16px; font-weight: 800; color: #D4D4D8; padding-top: 4px;">
+        <span style="font-size: 15px; font-weight: 700; color: #D4D4D8; padding-top: 2px;">
           পার্সোনাল একাউন্ট
         </span>
       </div>
 
-      <!-- ২৫০৳ প্রাইস (সরাসরি 44px বিশাল সাইজ) -->
-      <div style="padding-top: 10px;">
-        <span style="font-size: 44px; font-weight: 900; line-height: 1; color: #FF5A00; text-shadow: 0 0 25px rgba(255, 90, 0, 0.6); display: inline-block;">
+      <!-- Standalone ২৫০৳ প্রাইস -->
+      <div style="padding-top: 6px;">
+        <span style="font-size: 48px; font-weight: 900; line-height: 1; color: #FF5A00; text-shadow: 0 0 30px rgba(255, 90, 0, 0.7); display: inline-block; letter-spacing: -1px;">
           ২৫০৳
         </span>
       </div>
 
     </div>
 
-    <!-- ডান পাশ: ছেলেটির ছবি (যা আপনার অলরেডি পারফেক্ট হয়েছে) -->
-    <div class="w-[54%] -ml-[6%] relative flex justify-end items-end h-full overflow-visible z-10">
-      <div class="absolute right-2 top-4 w-52 h-64 sm:w-72 sm:h-96 rounded-full bg-gradient-to-b from-[#FF5A00]/30 via-[#FF4500]/15 to-transparent blur-3xl opacity-85 pointer-events-none -z-0"></div>
-      <img src="hero-boy.png" alt="Hero Character" class="relative z-10 w-full h-[330px] sm:h-[430px] object-contain object-bottom -mb-1 scale-125 sm:scale-135 origin-bottom-right drop-shadow-[0_0_25px_rgba(255,106,0,0.5)] drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]" onerror="this.src='https://placehold.co/400x500/121216/FF5A00?text=Model';">
+    <!-- ডান পাশ: ছেলেটির ছবি (কোমর টাইমারের সাথে লাগানো) -->
+    <div class="w-[54%] -ml-[6%] relative flex justify-end items-end h-full overflow-visible z-10 pb-0">
+      <!-- সফট সানসেট অরেঞ্জ আভা -->
+      <div class="absolute right-0 top-4 w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-[#FF5A00]/30 via-[#FF4500]/15 to-transparent blur-2xl opacity-80 pointer-events-none"></div>
+
+      <!-- ছেলেটির ছবি -->
+      <img src="hero-boy.png" alt="Hero Character" class="relative z-10 w-full h-[330px] sm:h-[450px] object-contain object-bottom -mb-1 scale-120 sm:scale-130 origin-bottom-right drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]" onerror="this.src='https://placehold.co/400x500/121216/FF5A00?text=Model';">
     </div>
 
   </div>
 
-  <!-- কাউন্টডাউন টাইমার বক্স -->
+  <!-- কাউন্টডাউন টাইমার বক্স (ছেলেটির কোমর ঠিক এর ওপর বসবে) -->
   <div class="relative z-30 bg-[#121216] border border-[#FF5A00]/50 rounded-2xl p-2.5 sm:p-3 text-center shadow-2xl mt-0">
     <span class="text-xs sm:text-sm font-bold text-[#FF5A00] flex items-center justify-center gap-1.5 mb-1.5">
       <i class="fa-regular fa-clock"></i> অফার শেষ হতে বাকি
@@ -80,11 +84,11 @@
         <span class="text-[9px] text-zinc-400 font-sans font-semibold">ঘণ্টা</span>
       </div>
       <div class="bg-[#08080A] py-1.5 px-1 rounded-xl border border-zinc-800">
-        <span id="mins" class="text-xl sm:text-2xl font-black block text-white leading-tight">30</span>
+        <span id="mins" class="text-xl sm:text-2xl font-black block text-white leading-tight">29</span>
         <span class="text-[9px] text-zinc-400 font-sans font-semibold">মিনিট</span>
       </div>
       <div class="bg-[#08080A] py-1.5 px-1 rounded-xl border border-zinc-800">
-        <span id="secs" class="text-xl sm:text-2xl font-black block text-[#FF5A00] leading-tight">14</span>
+        <span id="secs" class="text-xl sm:text-2xl font-black block text-[#FF5A00] leading-tight">55</span>
         <span class="text-[9px] text-zinc-400 font-sans font-semibold">সেকেন্ড</span>
       </div>
     </div>
@@ -97,7 +101,7 @@
     <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-blue-400"></i> নিরাপদ পেমেন্ট</span>
   </div>
 
-  <!-- বাটন -->
+  <!-- দুটি বড় বাটন -->
   <div class="grid grid-cols-2 gap-3">
     <a href="#order" class="bg-[#FF5A00] hover:bg-[#E04E00] text-white py-3.5 px-3 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-[0_10px_25px_rgba(255,90,0,0.35)] transition transform hover:-translate-y-0.5">
       <i class="fa-solid fa-cart-shopping"></i> Order Now →
