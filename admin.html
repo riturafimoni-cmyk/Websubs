@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Subs Mart BD - Admin Dashboard</title>
+  <title>Subs Mart BD - Enterprise Admin Dashboard</title>
   
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,19 +26,24 @@
 </head>
 <body class="selection:bg-[#FF5A00] selection:text-white min-h-screen flex antialiased">
 
-  <!-- Admin Login Modal -->
+  <!-- Admin Login Modal (সিকিউর স্ক্রিন, কোনো পাসওয়ার্ড প্রদর্শন ছাড়া) -->
   <div id="loginScreen" class="fixed inset-0 bg-[#070709] z-50 flex items-center justify-center p-4">
     <div class="glass-card border border-[#FF5A00]/40 p-8 rounded-3xl w-full max-w-sm text-center shadow-[0_0_40px_rgba(255,90,0,0.3)]">
       <div class="w-14 h-14 rounded-2xl bg-[#FF5A00]/15 border border-[#FF5A00] flex items-center justify-center text-[#FF5A00] text-2xl mx-auto mb-4">
         <i class="fa-solid fa-shield-halved"></i>
       </div>
       <h2 class="text-xl font-bold font-en text-white">Owner Portal</h2>
-      <p class="text-xs text-zinc-400 mt-1 mb-6">Subs Mart BD অ্যাডমিন প্যানেল</p>
+      <p class="text-xs text-zinc-400 mt-1 mb-6">Subs Mart BD সুরক্ষিত অ্যাডমিন প্যানেল</p>
       
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-        <input type="password" id="adminPass" required placeholder="পিন কোড (123456)" class="w-full bg-[#070709] border border-zinc-800 rounded-xl px-4 py-3 text-sm text-center text-white focus:outline-none focus:border-[#FF5A00] font-mono">
+        <div class="relative">
+          <input type="password" id="adminPass" required placeholder="অ্যাডমিন পাসওয়ার্ড লিখুন" class="w-full bg-[#070709] border border-zinc-800 rounded-xl pl-4 pr-10 py-3 text-sm text-white focus:outline-none focus:border-[#FF5A00] font-mono">
+          <button type="button" onclick="togglePassVisibility()" class="absolute right-3.5 top-3.5 text-zinc-500 hover:text-white">
+            <i id="eyeIcon" class="fa-solid fa-eye-slash text-xs"></i>
+          </button>
+        </div>
         <button type="submit" class="w-full bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_10px_20px_rgba(255,90,0,0.35)]">
-          আনলক করুন
+          লগইন করুন
         </button>
       </form>
     </div>
@@ -170,7 +175,6 @@
         </div>
       </div>
     </main>
-
     <!-- Tab 3: Delivery (Stock Pool) -->
     <main id="tab-delivery" class="p-4 sm:p-6 hidden space-y-5 flex-1">
       <div class="glass-card p-5 rounded-2xl space-y-3">
@@ -199,26 +203,56 @@
 
   <!-- Scripts -->
   <script>
+    // আপনার নতুন সিকিউর পাসওয়ার্ড
+    const ADMIN_PASS = "1234@@1234Ritu";
+
+    function togglePassVisibility() {
+      const pass = document.getElementById('adminPass');
+      const icon = document.getElementById('eyeIcon');
+      if (pass.type === 'password') {
+        pass.type = 'text';
+        icon.className = 'fa-solid fa-eye text-xs text-[#FF5A00]';
+      } else {
+        pass.type = 'password';
+        icon.className = 'fa-solid fa-eye-slash text-xs text-zinc-500';
+      }
+    }
+
+    function handleAdminLogin(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('adminPass');
+      if (!input) return;
+      const val = input.value.trim();
+
+      if (val === ADMIN_PASS) {
+        localStorage.setItem('subs_admin_auth', 'ok');
+        document.getElementById('loginScreen').style.display = 'none';
+        initDashboard();
+      } else {
+        alert("ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।");
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('subs_admin_auth') === 'ok') {
+        const loginBox = document.getElementById('loginScreen');
+        if (loginBox) loginBox.style.display = 'none';
+        initDashboard();
+      }
+    });
+
+    function logoutAdmin() {
+      localStorage.removeItem('subs_admin_auth');
+      location.reload();
+    }
+
     const SUPABASE_URL = "https://firmyknalxgtmgnxmtdo.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_UpfYT4yKOBgcU3P5FDxcMw_IasiYca_";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const ADMIN_PIN = "123456";
     let allOrders = [];
     let currentFilter = 'all';
 
-    function handleAdminLogin(e) {
-      e.preventDefault();
-      const val = document.getElementById('adminPass').value.trim();
-      if (val === ADMIN_PIN || val === "1234") {
-        document.getElementById('loginScreen').style.display = 'none';
-        initDashboard();
-      } else {
-        alert("ভুল পিন কোড! সঠিক পিন হলো: 123456");
-      }
-    }
-
-    function logoutAdmin() { location.reload(); }
     function toggleMobileSidebar() { document.getElementById('sidebar').classList.toggle('-translate-x-full'); }
 
     function switchTab(tabName) {
@@ -366,7 +400,6 @@
     async function approveAndDeliver(orderId, orderCode, customerName, phone) {
       if (!confirm(`${customerName}-এর অর্ডারটি স্টক লিঙ্ক তুলে WhatsApp-এ ডেলিভারি করবেন?`)) return;
 
-      // ১. স্টক থেকে ১টি অব্যবহৃত লিঙ্ক আনা
       const { data: stockItem, error: stockErr } = await supabaseClient
         .from('stock_pool')
         .select('*')
@@ -374,34 +407,22 @@
         .limit(1)
         .single();
 
-      if (stockErr || !stockItem) {
-        return alert("⚠️ স্টকে কোনো অ্যাক্টিভেশন লিঙ্ক নেই! আগে Delivery ট্যাব থেকে লিঙ্ক যোগ করুন।");
-      }
+      if (stockErr || !stockItem) return alert("⚠️ স্টকে কোনো অ্যাক্টিভেশন লিঙ্ক নেই! আগে Delivery ট্যাব থেকে লিঙ্ক যোগ করুন।");
 
-      // ২. স্টক আইটেমটি Used মার্ক করা
       const { error: stockUpdateErr } = await supabaseClient
         .from('stock_pool')
         .update({ is_used: true, used_at: new Date().toISOString() })
         .eq('id', stockItem.id);
 
-      if (stockUpdateErr) {
-        return alert("স্টক আপডেট করতে ব্যর্থ: " + stockUpdateErr.message);
-      }
+      if (stockUpdateErr) return alert("স্টক আপডেট ব্যর্থ: " + stockUpdateErr.message);
 
-      // ৩. অর্ডারে লিঙ্ক যুক্ত করে Delivered স্ট্যাটাস দেওয়া
       const { error: orderUpdateErr } = await supabaseClient
         .from('orders')
-        .update({ 
-          status: 'Delivered', 
-          delivered_link: stockItem.item_link 
-        })
+        .update({ status: 'Delivered', delivered_link: stockItem.item_link })
         .eq('id', orderId);
 
-      if (orderUpdateErr) {
-        return alert("অর্ডার স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে: " + orderUpdateErr.message);
-      }
+      if (orderUpdateErr) return alert("অর্ডার স্ট্যাটাস আপডেট ব্যর্থ: " + orderUpdateErr.message);
 
-      // ৪. কাস্টমারের হোয়াটসঅ্যাপ মেসেজ তৈরি (৫টি অ্যাক্টিভেশন স্টেপ সহ)
       const customMsg = `সম্মানিত ${customerName},
 Subs Mart BD থেকে Gemini Pro (18 Months) প্যাকেজটি নেওয়ার জন্য ধন্যবাদ! আপনার পেমেন্ট ভেরিফাই হয়েছে।
 
@@ -421,11 +442,12 @@ ${stockItem.item_link}
 ⭐ সার্ভিস কেমন লাগলো জানাতে রিভিউ দিন: https://websubs-three.vercel.app/review.html
 যেকোনো সহায়তায় আমাদের এই নম্বরেই মেসেজ দিতে পারেন। শুভকামনা!`;
 
-      // ৫. ফোন নম্বর ৮৮ সহ আন্তর্জাতিক ফরম্যাটে নেওয়া
       let cleanPhone = phone.replace(/[^0-9]/g, '');
       if (cleanPhone.startsWith('01')) cleanPhone = '88' + cleanPhone;
 
-      // ৬. হোয়াটসঅ্যাপ ওপেন এবং সাথে সাথে ড্যাশবোর্ড লাইভ রিফ্রেশ করা
       window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(customMsg)}`, '_blank');
       await initDashboard();
     }
+  </script>
+</body>
+</html>
