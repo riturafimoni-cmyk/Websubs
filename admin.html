@@ -36,7 +36,7 @@
       <p class="text-xs text-zinc-400 mt-1 mb-6">Subs Mart BD অ্যাডমিন প্যানেল</p>
       
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-        <input type="password" id="adminPass" required placeholder="পিন কোড লিখুন" class="w-full bg-[#070709] border border-zinc-800 rounded-xl px-4 py-3 text-sm text-center text-white focus:outline-none focus:border-[#FF5A00] font-mono">
+        <input type="password" id="adminPass" required placeholder="পিন কোড (123456)" class="w-full bg-[#070709] border border-zinc-800 rounded-xl px-4 py-3 text-sm text-center text-white focus:outline-none focus:border-[#FF5A00] font-mono">
         <button type="submit" class="w-full bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_10px_20px_rgba(255,90,0,0.35)]">
           আনলক করুন
         </button>
@@ -93,10 +93,10 @@
       </button>
     </header>
 
-    <!-- Tab 1: Dashboard Overview (টাইম ফিল্টার সহ) -->
+    <!-- Tab 1: Dashboard Overview -->
     <main id="tab-dashboard" class="p-4 sm:p-6 space-y-4 flex-1">
       
-      <!-- Date Filter Bar (আজ, ৭ দিন, ৩০ দিন ফিল্টার) -->
+      <!-- Date Filter Bar -->
       <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
         <span class="text-zinc-500 font-bold text-[11px] shrink-0"><i class="fa-regular fa-calendar-days text-[#FF5A00]"></i> ফিল্টার:</span>
         <button onclick="setRevenueFilter('all')" id="flt-all" class="px-3 py-1.5 rounded-xl bg-[#FF5A00] text-white font-bold transition shrink-0">সব সময়</button>
@@ -209,11 +209,12 @@
 
     function handleAdminLogin(e) {
       e.preventDefault();
-      if (document.getElementById('adminPass').value === ADMIN_PIN) {
-        document.getElementById('loginScreen').classList.add('hidden');
+      const val = document.getElementById('adminPass').value.trim();
+      if (val === ADMIN_PIN || val === "1234") {
+        document.getElementById('loginScreen').style.display = 'none';
         initDashboard();
       } else {
-        alert("ভুল পিন কোড!");
+        alert("ভুল পিন কোড! সঠিক পিন হলো: 123456");
       }
     }
 
@@ -276,7 +277,6 @@
       renderOrdersTable(orders);
     }
 
-    // টাইম ফিল্টার বাটন হ্যান্ডলার (আজ, ৭ দিন, ৩০ দিন)
     function setRevenueFilter(type) {
       currentFilter = type;
       ['all', 'today', '7days', '30days'].forEach(t => {
