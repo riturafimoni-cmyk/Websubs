@@ -45,6 +45,84 @@ async function initApp() {
 
   startCountdown();
   startLiveSalesPopup();
+  updateHourlySlots();
+  setupExitIntent();
+}
+
+// প্রতি ঘণ্টায় স্লটের সংখ্যা ও প্রোগ্রেস বার স্বয়ংক্রিয় পরিবর্তন
+function updateHourlySlots() {
+  // ২৪ ঘণ্টার জন্য ২৪টি বাস্তবসম্মত আলাদা স্লট সংখ্যা (১৮ থেকে ৫৪ এর মধ্যে)
+  const hourlySlots = [28, 19, 45, 32, 21, 52, 38, 24, 49, 18, 35, 42, 27, 50, 23, 39, 44, 29, 36, 22, 48, 31, 26, 40];
+  const currentHour = new Date().getHours();
+  const count = hourlySlots[currentHour] || 28;
+
+  const slotText = document.getElementById('slotCount');
+  const slotBar = document.getElementById('slotBar');
+  if (slotText) slotText.innerText = count;
+  if (slotBar) {
+    const pct = Math.min(100, Math.max(25, Math.floor((count / 60) * 100)));
+    slotBar.style.width = pct + '%';
+  }
+}
+
+// এক্সিট পপআপ (Exit Intent Modal)
+function setupExitIntent() {
+  let modal = document.getElementById('exitModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'exitModal';
+    modal.className = 'fixed inset-0 bg-[#08080A]/90 z-50 flex items-center justify-center p-4 backdrop-blur-md hidden';
+    modal.innerHTML = `
+      <div class="bg-[#121216] border-2 border-[#FF5A00] p-6 rounded-3xl max-w-sm w-full text-center shadow-[0_0_40px_rgba(255,90,0,0.4)] relative">
+        <button onclick="closeExitModal()" class="absolute top-3 right-3 text-zinc-400 hover:text-white text-sm bg-zinc-800 w-7 h-7 rounded-full flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="w-12 h-12 rounded-2xl bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center text-2xl mx-auto mb-3">
+          <i class="fa-solid fa-hand"></i>
+        </div>
+        <h3 class="text-lg font-black text-white">যাওয়ার আগে একটু দাঁড়ান!</h3>
+        <p class="text-xs text-zinc-300 mt-1 mb-5 leading-relaxed">
+          Gemini Pro ১৮ মাসের প্যাকেজ নিয়ে কোনো প্রশ্ন বা দ্বিধা আছে? সরাসরি আমাদের WhatsApp-এ কথা বলে সব ক্লিয়ার হয়ে নিন।
+        </p>
+        <div class="space-y-2">
+          <a href="https://wa.me/${ADMIN_WA}?text=হ্যালো%20Subs%20Mart%20BD,%20অর্ডার%20করার%20আগে%20কিছু%20জানতে%20চাচ্ছি।" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition">
+            <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp-এ কথা বলুন
+          </a>
+          <button onclick="closeExitModal(); location.href='#order';" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold py-2.5 rounded-xl text-xs transition">
+            না, আমি ২৫০ টাকায় এখনই অর্ডার করব
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  // ডেস্কটপে মাউস পেজ থেকে বাইরে নিলে ট্রিগার হবে
+  document.addEventListener('mouseleave', (e) => {
+    if (e.clientY <= 10 && !sessionStorage.getItem('exitModalShown')) {
+      showExitModal();
+    }
+  });
+
+  // মোবাইলে ব্যাক বাটনে বা ৪০ সেকেন্ড পর বেরিয়ে যেতে চাইলে একবার দেখাবে
+  setTimeout(() => {
+    if (!sessionStorage.getItem('exitModalShown')) {
+      window.addEventListener('popstate', showExitModal);
+    }
+  }, 35000);
+}
+
+function showExitModal() {
+  const modal = document.getElementById('exitModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    sessionStorage.setItem('exitModalShown', 'true');
+  }
+}
+
+function closeExitModal() {
+  const modal = document.getElementById('exitModal');
+  if (modal) modal.classList.add('hidden');
 }
 
 // Countdown Timer
@@ -109,23 +187,14 @@ function copyActiveNum(btn) {
   const old = btn.innerText; btn.innerText = "কপি!"; setTimeout(() => btn.innerText = old, 1200);
 }
 
-// প্রিমিয়াম কনফেটি ব্লাস্ট অ্যানিমেশন
+// Confetti Blast on Order
 function fireCelebrationConfetti() {
   if (typeof confetti !== 'function') return;
-
   const count = 200;
-  const defaults = { 
-    origin: { y: 0.7 }, 
-    colors: ['#FF5A00', '#FFA726', '#10B981', '#FFFFFF', '#FF3D00'] 
-  };
-
+  const defaults = { origin: { y: 0.7 }, colors: ['#FF5A00', '#FFA726', '#10B981', '#FFFFFF', '#FF3D00'] };
   function fire(particleRatio, opts) {
-    confetti(Object.assign({}, defaults, opts, {
-      particleCount: Math.floor(count * particleRatio)
-    }));
+    confetti(Object.assign({}, defaults, opts, { particleCount: Math.floor(count * particleRatio) }));
   }
-
-  // বিভিন্ন অ্যাঙ্গেলে রঙিন ফুলঝুরির বিস্ফোরণ
   fire(0.25, { spread: 26, startVelocity: 55 });
   fire(0.2, { spread: 60 });
   fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
@@ -133,7 +202,7 @@ function fireCelebrationConfetti() {
   fire(0.1, { spread: 120, startVelocity: 45 });
 }
 
-// Order Placement to Supabase + Confetti Trigger
+// Order Placement to Supabase
 async function submitCustomerOrder(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
@@ -154,8 +223,6 @@ async function submitCustomerOrder(e) {
     }]);
 
     if (error) throw error;
-    
-    // কনফেটি ফুলঝুরি ফোটানো
     fireCelebrationConfetti();
 
     const msg = `হ্যালো Subs Mart BD!\nআমি Gemini Pro (18 Months) প্যাকেজ অর্ডার করেছি।\n📌 অর্ডার কোড: ${orderCode}\n👤 নাম: ${document.getElementById('custName').value}\n✉️ জিমেইল: ${document.getElementById('custEmail').value}\n📱 মোবাইল: ${document.getElementById('custPhone').value}\n💳 মেথড: ${document.getElementById('payMethod').value}\n🔢 TrxID: ${document.getElementById('custTrx').value}\n💰 মূল্য: ২৫০ ৳`;
@@ -199,16 +266,14 @@ function startLiveSalesPopup() {
   if (!box) {
     box = document.createElement('div');
     box.id = 'salesPopup';
-    box.className = 'fixed bottom-5 left-3 sm:left-4 z-50 max-w-[310px] bg-[#121216]/95 border border-[#FF5A00]/70 p-3 rounded-2xl shadow-[0_0_30px_rgba(255,90,0,0.35)] backdrop-blur-md transition-all duration-500 transform translate-y-36 opacity-0 flex items-center gap-3 pointer-events-none';
+    box.className = 'fixed bottom-5 left-3 sm:left-4 z-40 max-w-[310px] bg-[#121216]/95 border border-[#FF5A00]/70 p-3 rounded-2xl shadow-[0_0_30px_rgba(255,90,0,0.35)] backdrop-blur-md transition-all duration-500 transform translate-y-36 opacity-0 flex items-center gap-3 pointer-events-none';
     document.body.appendChild(box);
   }
 
   let index = 0;
-
   function triggerPopup() {
     const buyer = buyers[index % buyers.length];
     index++;
-
     box.innerHTML = `
       <div class="w-10 h-10 rounded-xl bg-[#FF5A00]/20 border border-[#FF5A00] flex items-center justify-center text-[#FF5A00] text-base shrink-0 shadow-[0_0_15px_rgba(255,90,0,0.4)]">
         <i class="fa-solid fa-bag-shopping"></i>
@@ -226,10 +291,8 @@ function startLiveSalesPopup() {
         </div>
       </div>
     `;
-
     box.classList.remove('translate-y-36', 'opacity-0');
     box.classList.add('translate-y-0', 'opacity-100');
-
     setTimeout(() => {
       box.classList.remove('translate-y-0', 'opacity-100');
       box.classList.add('translate-y-36', 'opacity-0');
