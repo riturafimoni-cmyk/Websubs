@@ -20,24 +20,24 @@
   </div>
 </header>
 
-<!-- Hero Section (Tight Top-Space & Exact Screenshot Text Alignment) -->
-<section class="max-w-4xl mx-auto px-3 pt-0 pb-6 overflow-hidden">
+<!-- Hero Section (No Phantom Gap, Content Pulled Right Up) -->
+<section class="max-w-4xl mx-auto px-3 pt-2 pb-6 overflow-hidden">
   
-  <!-- মেইন হিরো রো: উপরের ফাঁকা জায়গা কমানো হয়েছে -->
+  <!-- মেইন রো: কোনো অদৃশ্য হাইট নেই, একদম হেডারের নিচ থেকেই শুরু -->
   <div class="flex items-end justify-between relative overflow-visible">
     
-    <!-- বাম পাশ: স্ক্রিনশটের হুবহু টেক্সট অ্যারেঞ্জমেন্ট -->
+    <!-- বাম পাশ: টেক্সট ও প্রাইস -->
     <div class="w-[52%] z-20 flex flex-col justify-end text-left pb-1">
       
       <!-- Badge -->
-      <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#14141A] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00] shadow-sm w-fit mb-1.5">
+      <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#14141A] border border-[#FF5A00]/40 text-xs font-bold text-[#FF5A00] shadow-sm w-fit mb-2">
         <span class="text-blue-500 font-black font-en">G</span>
         <span>Google AI Pro</span>
         <span class="text-purple-400 text-xs">✦</span>
       </div>
 
-      <!-- Headlines (১৮ মাসের, জেমিনি প্রো, পার্সোনাল একাউন্ট) -->
-      <div class="flex flex-col space-y-0">
+      <!-- Headlines -->
+      <div class="flex flex-col space-y-0.5">
         <span style="font-size: 38px; font-weight: 900; line-height: 1.05; background: linear-gradient(90deg, #FF5A00, #FFA726); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px;">
           ১৮ মাসের
         </span>
@@ -58,18 +58,18 @@
 
     </div>
 
-    <!-- ডান পাশ: ছেলেটির ছবি (কোমর টাইমারের সাথে লাগানো) -->
-    <div class="w-[54%] -ml-[6%] relative flex justify-end items-end h-full overflow-visible z-10 pb-0">
-      <!-- সফট সানসেট অরেঞ্জ আভা -->
-      <div class="absolute right-0 top-4 w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-[#FF5A00]/30 via-[#FF4500]/15 to-transparent blur-2xl opacity-80 pointer-events-none"></div>
+    <!-- ডান পাশ: কোনো ফেইক হাইট ছাড়া ছেলেটির আসল ছবি -->
+    <div class="w-[52%] -ml-[4%] relative flex justify-end items-end z-10 pb-0">
+      <!-- পেছনের সফট অরেঞ্জ আভা -->
+      <div class="absolute right-0 top-0 w-44 h-44 sm:w-60 sm:h-60 rounded-full bg-gradient-to-br from-[#FF5A00]/30 via-[#FF4500]/15 to-transparent blur-2xl opacity-80 pointer-events-none"></div>
 
-      <!-- ছেলেটির ছবি -->
-      <img src="hero-boy.png" alt="Hero Character" class="relative z-10 w-full h-[330px] sm:h-[450px] object-contain object-bottom -mb-1 scale-120 sm:scale-130 origin-bottom-right drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]" onerror="this.src='https://placehold.co/400x500/121216/FF5A00?text=Model';">
+      <!-- h-auto দেওয়া হয়েছে যাতে কোনো খালি জায়গা তৈরি না হয় -->
+      <img src="hero-boy.png" alt="Hero Character" class="relative z-10 w-full h-auto object-contain object-bottom -mb-1 drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]" onerror="this.src='https://placehold.co/400x500/121216/FF5A00?text=Model';">
     </div>
 
   </div>
 
-  <!-- কাউন্টডাউন টাইমার বক্স (ছেলেটির কোমর ঠিক এর ওপর বসবে) -->
+  <!-- কাউন্টডাউন টাইমার বক্স (সরাসরি ছেলেটির কোমরের সাথে লাগানো) -->
   <div class="relative z-30 bg-[#121216] border border-[#FF5A00]/50 rounded-2xl p-2.5 sm:p-3 text-center shadow-2xl mt-0">
     <span class="text-xs sm:text-sm font-bold text-[#FF5A00] flex items-center justify-center gap-1.5 mb-1.5">
       <i class="fa-regular fa-clock"></i> অফার শেষ হতে বাকি
