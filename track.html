@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>অর্ডার ট্র্যাকিং | Subs Mart BD</title>
+  
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Hind Siliguri"', 'sans-serif'], en: ['"Outfit"', 'sans-serif'] },
+          colors: { brand: { orange: '#FF5A00', hover: '#E04E00', dark: '#08080A', card: '#121216', border: '#2A2A36' } }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#08080A] text-zinc-100 font-sans min-h-screen flex flex-col justify-between selection:bg-[#FF5A00] selection:text-white">
+
+  <!-- Top Navbar -->
+  <header class="border-b border-[#2A2A36] bg-[#08080A]/95 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-full overflow-hidden border border-[#FF5A00]/40 flex items-center justify-center bg-zinc-900 shadow">
+          <img src="logo.png" alt="Subs Mart Logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/40x40/FF5A00/white?text=SM';">
+        </div>
+        <div>
+          <span class="font-en font-extrabold text-base tracking-wide text-white">Subs Mart <span class="text-[#FF5A00]">BD</span></span>
+          <p class="text-[8px] text-zinc-400 font-en uppercase -mt-0.5 tracking-wider">Order Tracking</p>
+        </div>
+      </div>
+      <a href="/" class="text-xs font-bold text-zinc-400 hover:text-[#FF5A00] transition flex items-center gap-1.5">
+        <i class="fa-solid fa-arrow-left"></i> মূল পেজে যান
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Tracking Container -->
+  <main class="max-w-xl mx-auto px-4 py-10 w-full flex-1">
+    
+    <div class="text-center mb-8">
+      <div class="w-14 h-14 rounded-2xl bg-[#FF5A00]/15 border border-[#FF5A00] flex items-center justify-center text-[#FF5A00] text-2xl mx-auto mb-3 shadow-[0_0_20px_rgba(255,90,0,0.3)]">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-white">আপনার অর্ডার ট্র্যাক করুন</h1>
+      <p class="text-xs text-zinc-400 mt-1">অর্ডার কোড (যেমন: SM-4821) অথবা আপনার ফোন নম্বর দিন</p>
+    </div>
+
+    <!-- Search Box -->
+    <div class="bg-[#121216] border border-[#2A2A36] p-4 sm:p-5 rounded-2xl shadow-xl mb-6">
+      <form onsubmit="trackOrder(event)" class="space-y-3">
+        <div class="relative">
+          <i class="fa-solid fa-receipt absolute left-3.5 top-3.5 text-zinc-500 text-sm"></i>
+          <input type="text" id="trackInput" required placeholder="অর্ডার কোড বা মোবাইল নম্বর লিখুন..." class="w-full bg-[#08080A] border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-[#FF5A00] font-mono uppercase">
+        </div>
+        <button type="submit" id="trackBtn" class="w-full bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold py-3 rounded-xl transition text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_10px_20px_rgba(255,90,0,0.35)]">
+          <i class="fa-solid fa-bolt"></i> ট্র্যাক করুন
+        </button>
+      </form>
+    </div>
+
+    <!-- Results Box (শুরুতে লুকানো থাকবে) -->
+    <div id="trackResult" class="hidden bg-[#121216] border border-[#2A2A36] rounded-2xl p-5 shadow-2xl space-y-4">
+      <!-- রেজাল্ট জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক বসবে -->
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#2A2A36] py-6 text-center text-xs text-zinc-600 bg-[#08080A]">
+    <p>Subs Mart BD © 2026. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    const SUPABASE_URL = "https://firmyknalxgtmgnxmtdo.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_UpfYT4yKOBgcU3P5FDxcMw_IasiYca_";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function trackOrder(e) {
+      e.preventDefault();
+      const input = document.getElementById('trackInput').value.trim();
+      const btn = document.getElementById('trackBtn');
+      const resultBox = document.getElementById('trackResult');
+
+      btn.innerText = "খোঁজা হচ্ছে...";
+      btn.disabled = true;
+
+      try {
+        // Search by order_code OR whatsapp_number
+        const { data: orders, error } = await supabaseClient
+          .from('orders')
+          .select('*')
+          .or(`order_code.ilike.%${input}%,whatsapp_number.ilike.%${input}%`)
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (error) throw error;
+
+        if (!orders || orders.length === 0) {
+          resultBox.innerHTML = `
+            <div class="text-center py-6 space-y-2">
+              <i class="fa-solid fa-circle-exclamation text-3xl text-amber-500"></i>
+              <h4 class="text-sm font-bold text-white">কোনো অর্ডার পাওয়া যায়নি!</h4>
+              <p class="text-xs text-zinc-400">অনুগ্রহ করে সঠিক অর্ডার কোড বা মোবাইল নম্বর দিন।</p>
+            </div>
+          `;
+          resultBox.classList.remove('hidden');
+          return;
+        }
+
+        const order = orders[0];
+        const isDelivered = order.status === 'Delivered';
+
+        resultBox.innerHTML = `
+          <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+            <div>
+              <span class="text-[10px] text-zinc-400 uppercase font-mono block">Order Code</span>
+              <b class="text-sm font-bold font-mono text-[#FF5A00]">${order.order_code}</b>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold ${isDelivered ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-amber-950 text-amber-400 border border-amber-800'}">
+              ${isDelivered ? '✔ ডেলিভারি সম্পন্ন' : '⏳ পেমেন্ট ভেরিফিকেশন চলছে'}
+            </span>
+          </div>
+
+          <div class="space-y-1.5 text-xs text-zinc-300 py-1">
+            <p><span class="text-zinc-500">কাস্টমার:</span> <b class="text-white">${order.customer_name}</b></p>
+            <p><span class="text-zinc-500">প্যাকেজ:</span> ${order.package_name}</p>
+            <p><span class="text-zinc-500">পেমেন্ট মেথড:</span> ${order.payment_method} (TrxID: <span class="font-mono text-zinc-400">${order.trx_id}</span>)</p>
+          </div>
+
+          ${isDelivered ? `
+            <!-- ডেলিভারি লিঙ্ক ডিসপ্লে বক্স -->
+            <div class="bg-gradient-to-r from-emerald-950/40 to-[#121216] border border-emerald-500/60 p-4 rounded-xl space-y-2">
+              <span class="text-[11px] font-bold text-emerald-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-gift"></i> আপনার অ্যাক্টিভেশন লিঙ্ক প্রস্তুত:
+              </span>
+              <div class="bg-[#08080A] p-2.5 rounded-lg border border-zinc-800 flex items-center justify-between gap-2">
+                <span id="delLink" class="text-xs font-mono text-zinc-200 truncate">${order.delivered_link || 'লিঙ্ক রেডি আছে'}</span>
+                <button onclick="copyDelLink()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 rounded text-xs font-bold shrink-0">
+                  কপি করুন
+                </button>
+              </div>
+              <p class="text-[10px] text-zinc-400">এই লিংকে ক্লিক করে আপনার পার্সোনাল জিমেইলে এক্সেস সক্রিয় করে নিন।</p>
+            </div>
+          ` : `
+            <!-- পেন্ডিং নোটিস -->
+            <div class="bg-amber-950/20 border border-amber-500/40 p-3 rounded-xl text-center space-y-2">
+              <p class="text-xs text-amber-300">আপনার পেমেন্ট ভেরিফাই করা হচ্ছে। সাধারণত ৫-১৫ মিনিটের মধ্যে ডেলিভারি সম্পন্ন হয়।</p>
+              <a href="https://wa.me/8801985405068?text=আমার অর্ডার কোড ${order.order_code}। দয়া করে চেক করুন।" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:underline font-bold">
+                <i class="fa-brands fa-whatsapp"></i> সরাসরি WhatsApp সাপোর্টে কথা বলুন
+              </a>
+            </div>
+          `}
+        `;
+
+        resultBox.classList.remove('hidden');
+
+      } catch (err) {
+        alert("ট্র্যাকিং করতে ব্যর্থ: " + err.message);
+      } finally {
+        btn.innerText = "ট্র্যাক করুন";
+        btn.disabled = false;
+      }
+    }
+
+    function copyDelLink() {
+      const linkText = document.getElementById('delLink').innerText;
+      navigator.clipboard.writeText(linkText);
+      alert("অ্যাক্টিভেশন লিঙ্ক কপি হয়েছে!");
+    }
+  </script>
+</body>
+</html>
