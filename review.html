@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>গ্রাহক রিভিউ | Subs Mart BD</title>
+  
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Hind Siliguri"', 'sans-serif'], en: ['"Outfit"', 'sans-serif'] },
+          colors: { brand: { orange: '#FF5A00', hover: '#E04E00', dark: '#08080A', card: '#121216', border: '#2A2A36' } }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#08080A] text-zinc-100 font-sans min-h-screen flex flex-col justify-between selection:bg-[#FF5A00] selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-[#2A2A36] bg-[#08080A]/95 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-full overflow-hidden border border-[#FF5A00]/40 flex items-center justify-center bg-zinc-900 shadow">
+          <img src="logo.png" alt="Subs Mart Logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/40x40/FF5A00/white?text=SM';">
+        </div>
+        <div>
+          <span class="font-en font-extrabold text-sm sm:text-base tracking-wide text-white">Subs Mart <span class="text-[#FF5A00]">BD</span></span>
+          <p class="text-[8px] text-zinc-400 font-en uppercase -mt-0.5 tracking-wider">Customer Feedback</p>
+        </div>
+      </div>
+      <a href="/" class="text-xs font-bold text-zinc-400 hover:text-[#FF5A00] transition flex items-center gap-1.5">
+        <i class="fa-solid fa-arrow-left"></i> মূল পেজে যান
+      </a>
+    </div>
+  </header>
+
+  <!-- Review Form Container -->
+  <main class="max-w-md mx-auto px-4 py-10 w-full flex-1">
+    
+    <div class="text-center mb-6">
+      <div class="w-12 h-12 rounded-2xl bg-[#FF5A00]/15 border border-[#FF5A00] flex items-center justify-center text-[#FF5A00] text-xl mx-auto mb-2.5 shadow-[0_0_20px_rgba(255,90,0,0.3)]">
+        <i class="fa-solid fa-star"></i>
+      </div>
+      <h1 class="text-xl sm:text-2xl font-bold text-white">আপনার অভিজ্ঞতা শেয়ার করুন</h1>
+      <p class="text-xs text-zinc-400 mt-1">Subs Mart BD থেকে সার্ভিস পেয়ে আপনার কেমন লাগলো?</p>
+    </div>
+
+    <!-- Review Form Card -->
+    <div class="bg-[#121216] border border-[#2A2A36] p-5 sm:p-6 rounded-3xl shadow-2xl">
+      <form id="reviewForm" onsubmit="submitReview(event)" class="space-y-4">
+        
+        <!-- Name -->
+        <div>
+          <label class="block text-xs font-semibold text-zinc-300 mb-1">আপনার নাম *</label>
+          <input type="text" id="revName" required placeholder="পুরো নাম লিখুন" class="w-full bg-[#08080A] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#FF5A00]">
+        </div>
+
+        <!-- Star Rating Selector -->
+        <div>
+          <label class="block text-xs font-semibold text-zinc-300 mb-1.5">রেটিং দিন *</label>
+          <div class="flex items-center justify-center gap-2 py-2 bg-[#08080A] border border-zinc-800 rounded-xl text-amber-400 text-2xl" id="starContainer">
+            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(1)"></i>
+            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(2)"></i>
+            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(3)"></i>
+            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(4)"></i>
+            <i class="fa-solid fa-star cursor-pointer transition hover:scale-110" onclick="setRating(5)"></i>
+          </div>
+          <span id="ratingText" class="text-[10px] text-zinc-400 block text-center mt-1">৫ স্টার (চমৎকার সার্ভিস)</span>
+        </div>
+
+        <!-- Comment -->
+        <div>
+          <label class="block text-xs font-semibold text-zinc-300 mb-1">আপনার মূল্যবান মন্তব্য *</label>
+          <textarea id="revComment" rows="4" required placeholder="Gemini Pro প্যাকেজ, ডেলিভারি স্পিড বা সার্ভিস সম্পর্কে লিখুন..." class="w-full bg-[#08080A] border border-zinc-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#FF5A00]"></textarea>
+        </div>
+
+        <button type="submit" id="revBtn" class="w-full bg-[#FF5A00] hover:bg-[#E04E00] text-white font-bold py-3 rounded-xl transition text-xs sm:text-sm shadow-[0_10px_20px_rgba(255,90,0,0.35)] flex items-center justify-center gap-2">
+          <span>রিভিউ জমা দিন</span>
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+
+      <!-- Success Screen -->
+      <div id="revSuccess" class="hidden text-center py-6 space-y-4">
+        <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mx-auto border border-emerald-500/40 shadow-lg">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-white">ধন্যবাদ! রিভিউ সফলভাবে জমা হয়েছে।</h3>
+          <p class="text-xs text-zinc-400 mt-1">আপনার মূল্যবান মতামত আমাদের জন্য অত্যন্ত গুরুত্বপূর্ণ।</p>
+        </div>
+
+        <!-- অফার গ্রুপ জয়েন বাটন -->
+        <div class="pt-2 border-t border-zinc-800/80 space-y-2">
+          <p class="text-[11px] text-[#FF5A00] font-bold">🔥 স্পেশাল মেগা অফার মিস করতে না চাইলে:</p>
+          <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition transform hover:scale-105">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            <span>আমাদের ভিআইপি অফার গ্রুপে জয়েন করুন</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#2A2A36] py-6 text-center text-xs text-zinc-600 bg-[#08080A]">
+    <p>Subs Mart BD © 2026. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    const SUPABASE_URL = "https://firmyknalxgtmgnxmtdo.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_UpfYT4yKOBgcU3P5FDxcMw_IasiYca_";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentRating = 5;
+
+    function setRating(val) {
+      currentRating = val;
+      const stars = document.querySelectorAll('#starContainer i');
+      stars.forEach((s, idx) => {
+        if (idx < val) {
+          s.className = "fa-solid fa-star cursor-pointer text-amber-400 transition hover:scale-110";
+        } else {
+          s.className = "fa-regular fa-star cursor-pointer text-zinc-600 transition hover:scale-110";
+        }
+      });
+
+      const labelMap = { 1: "১ স্টার (খারাপ)", 2: "২ স্টার (চলনসই)", 3: "৩ স্টার (মোটামুটি)", 4: "৪ স্টার (খুব ভালো)", 5: "৫ স্টার (চমৎকার সার্ভিস)" };
+      document.getElementById('ratingText').innerText = labelMap[val];
+    }
+
+    async function submitReview(e) {
+      e.preventDefault();
+      const btn = document.getElementById('revBtn');
+      btn.innerText = "জমা হচ্ছে...";
+      btn.disabled = true;
+
+      const name = document.getElementById('revName').value.trim();
+      const comment = document.getElementById('revComment').value.trim();
+
+      try {
+        const { error } = await supabaseClient.from('reviews').insert([{
+          customer_name: name,
+          rating: currentRating,
+          comment: comment,
+          is_approved: false // পেন্ডিং থাকবে, অ্যাডমিন অ্যাপ্রুভ করলে লাইভ হবে
+        }]);
+
+        if (error) throw error;
+
+        document.getElementById('reviewForm').classList.add('hidden');
+        document.getElementById('revSuccess').classList.remove('hidden');
+
+      } catch (err) {
+        alert("রিভিউ জমা হয়নি: " + err.message);
+        btn.innerText = "আবার চেষ্টা করুন";
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
