@@ -1,25 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
 
-:root {
-  --bg-color: #F8F8FA;
-  --text-main: #18181B;
-  --text-sub: #52525B;
-  --card-bg: #FFFFFF;
-  --card-border: #E4E4E7;
-  --brand-orange: #FF5A00;
-  --brand-hover: #E04E00;
-}
-
-.dark {
-  --bg-color: #0B0B0E;
-  --text-main: #F4F4F5;
-  --text-sub: #A1A1AA;
-  --card-bg: #131318;
-  --card-border: #2A2A36;
-  --brand-orange: #FF5A00;
-  --brand-hover: #E04E00;
-}
-
+/* ================== BASE STYLES ================== */
 * {
   margin: 0;
   padding: 0;
@@ -27,59 +8,81 @@
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-main);
   font-family: 'Hind Siliguri', sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .font-en {
   font-family: 'Outfit', sans-serif;
 }
 
-/* Glowing and Borders */
-.glow-orange {
-  box-shadow: 0 0 35px -5px rgba(255, 90, 0, 0.35);
+/* ================== LIGHT MODE OVERRIDES (বাটনে চাপলে যা হবে) ================== */
+html:not(.dark) body {
+  background-color: #F4F5F8 !important;
+  color: #111827 !important;
 }
 
-.card-glow {
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+html:not(.dark) header,
+html:not(.dark) footer {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #E2E8F0 !important;
 }
 
-.card-glow:hover {
-  border-color: rgba(255, 90, 0, 0.6);
-  box-shadow: 0 0 20px rgba(255, 90, 0, 0.25);
+/* সব ডার্ক বক্স ও কন্টেইনার লাইট মোডে সাদা হবে */
+html:not(.dark) [class*="bg-[#121216]"],
+html:not(.dark) [class*="bg-[#14141A]"],
+html:not(.dark) [class*="bg-[#16161E]"],
+html:not(.dark) [class*="bg-[#181820]"],
+html:not(.dark) [class*="bg-[#0E0E12]"],
+html:not(.dark) [class*="bg-[#0E0E14]"] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Custom Hero Buttons */
-.btn-order {
-  background: var(--brand-orange);
-  color: #FFFFFF !important;
-  box-shadow: 0 10px 25px -5px rgba(255, 90, 0, 0.45);
-  transition: transform 0.2s ease, background 0.2s ease;
+/* ইনার ছোট বক্সগুলো (টাইমার, ইনপুট, ব্যাজ) */
+html:not(.dark) [class*="bg-[#08080A]"],
+html:not(.dark) [class*="bg-zinc-900"] {
+  background-color: #F1F4F9 !important;
+  border-color: #CBD5E1 !important;
 }
 
-.btn-order:hover {
-  background: var(--brand-hover);
-  transform: translateY(-2px);
+/* সাদা লেখাগুলো লাইট মোডে ডার্ক হবে */
+html:not(.dark) .text-white,
+html:not(.dark) [class*="text-zinc-100"],
+html:not(.dark) [class*="text-zinc-200"],
+html:not(.dark) [class*="text-zinc-300"] {
+  color: #0F172A !important;
 }
 
-.btn-whatsapp {
-  background: #10B981;
-  color: #FFFFFF !important;
-  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
-  transition: transform 0.2s ease, background 0.2s ease;
+html:not(.dark) [class*="text-zinc-400"],
+html:not(.dark) [class*="text-zinc-500"] {
+  color: #475569 !important;
 }
 
-.btn-whatsapp:hover {
-  background: #059669;
-  transform: translateY(-2px);
+/* ইনপুট বক্স লাইট মোড */
+html:not(.dark) input,
+html:not(.dark) select,
+html:not(.dark) textarea {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
 }
 
-/* Accordion Smooth Dropdown */
+/* বর্ডার লাইট মোড */
+html:not(.dark) [class*="border-[#2A2A36]"],
+html:not(.dark) [class*="border-zinc-800"] {
+  border-color: #E2E8F0 !important;
+}
+
+/* ================== DARK MODE DEFAULT ================== */
+html.dark body {
+  background-color: #08080A !important;
+  color: #F4F4F5 !important;
+}
+
+/* Accordion Smooth */
 .faq-answer {
   max-height: 0;
   overflow: hidden;
