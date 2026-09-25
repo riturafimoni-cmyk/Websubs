@@ -5,62 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Subs Mart BD - Google Gemini Pro 18 Months</title>
   
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-  
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['"Hind Siliguri"', 'sans-serif'],
-            en: ['"Outfit"', 'sans-serif'],
-          },
           colors: {
-            brand: {
-              orange: '#FF5A00',
-              hover: '#E04E00',
-              dark: '#0B0B0E',
-              card: '#131318',
-              cardLight: '#1B1B22',
-              border: '#2A2A36'
-            }
+            brand: { orange: '#FF5A00', hover: '#E04E00', dark: '#0B0B0E', card: '#131318', border: '#2A2A36' }
           }
         }
       }
     }
   </script>
-
-  <style>
-    .glow-orange { box-shadow: 0 0 35px -5px rgba(255, 90, 0, 0.35); }
-    .card-border-glow {
-      border: 1px solid #2A2A36;
-      transition: all 0.3s ease;
-    }
-    .card-border-glow:hover {
-      border-color: rgba(255, 90, 0, 0.6);
-      box-shadow: 0 0 20px rgba(255, 90, 0, 0.2);
-    }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-  </style>
 </head>
-<body class="bg-gray-100 text-zinc-900 dark:bg-brand-dark dark:text-zinc-100 transition-colors duration-300 font-sans antialiased selection:bg-brand-orange selection:text-white">
+<body class="selection:bg-brand-orange selection:text-white">
 
-  <!-- 1. Header (লোগো, নেভিগেশন ও থিম টগল) -->
+  <!-- Header -->
   <header class="border-b border-gray-200 dark:border-brand-border/70 bg-white/90 dark:bg-brand-dark/90 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-brand-orange/15 border border-brand-orange flex items-center justify-center text-brand-orange text-lg shadow-lg shadow-brand-orange/20">
-          <i class="fa-solid fa-sparkles"></i>
-        </div>
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <img src="logo.png" alt="Subs Mart Logo" class="w-9 h-9 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/40x40/FF5A00/white?text=SM';">
         <div>
-          <span class="font-en font-extrabold text-lg tracking-wide text-zinc-900 dark:text-white">Subs Mart <span class="text-brand-orange">BD</span></span>
+          <span class="font-en font-extrabold text-base tracking-wide text-zinc-900 dark:text-white">Subs Mart <span class="text-brand-orange">BD</span></span>
           <p class="text-[9px] text-zinc-500 dark:text-zinc-400 font-en uppercase -mt-1 tracking-wider">Premium Subscriptions</p>
         </div>
       </div>
@@ -72,347 +42,364 @@
         <a href="#reviews" class="hover:text-brand-orange transition">Reviews</a>
       </nav>
 
-      <div class="flex items-center gap-3">
-        <!-- Light / Dark Mode Toggle Pill -->
-        <button onclick="toggleTheme()" class="flex items-center bg-gray-200 dark:bg-zinc-800 p-1 rounded-full text-[11px] font-bold transition">
-          <span id="lightPill" class="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-zinc-700 dark:text-zinc-400">
+      <div class="flex items-center gap-2">
+        <button onclick="toggleTheme()" class="flex items-center bg-gray-200 dark:bg-zinc-800 p-1 rounded-full text-[11px] font-bold">
+          <span id="lightPill" class="px-2.5 py-0.5 rounded-full flex items-center gap-1 text-zinc-600 dark:text-zinc-400">
             <i class="fa-solid fa-sun text-amber-500"></i> Light
           </span>
-          <span id="darkPill" class="px-2.5 py-1 rounded-full flex items-center gap-1.5 bg-brand-orange text-white shadow">
+          <span id="darkPill" class="px-2.5 py-0.5 rounded-full flex items-center gap-1 bg-brand-orange text-white shadow">
             <i class="fa-solid fa-moon"></i> Dark
           </span>
         </button>
+        <img src="mascot.png" alt="Mascot" class="w-8 h-8 rounded-full object-cover hidden sm:block" onerror="this.style.display='none'">
       </div>
     </div>
   </header>
 
-  <!-- 2. Hero Section (হুবহু রেফারেন্স লেআউট) -->
-  <section class="max-w-6xl mx-auto px-4 pt-10 pb-14">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+  <!-- Hero Section -->
+  <section class="max-w-6xl mx-auto px-4 pt-8 pb-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
       
-      <!-- বামপাশ: টেক্সট, টাইমার ও জোড়া বাটন -->
-      <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-200 dark:bg-brand-cardLight border border-brand-orange/40 text-xs font-bold text-brand-orange">
-          <span class="w-2.5 h-2.5 rounded-full bg-brand-orange animate-pulse"></span>
-          Google AI Pro ✦
+      <!-- Left Hero Text & CTA -->
+      <div class="lg:col-span-7 space-y-4 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-200 dark:bg-zinc-900 border border-brand-orange/40 text-xs font-bold text-brand-orange">
+          <span class="text-blue-500 font-bold font-en">G</span>
+          <span>Google AI Pro</span>
+          <span class="text-purple-400">✦</span>
         </div>
 
         <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight text-zinc-900 dark:text-white">
-          <span class="text-brand-orange">১৮ মাসের</span><br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-brand-orange">১৮ মাসের</span><br>
           পার্সোনাল জেমিনি একাউন্ট
         </h1>
 
-        <p class="text-zinc-600 dark:text-zinc-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
-          AI দিয়ে কাজ, পড়াশোনা, কনটেন্ট ও প্রোডাক্টিভিটি এবার হবে আরও সহজ, দ্রুত ও স্মার্ট! ৫TB ক্লাউড স্টোরেজ সহ সম্পূর্ণ নিজস্ব জিমেইলে প্রিমিয়াম এক্সেস।
+        <p class="text-zinc-600 dark:text-zinc-300 text-xs sm:text-sm leading-relaxed max-w-lg mx-auto lg:mx-0">
+          AI দিয়ে কাজ, পড়াশোনা, কনটেন্ট ও প্রোডাক্টিভিটি এবার হবে আরও সহজ, দ্রুত ও স্মার্ট!
         </p>
 
-        <!-- কনফিগারেবল কাউন্টডাউন টাইমার -->
-        <div class="inline-block bg-white dark:bg-brand-card border border-gray-200 dark:border-brand-border p-4 rounded-2xl shadow-sm text-center">
-          <span class="text-xs font-bold text-brand-orange flex items-center justify-center gap-1.5 mb-2.5">
+        <!-- Configurable Countdown Timer -->
+        <div class="inline-block bg-white dark:bg-brand-card border border-gray-200 dark:border-brand-border p-3.5 rounded-2xl text-center shadow-sm">
+          <span class="text-xs font-bold text-brand-orange flex items-center justify-center gap-1.5 mb-2">
             <i class="fa-regular fa-clock"></i> অফার শেষ হতে বাকি
           </span>
-          <div class="grid grid-cols-4 gap-2.5 font-en text-center">
-            <div class="bg-gray-100 dark:bg-brand-dark px-3 py-2 rounded-xl border border-gray-200 dark:border-brand-border">
-              <span id="days" class="text-lg sm:text-2xl font-bold block text-zinc-900 dark:text-white">07</span>
-              <span class="text-[10px] text-zinc-500 uppercase">দিন</span>
+          <div class="grid grid-cols-4 gap-2 font-en text-center">
+            <div class="bg-gray-100 dark:bg-brand-dark px-2.5 py-1.5 rounded-xl border border-gray-200 dark:border-brand-border">
+              <span id="days" class="text-base sm:text-xl font-bold block text-zinc-900 dark:text-white">07</span>
+              <span class="text-[9px] text-zinc-500 uppercase">দিন</span>
             </div>
-            <div class="bg-gray-100 dark:bg-brand-dark px-3 py-2 rounded-xl border border-gray-200 dark:border-brand-border">
-              <span id="hours" class="text-lg sm:text-2xl font-bold block text-zinc-900 dark:text-white">12</span>
-              <span class="text-[10px] text-zinc-500 uppercase">ঘণ্টা</span>
+            <div class="bg-gray-100 dark:bg-brand-dark px-2.5 py-1.5 rounded-xl border border-gray-200 dark:border-brand-border">
+              <span id="hours" class="text-base sm:text-xl font-bold block text-zinc-900 dark:text-white">12</span>
+              <span class="text-[9px] text-zinc-500 uppercase">ঘণ্টা</span>
             </div>
-            <div class="bg-gray-100 dark:bg-brand-dark px-3 py-2 rounded-xl border border-gray-200 dark:border-brand-border">
-              <span id="mins" class="text-lg sm:text-2xl font-bold block text-zinc-900 dark:text-white">34</span>
-              <span class="text-[10px] text-zinc-500 uppercase">মিনিট</span>
+            <div class="bg-gray-100 dark:bg-brand-dark px-2.5 py-1.5 rounded-xl border border-gray-200 dark:border-brand-border">
+              <span id="mins" class="text-base sm:text-xl font-bold block text-zinc-900 dark:text-white">34</span>
+              <span class="text-[9px] text-zinc-500 uppercase">মিনিট</span>
             </div>
-            <div class="bg-gray-100 dark:bg-brand-dark px-3 py-2 rounded-xl border border-gray-200 dark:border-brand-border">
-              <span id="secs" class="text-lg sm:text-2xl font-bold block text-brand-orange">28</span>
-              <span class="text-[10px] text-zinc-500 uppercase">সেকেন্ড</span>
+            <div class="bg-gray-100 dark:bg-brand-dark px-2.5 py-1.5 rounded-xl border border-gray-200 dark:border-brand-border">
+              <span id="secs" class="text-base sm:text-xl font-bold block text-brand-orange">28</span>
+              <span class="text-[9px] text-zinc-500 uppercase">সেকেন্ড</span>
             </div>
           </div>
         </div>
 
-        <!-- জোড়া বাটন: Order Now & WhatsApp -->
-        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
-          <a href="#order" class="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white font-bold text-sm px-8 py-4 rounded-2xl shadow-xl shadow-brand-orange/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+        <!-- Buttons: Order Now & WhatsApp -->
+        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-1">
+          <a href="#order" class="btn-order w-full sm:w-auto px-7 py-3.5 rounded-2xl text-sm font-bold flex items-center justify-center gap-2">
             <i class="fa-solid fa-cart-shopping"></i> Order Now →
           </a>
-          <a href="https://wa.me/8801XXXXXXXXX" target="_blank" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm px-7 py-4 rounded-2xl shadow-xl shadow-emerald-600/25 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+          <a href="https://wa.me/8801XXXXXXXXX" target="_blank" class="btn-whatsapp w-full sm:w-auto px-7 py-3.5 rounded-2xl text-sm font-bold flex items-center justify-center gap-2">
             <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp এখনই মেসেজ করুন →
           </a>
         </div>
+
+        <div class="flex items-center justify-center lg:justify-start gap-4 text-[11px] text-zinc-500 dark:text-zinc-400 pt-2">
+          <span>⚡ ফাস্ট ডেলিভারি</span>
+          <span>🛡️ নিরাপদ পেমেন্ট</span>
+          <span>🎧 সহায়তা ২৪/৭</span>
+        </div>
       </div>
 
-      <!-- ডানপাশ: এআই রোবট ও ভাসমান ফিচার কার্ডসমূহ -->
-      <div class="lg:col-span-5 relative flex justify-center">
-        <div class="w-full max-w-md bg-white dark:bg-gradient-to-b dark:from-brand-cardLight dark:to-brand-card border border-gray-200 dark:border-brand-border rounded-3xl p-6 glow-orange relative overflow-hidden">
-          
-          <div class="w-full bg-gray-50 dark:bg-brand-dark rounded-2xl p-6 border border-gray-200 dark:border-zinc-800 text-center relative mb-5">
-            <span class="absolute top-3 right-3 text-[10px] bg-brand-orange text-white font-bold px-2.5 py-0.5 rounded-full font-en">18 MONTHS</span>
-            <div class="w-24 h-24 mx-auto mb-3 rounded-2xl bg-brand-orange/10 border border-brand-orange/40 flex items-center justify-center text-5xl text-brand-orange shadow-lg shadow-brand-orange/20">
-              <i class="fa-solid fa-robot"></i>
-            </div>
-            <h3 class="text-xl font-bold font-en text-zinc-900 dark:text-white">Gemini Google AI Pro</h3>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Anti Gravity & Advanced Intelligence</p>
-          </div>
-
-          <!-- ফ্লোটিং মিনি ব্যাজ গ্রিড -->
-          <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
-            <div class="bg-gray-100 dark:bg-brand-dark p-2.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-2">
-              <i class="fa-solid fa-video text-brand-orange"></i> Veo 3 Video AI
-            </div>
-            <div class="bg-gray-100 dark:bg-brand-dark p-2.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-2">
-              <i class="fa-solid fa-cloud text-blue-500"></i> 5TB Drive Storage
-            </div>
-            <div class="bg-gray-100 dark:bg-brand-dark p-2.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-2">
-              <i class="fa-solid fa-code text-emerald-500"></i> Code Assistant
-            </div>
-            <div class="bg-gray-100 dark:bg-brand-dark p-2.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-2">
-              <i class="fa-solid fa-book text-purple-500"></i> NotebookLM
-            </div>
-          </div>
+      <!-- Right Hero Robot Image -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="relative w-full max-w-sm flex items-center justify-center">
+          <div class="absolute w-72 h-72 bg-brand-orange/20 rounded-full blur-3xl pointer-events-none"></div>
+          <img src="hero-robot.png" alt="Gemini AI Robot" class="relative z-10 w-full object-contain drop-shadow-2xl" onerror="this.onerror=null; this.src='https://placehold.co/400x400/131318/FF5A00?text=Gemini+Pro+Robot';">
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- 3. Key Benefits Section (৬টি ফিচার কার্ড) -->
-  <section id="features" class="max-w-6xl mx-auto px-4 py-12 border-t border-gray-200 dark:border-brand-border/60">
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
-      <div class="bg-white dark:bg-brand-card card-border-glow p-4 rounded-2xl text-center">
-        <i class="fa-solid fa-video text-2xl text-brand-orange mb-2"></i>
+  <!-- Key Benefits (6 Feature Cards) -->
+  <section id="features" class="max-w-6xl mx-auto px-4 py-8 border-t border-gray-200 dark:border-brand-border/60">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div class="card-glow p-3.5 rounded-2xl text-center">
+        <i class="fa-solid fa-video text-xl text-brand-orange mb-1.5"></i>
         <h4 class="text-xs font-bold">AI Video Creation</h4>
-        <p class="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1">(Veo 3)</p>
+        <p class="text-[10px] text-zinc-500 dark:text-zinc-400">(Veo 3)</p>
       </div>
-      <div class="bg-white dark:bg-brand-card card-border-glow p-4 rounded-2xl text-center">
-        <i class="fa-solid fa-image text-2xl text-brand-orange mb-2"></i>
-        <h4 class="text-xs font-bold">AI Image Gen</h4>
-        <p class="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1">হাই-কোয়ালিটি আর্ট</p>
+      <div class="card-glow p-3.5 rounded-2xl text-center">
+        <i class="fa-solid fa-image text-xl text-brand-orange mb-1.5"></i>
+        <h4 class="text-xs font-bold">AI Image</h4>
+        <p class="text-[10px] text-zinc-500 dark:text-zinc-400">Generation</p>
       </div>
-      <div class="bg-white dark:bg-brand-card card-border-glow p-4 rounded-2xl text-center">
-        <i class="fa-solid fa-file-lines text-2xl text-brand-orange mb-2"></i>
-        <h4 class="text-xs font-bold">Document Analysis</h4>
-        <p class="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1">PDF ও ডাটা প্রসেস</p>
+      <div class="card-glow p-3.5 rounded-2xl text-center">
+        <i class="fa-solid fa-file-lines text-xl text-brand-orange mb-1.5"></i>
+        <h4 class="text-xs font-bold">Document</h4>
+        <p class="text-[10px] text-zinc-500 dark:text-zinc-400">Analysis</p>
       </div>
-      <div class="bg-white dark:bg-brand-card card-border-glow p-4 rounded-2xl text-center">
-        <i class="fa-solid fa-code text-2xl text-brand-orange mb-2"></i>
-        <h4 class="text-xs font-bold">Code Assistant</h4>
-        <p class="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1">প্রোগ্রামিং সাপোর্ট</p>
+      <div class="card-glow p-3.5 rounded-2xl text-center">
+        <i class="fa-solid fa-code text-xl text-brand-orange mb-1.5"></i>
+        <h4 class="text-xs font-bold">Code</h4>
+        <p class="text-[10px] text-zinc-500 dark:text-zinc-400">Assistant</p>
       </div>
-      <div class="bg-white dark:bg-brand-card card-border-glow p-4 rounded-2xl text-center">
-        <i class="fa-solid fa-book-bookmark text-2xl text-brand-orange mb-2"></i>
+      <div class="card-glow p-3.5 rounded-2xl text-center">
+        <i class="fa-solid fa-book-bookmark text-xl text-brand-orange mb-1.5"></i>
         <h4 class="text-xs font-bold">NotebookLM</h4>
-        <p class="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1">অ্যাডভান্সড নোটস</p>
+        <p class="text-[10px] text-zinc-500 dark:text-zinc-400">Advanced</p>
       </div>
-      <div class="bg-white dark:bg-brand-card card-border-glow p-4 rounded-2xl text-center">
-        <i class="fa-solid fa-cloud text-2xl text-brand-orange mb-2"></i>
-        <h4 class="text-xs font-bold">5TB Drive Storage</h4>
-        <p class="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1">ক্লাউড ব্যাকআপ</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Audience Section (আপনার জন্য পারফেক্ট - ৪টি ক্যারেক্টার কার্ড) -->
-  <section id="benefits" class="max-w-6xl mx-auto px-4 py-12">
-    <div class="text-center mb-8">
-      <h2 class="text-xl sm:text-2xl font-bold">আপনার জন্য পারফেক্ট</h2>
-      <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">যাদের কাজের গতি কয়েকগুণ বাড়িয়ে দেবে জেমিনি প্রো</p>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white dark:bg-brand-card card-border-glow p-5 rounded-2xl text-center">
-        <div class="w-12 h-12 rounded-xl bg-brand-orange/10 text-brand-orange mx-auto flex items-center justify-center text-xl mb-3">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-        </div>
-        <h3 class="text-sm font-bold">Content Creator</h3>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">ভিডিও, ছবি ও আইডিয়া তৈরিতে সেরা সহায়ক</p>
-      </div>
-      <div class="bg-white dark:bg-brand-card card-border-glow p-5 rounded-2xl text-center">
-        <div class="w-12 h-12 rounded-xl bg-brand-orange/10 text-brand-orange mx-auto flex items-center justify-center text-xl mb-3">
-          <i class="fa-solid fa-laptop-code"></i>
-        </div>
-        <h3 class="text-sm font-bold">Freelancer</h3>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">কাজের গতি ও ক্লায়েন্ট প্রজেক্টের মান বাড়ান</p>
-      </div>
-      <div class="bg-white dark:bg-brand-card card-border-glow p-5 rounded-2xl text-center">
-        <div class="w-12 h-12 rounded-xl bg-brand-orange/10 text-brand-orange mx-auto flex items-center justify-center text-xl mb-3">
-          <i class="fa-solid fa-graduation-cap"></i>
-        </div>
-        <h3 class="text-sm font-bold">Student</h3>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">পড়াশোনা, রিসার্চ ও অ্যাসাইনমেন্টে স্মার্ট সাপোর্ট</p>
-      </div>
-      <div class="bg-white dark:bg-brand-card card-border-glow p-5 rounded-2xl text-center">
-        <div class="w-12 h-12 rounded-xl bg-brand-orange/10 text-brand-orange mx-auto flex items-center justify-center text-xl mb-3">
-          <i class="fa-solid fa-briefcase"></i>
-        </div>
-        <h3 class="text-sm font-bold">Business Owner</h3>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">ডকুমেন্ট ও অফিসিয়াল কাজ দ্রুত সমাধান</p>
+      <div class="card-glow p-3.5 rounded-2xl text-center">
+        <i class="fa-solid fa-cloud text-xl text-brand-orange mb-1.5"></i>
+        <h4 class="text-xs font-bold">5TB Google Drive</h4>
+        <p class="text-[10px] text-zinc-500 dark:text-zinc-400">Storage</p>
       </div>
     </div>
   </section>
-
-  <!-- 5. Additional Benefits Bar (আরও অনেক সুবিধা) -->
-  <section class="max-w-6xl mx-auto px-4 py-8">
+  <!-- Audience Section (আপনার জন্য পারফেক্ট - ৪টি ক্যারেক্টার কার্ড) -->
+  <section id="benefits" class="max-w-6xl mx-auto px-4 py-10">
     <div class="text-center mb-6">
-      <h3 class="text-lg font-bold">আরও অনেক সুবিধা</h3>
+      <h2 class="text-xl font-bold">আপনার জন্য পারফেক্ট</h2>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs font-semibold">
-      <div class="bg-white dark:bg-brand-card p-3.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-3">
-        <i class="fa-solid fa-play text-brand-orange"></i> Gemini Flow (Video Creation)
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="card-glow p-4 rounded-2xl text-center">
+        <img src="creator.png" alt="Content Creator" class="w-24 h-24 mx-auto mb-2 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/131318/FF5A00?text=Creator';">
+        <h3 class="text-sm font-bold">Content Creator</h3>
+        <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">ভিডিও, ছবি ও আইডিয়া তৈরিতে সেরা সহায়ক</p>
       </div>
-      <div class="bg-white dark:bg-brand-card p-3.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-3">
-        <i class="fa-solid fa-cloud text-brand-orange"></i> 5TB Google Drive Storage
+      <div class="card-glow p-4 rounded-2xl text-center">
+        <img src="freelancer.png" alt="Freelancer" class="w-24 h-24 mx-auto mb-2 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/131318/FF5A00?text=Freelancer';">
+        <h3 class="text-sm font-bold">Freelancer</h3>
+        <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">কাজের গতি ও প্রোডাক্টিভিটি বাড়ান</p>
       </div>
-      <div class="bg-white dark:bg-brand-card p-3.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-3">
-        <i class="fa-regular fa-calendar-check text-brand-orange"></i> 18 Months Validity
+      <div class="card-glow p-4 rounded-2xl text-center">
+        <img src="student.png" alt="Student" class="w-24 h-24 mx-auto mb-2 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/131318/FF5A00?text=Student';">
+        <h3 class="text-sm font-bold">Student</h3>
+        <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">পড়াশোনা ও গবেষণায় স্মার্ট সহায়তা</p>
       </div>
-      <div class="bg-white dark:bg-brand-card p-3.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-3">
-        <i class="fa-solid fa-user-shield text-brand-orange"></i> Personal Account (নিজের একাউন্ট)
-      </div>
-      <div class="bg-white dark:bg-brand-card p-3.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-3">
-        <i class="fa-solid fa-code text-brand-orange"></i> Antigravity (Coding Mode)
-      </div>
-      <div class="bg-white dark:bg-brand-card p-3.5 rounded-xl border border-gray-200 dark:border-brand-border flex items-center gap-3">
-        <i class="fa-solid fa-shield-halved text-brand-orange"></i> Trusted & Secure সার্ভিস
+      <div class="card-glow p-4 rounded-2xl text-center">
+        <img src="business.png" alt="Business Owner" class="w-24 h-24 mx-auto mb-2 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/131318/FF5A00?text=Business';">
+        <h3 class="text-sm font-bold">Business Owner</h3>
+        <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">ডকুমেন্ট ও আইডিয়া প্ল্যানিংয়ে সহজ</p>
       </div>
     </div>
   </section>
 
-  <!-- 6. Pricing & Order / Checkout Section -->
-  <section id="order" class="max-w-4xl mx-auto px-4 py-14">
-    <div class="bg-white dark:bg-brand-card border-2 border-brand-orange rounded-3xl p-6 sm:p-8 glow-orange">
-      <div class="text-center mb-6">
-        <span class="bg-brand-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase font-en">PROMO DEAL</span>
-        <h2 class="text-2xl sm:text-3xl font-bold mt-2">অর্ডার ও পেমেন্ট কনফার্মেশন</h2>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">১৮ মাসের প্যাকেজ অফার মূল্য: <span class="text-brand-orange font-bold text-base font-en">২৫০ ৳</span> (রেগুলার ৫০০৳)</p>
+  <!-- Additional Benefits (৬টি ক্যাপসুল পিল) -->
+  <section class="max-w-6xl mx-auto px-4 py-6">
+    <div class="text-center mb-4"><h3 class="text-base font-bold">আরও অনেক সুবিধা</h3></div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-2.5 text-xs font-semibold">
+      <div class="card-glow p-3 rounded-xl flex items-center gap-2"><i class="fa-solid fa-play text-brand-orange"></i> Gemini Flow (Video)</div>
+      <div class="card-glow p-3 rounded-xl flex items-center gap-2"><i class="fa-solid fa-cloud text-brand-orange"></i> 5TB Google Drive Storage</div>
+      <div class="card-glow p-3 rounded-xl flex items-center gap-2"><i class="fa-regular fa-calendar-check text-brand-orange"></i> 18 Months Validity</div>
+      <div class="card-glow p-3 rounded-xl flex items-center gap-2"><i class="fa-solid fa-user-shield text-brand-orange"></i> Personal Account (নিজের)</div>
+      <div class="card-glow p-3 rounded-xl flex items-center gap-2"><i class="fa-solid fa-code text-brand-orange"></i> Antigravity (Coding)</div>
+      <div class="card-glow p-3 rounded-xl flex items-center gap-2"><i class="fa-solid fa-shield-halved text-brand-orange"></i> Trusted & Secure সার্ভিস</div>
+    </div>
+  </section>
+
+  <!-- Order & Checkout Section with Send Money & Supabase -->
+  <section id="order" class="max-w-5xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left: 3D Poster / Banner Card -->
+      <div class="lg:col-span-6 card-glow glow-orange rounded-3xl p-6 relative overflow-hidden">
+        <span class="inline-block bg-brand-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase font-en mb-3">👑 MOST POPULAR</span>
+        <h3 class="text-2xl font-bold font-en text-zinc-900 dark:text-white">Gemini Pro</h3>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-4">Personal Account — 18 Months Package</p>
+        
+        <div class="flex items-center justify-center my-3">
+          <img src="poster-3d.png" alt="Gemini Promo Poster" class="w-full max-h-56 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/400x250/131318/FF5A00?text=Gemini+Pro+Poster';">
+        </div>
+
+        <ul class="space-y-2 text-xs text-zinc-600 dark:text-zinc-300 border-t border-gray-200 dark:border-brand-border pt-4">
+          <li>✔ Google AI Pro সব ফিচার</li>
+          <li>✔ Veo 3 ও Gemini Flow ফুল অ্যাক্সেস</li>
+          <li>✔ 5TB Google Drive Storage ব্যাকআপ</li>
+          <li>✔ Antigravity & Personal Account (আপনার নিজের)</li>
+        </ul>
       </div>
 
-      <!-- Payment Numbers -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-6 text-xs">
-        <div class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 p-2.5 rounded-xl flex items-center justify-between">
-          <span>বিকাশ (Personal): <b id="bkashNum">01XXXXXXXXX</b></span>
-          <button type="button" onclick="copyNum('bkashNum')" class="text-brand-orange font-bold">কপি</button>
-        </div>
-        <div class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 p-2.5 rounded-xl flex items-center justify-between">
-          <span>নগদ (Personal): <b id="nagadNum">01XXXXXXXXX</b></span>
-          <button type="button" onclick="copyNum('nagadNum')" class="text-brand-orange font-bold">কপি</button>
-        </div>
-        <div class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 p-2.5 rounded-xl flex items-center justify-between">
-          <span>রকেট (Personal): <b id="rocketNum">01XXXXXXXXX</b></span>
-          <button type="button" onclick="copyNum('rocketNum')" class="text-brand-orange font-bold">কপি</button>
-        </div>
-      </div>
+      <!-- Right: Real Order Form -->
+      <div class="lg:col-span-6 card-glow rounded-3xl p-6 sm:p-7">
+        <h3 class="text-xl font-bold mb-1">এখনই অর্ডার করুন</h3>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-4">অফার মূল্য: <b class="text-brand-orange font-en text-base">২৫০ ৳</b> (রেগুলার ৫০০৳)</p>
 
-      <!-- Order Form -->
-      <form id="orderForm" onsubmit="handleCustomerOrder(event)" class="space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <form id="orderForm" onsubmit="submitCustomerOrder(event)" class="space-y-3.5 text-xs">
           <div>
-            <label class="block text-xs font-semibold mb-1">আপনার নাম *</label>
-            <input type="text" id="custName" required placeholder="পুরো নাম" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
+            <label class="block font-semibold mb-1">আপনার নাম *</label>
+            <input type="text" id="custName" required placeholder="পুরো নাম" class="w-full bg-gray-50 dark:bg-brand-dark border border-gray-300 dark:border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-orange">
           </div>
-          <div>
-            <label class="block text-xs font-semibold mb-1">হোয়াটসঅ্যাপ নাম্বার *</label>
-            <input type="tel" id="custPhone" required placeholder="01XXXXXXXXX" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
-          </div>
-        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-semibold mb-1">যে জিমেইলে অ্যাক্সেস নিবেন *</label>
-            <input type="email" id="custEmail" required placeholder="example@gmail.com" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
+            <label class="block font-semibold mb-1">আপনার ইমেইল (Gmail) *</label>
+            <input type="email" id="custEmail" required placeholder="example@gmail.com" class="w-full bg-gray-50 dark:bg-brand-dark border border-gray-300 dark:border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-orange">
           </div>
+
           <div>
-            <label class="block text-xs font-semibold mb-1">পেমেন্ট মেথড *</label>
-            <select id="payMethod" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
-              <option value="bKash">বিকাশ (bKash)</option>
-              <option value="Nagad">নগদ (Nagad)</option>
-  older="example@gmail.com" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
+            <label class="block font-semibold mb-1">হোয়াটসঅ্যাপ নাম্বার *</label>
+            <input type="tel" id="custPhone" required placeholder="01XXXXXXXXX" class="w-full bg-gray-50 dark:bg-brand-dark border border-gray-300 dark:border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-orange">
           </div>
+
           <div>
-            <label class="block text-xs font-semibold mb-1">পেমেন্ট মেথড *</label>
-            <select id="payMethod" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-brand-orange">
-              <option value="bKash">বিকাশ (bKash)</option>
-              <option value="Nagad">নগদ (Nagad)</option>
-              <option value="Rocket">রকেট (Rocket)</option>
+            <label class="block font-semibold mb-1">পেমেন্ট মাধ্যম (সেন্ড মানি করুন) *</label>
+            <select id="payMethod" onchange="updatePayNum()" class="w-full bg-gray-50 dark:bg-brand-dark border border-gray-300 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-brand-orange">
+              <option value="bKash">বিকাশ Personal (সেন্ড মানি - Send Money)</option>
+              <option value="Nagad">নগদ Personal (সেন্ড মানি - Send Money)</option>
+              <option value="Rocket">রকেট Personal (সেন্ড মানি - Send Money)</option>
             </select>
           </div>
-        </div>
 
-        <div>
-          <label class="block text-xs font-semibold mb-1">ট্রানজেকশন আইডি (TrxID) *</label>
-          <input type="text" id="custTrx" required placeholder="যেমন: BL29X78M" class="w-full bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm uppercase font-mono focus:outline-none focus:border-brand-orange">
-        </div>
+          <!-- Number Box -->
+          <div class="bg-gray-100 dark:bg-brand-dark border border-gray-200 dark:border-zinc-800 p-2.5 rounded-xl flex items-center justify-between">
+            <div>
+              <span id="methodLabel" class="text-[10px] text-zinc-500 block">bKash (সেন্ড মানি):</span>
+              <b id="activeNum" class="text-sm font-mono text-zinc-900 dark:text-white">01XXXXXXXXX</b>
+            </div>
+            <button type="button" onclick="copyActiveNum(this)" class="bg-brand-orange text-white px-2.5 py-1 rounded text-[11px] font-bold">কপি</button>
+          </div>
 
-        <button type="submit" id="submitBtn" class="w-full bg-brand-orange hover:bg-brand-hover text-white font-bold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2">
-          <span>অর্ডার প্লেস করুন</span>
-          <i class="fa-solid fa-arrow-right"></i>
+          <div>
+            <label class="block font-semibold mb-1">ট্রানজেকশন আইডি (TrxID) *</label>
+            <input type="text" id="custTrx" required placeholder="যেমন: BL29X78M" class="w-full bg-gray-50 dark:bg-brand-dark border border-gray-300 dark:border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs uppercase font-mono focus:outline-none focus:border-brand-orange">
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn-order w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2">
+            <span>অর্ডার কনফার্ম করুন →</span>
+          </button>
+          <p class="text-[10px] text-center text-zinc-500">🔒 আপনার তথ্য সম্পূর্ণ নিরাপদ থাকবে</p>
+        </form>
+
+        <div id="orderSuccess" class="hidden text-center py-6 space-y-3">
+          <i class="fa-solid fa-circle-check text-4xl text-emerald-500"></i>
+          <h4 class="text-base font-bold">অর্ডার ডাটাবেজে জমা হয়েছে!</h4>
+          <p class="text-xs text-zinc-500">অর্ডার কোড: <b id="displayOrderCode" class="text-brand-orange font-mono"></b></p>
+          <a id="waSendBtn" href="#" target="_blank" class="btn-whatsapp inline-flex px-6 py-2.5 rounded-xl text-xs font-bold gap-2">
+            <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp-এ ডেলিভারি নিশ্চিত করুন
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ Accordion -->
+  <section id="faq" class="max-w-4xl mx-auto px-4 py-8">
+    <div class="text-center mb-6"><h2 class="text-xl font-bold">সাধারণ জিজ্ঞাসা</h2></div>
+    <div class="space-y-2.5 text-xs">
+      <div class="card-glow rounded-xl overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full p-3.5 text-left font-bold flex items-center justify-between">
+          <span>এটি কি পার্সোনাল অ্যাকাউন্ট?</span>
+          <i class="fa-solid fa-plus text-brand-orange"></i>
         </button>
-      </form>
-
-      <!-- Success Screen -->
-      <div id="orderSuccess" class="hidden text-center py-6">
-        <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-2xl mx-auto mb-3">
-          <i class="fa-solid fa-check"></i>
+        <div class="faq-answer px-3.5 text-zinc-500 dark:text-zinc-400 border-t border-gray-200 dark:border-brand-border/40">
+          <p class="py-2.5">হ্যাঁ, এটি সম্পূর্ণ আপনার নিজস্ব জিমেইল অ্যাকাউন্টে সক্রিয় করা হবে।</p>
         </div>
-        <h3 class="text-xl font-bold mb-1">অর্ডার সফলভাবে ডাটাবেজে জমা হয়েছে!</h3>
-        <p class="text-xs text-zinc-400 mb-4">আপনার অর্ডার কোড: <b id="displayOrderCode" class="text-brand-orange font-mono"></b></p>
-        <a id="waSendBtn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition">
-          <i class="fa-brands fa-whatsapp text-lg"></i>
-          <span>WhatsApp-এ মেসেজ দিয়ে ডেলিভারি নিন</span>
-        </a>
+      </div>
+      <div class="card-glow rounded-xl overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full p-3.5 text-left font-bold flex items-center justify-between">
+          <span>ড্রাইভ স্টোরেজ ৫TB কি সত্যি?</span>
+          <i class="fa-solid fa-plus text-brand-orange"></i>
+        </button>
+        <div class="faq-answer px-3.5 text-zinc-500 dark:text-zinc-400 border-t border-gray-200 dark:border-brand-border/40">
+          <p class="py-2.5">হ্যাঁ, আপনার নিজস্ব পার্সোনাল জিমেইলে ৫ টেরাবাইট গুগল ক্লাউড স্টোরেজ যুক্ত হবে।</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="border-t border-gray-200 dark:border-brand-border/60 py-8 text-center text-xs text-zinc-500">
-    <p>Subs Mart BD © 2026. All rights reserved.</p>
+  <!-- Trust Banner & Footer -->
+  <footer class="border-t border-gray-200 dark:border-brand-border/70 py-8 bg-white dark:bg-brand-dark text-xs">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="text-brand-orange text-xl"><i class="fa-solid fa-shield-halved"></i></span>
+        <div>
+          <b class="font-en text-sm text-zinc-900 dark:text-white">Subs Mart BD</b>
+          <p class="text-[10px] text-zinc-500">আপনার প্রিমিয়াম সাবস্ক্রিপশনের বিশ্বস্ত পার্টনার</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 font-en text-zinc-600 dark:text-zinc-400">
+        <span class="text-blue-500 font-bold">Google</span> ✦ <span class="text-brand-orange font-bold">Gemini Pro</span>
+      </div>
+    </div>
   </footer>
 
-  <!-- Scripts: Supabase Connection & Functionality -->
+  <!-- Scripts -->
   <script>
-    // Supabase Credentials
     const SUPABASE_URL = "https://firmyknalxgtmgnxmtdo.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_UpfYT4yKOBgcU3P5FDxcMw_IasiYca_";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Dark/Light Theme Toggle
+    const PAY_NUMS = { bKash: "01XXXXXXXXX", Nagad: "01XXXXXXXXX", Rocket: "01XXXXXXXXX" };
+
+    function updatePayNum() {
+      const sel = document.getElementById('payMethod').value;
+      document.getElementById('methodLabel').innerText = sel + ' (সেন্ড মানি):';
+      document.getElementById('activeNum').innerText = PAY_NUMS[sel];
+    }
+
+    function copyActiveNum(btn) {
+      const num = document.getElementById('activeNum').innerText;
+      navigator.clipboard.writeText(num);
+      const old = btn.innerText;
+      btn.innerText = "কপি!";
+      setTimeout(() => btn.innerText = old, 1200);
+    }
+
     function toggleTheme() {
       const html = document.documentElement;
-      const icon = document.getElementById('themeIcon');
-      if (html.classList.contains('dark')) {
-        html.classList.remove('dark');
-        icon.classList.replace('fa-moon', 'fa-sun');
-        localStorage.setItem('theme', 'light');
+      const isDark = html.classList.toggle('dark');
+      document.getElementById('lightPill').className = isDark ? "px-2.5 py-0.5 rounded-full flex items-center gap-1 text-zinc-600 dark:text-zinc-400" : "px-2.5 py-0.5 rounded-full flex items-center gap-1 bg-brand-orange text-white shadow";
+      document.getElementById('darkPill').className = isDark ? "px-2.5 py-0.5 rounded-full flex items-center gap-1 bg-brand-orange text-white shadow" : "px-2.5 py-0.5 rounded-full flex items-center gap-1 text-zinc-600 dark:text-zinc-400";
+    }
+
+    function toggleFaq(btn) {
+      const ans = btn.nextElementSibling;
+      const icon = btn.querySelector('i');
+      if (ans.style.maxHeight && ans.style.maxHeight !== '0px') {
+        ans.style.maxHeight = '0px';
+        icon.className = "fa-solid fa-plus text-brand-orange";
       } else {
-        html.classList.add('dark');
-        icon.classList.replace('fa-sun', 'fa-moon');
-        localStorage.setItem('theme', 'dark');
+        ans.style.maxHeight = ans.scrollHeight + 20 + 'px';
+        icon.className = "fa-solid fa-minus text-brand-orange";
       }
     }
 
-    function copyNum(id) {
-      const text = document.getElementById(id).innerText;
-      navigator.clipboard.writeText(text);
-      alert('নাম্বার কপি হয়েছে: ' + text);
-    }
+    // Configurable Countdown (7 days, 12 hrs, 34 mins, 28 secs)
+    let countdownTime = (7 * 86400) + (12 * 3600) + (34 * 60) + 28;
+    setInterval(() => {
+      if (countdownTime <= 0) return;
+      countdownTime--;
+      document.getElementById('days').innerText = String(Math.floor(countdownTime / 86400)).padStart(2, '0');
+      document.getElementById('hours').innerText = String(Math.floor((countdownTime % 86400) / 3600)).padStart(2, '0');
+      document.getElementById('mins').innerText = String(Math.floor((countdownTime % 3600) / 60)).padStart(2, '0');
+      document.getElementById('secs').innerText = String(countdownTime % 60).padStart(2, '0');
+    }, 1000);
 
-    // Handle Order Submission & Save to Supabase
-    async function handleCustomerOrder(e) {
+    // Supabase Order Submission
+    async function submitCustomerOrder(e) {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
-      btn.innerText = "অর্ডার প্রসেস হচ্ছে...";
+      btn.innerText = "প্রসেস হচ্ছে...";
       btn.disabled = true;
 
       const name = document.getElementById('custName').value.trim();
-      const phone = document.getElementById('custPhone').value.trim();
       const email = document.getElementById('custEmail').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
       const method = document.getElementById('payMethod').value;
       const trx = document.getElementById('custTrx').value.trim();
       const orderCode = 'SM-' + Math.floor(1000 + Math.random() * 9000);
 
       try {
-        // Save to Supabase 'orders' table
         const { error } = await supabaseClient.from('orders').insert([
           {
             order_code: orderCode,
@@ -429,25 +416,14 @@
 
         if (error) throw error;
 
-        // WhatsApp message formatting
-        const waMsg = `হ্যালো Subs Mart BD!
-আমি ওয়েবসাইট থেকে Gemini Pro (18M) প্যাকেজ অর্ডার করেছি।
-📌 অর্ডার কোড: ${orderCode}
-👤 নাম: ${name}
-✉️ জিমেইল: ${email}
-💳 মাধ্যম: ${method}
-🔢 TrxID: ${trx}
-💰 টাকা: ২৫০ ৳`;
-
-        const waUrl = `https://wa.me/8801XXXXXXXXX?text=${encodeURIComponent(waMsg)}`;
-        
+        const waMsg = `হ্যালো Subs Mart BD!\nআমি Gemini Pro (18 Months) প্যাকেজ অর্ডার করেছি।\n📌 অর্ডার কোড: ${orderCode}\n👤 নাম: ${name}\n✉️ জিমেইল: ${email}\n💳 মেথড: ${method} (সেন্ড মানি)\n🔢 TrxID: ${trx}\n💰 টাকা: ২৫০ ৳`;
         document.getElementById('displayOrderCode').innerText = orderCode;
-        document.getElementById('waSendBtn').href = waUrl;
+        document.getElementById('waSendBtn').href = `https://wa.me/8801XXXXXXXXX?text=${encodeURIComponent(waMsg)}`;
+        
         document.getElementById('orderForm').classList.add('hidden');
         document.getElementById('orderSuccess').classList.remove('hidden');
-
       } catch (err) {
-        alert('অর্ডার সাবমিট করতে সমস্যা হয়েছে: ' + err.message);
+        alert('অর্ডার সাবমিট হয়নি: ' + err.message);
         btn.innerText = "আবার চেষ্টা করুন";
         btn.disabled = false;
       }
